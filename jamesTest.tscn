@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://wrnn65o8uw0w"]
+
+[ext_resource type="PackedScene" uid="uid://luqdwqylqh5b" path="res://monster/monster.tscn" id="1_vtp2b"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="CharacterBody2D" parent="." instance=ExtResource("1_vtp2b")]
+position = Vector2(741, 340)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(580, 323)
