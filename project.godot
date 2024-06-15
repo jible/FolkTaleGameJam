@@ -13,3 +13,12 @@ config_version=5
 config/name="FolkTaleGameJam"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
+
+[dotnet]
+
+project/assembly_name="FolkTaleGameJam"
+
+[editor]
+
+version_control/plugin_name="GitPlugin"
+version_control/autoload_on_startup=true
