@@ -1,8 +1,7 @@
 ea4bc82a6ad023ab7ee23ee620429895
-::res://::1718494575
+::res://::1718507527
 icon.svg::CompressedTexture2D::7107697944613612011::1718408502::1718487367::1::::<><>::
-monster.gd::GDScript::-1::1718494567::0::1::::<>CharacterBody2D<>::
-test.tscn::PackedScene::1580063193331450672::1718494575::0::1::::<><>::uid://luqdwqylqh5b::::res://monster/monster.tscn
+jamesTest.tscn::PackedScene::1580063193331450672::1718506140::0::1::::<><>::
 ::res://addons/::1718486996
 ::res://addons/godot-git-plugin/::1718486996
 git_plugin.gdextension::GDExtension::-1::1718486996::0::1::::<><>::
@@ -14,9 +13,11 @@ THIRDPARTY.md::TextFile::-1::1718486996::0::1::::<><>::
 anchor.txt::TextFile::-1::1718486996::0::1::::<><>::
 ::res://maps/::1718486996
 dev_test.tscn::PackedScene::7909735690161275114::1718486996::0::1::::<><>::
-::res://monster/::1718494575
+::res://monster/::1718507469
 anchor.txt::TextFile::-1::1718486996::0::1::::<><>::
-monster.tscn::PackedScene::814342845701891529::1718494575::0::1::::<><>::res://monster.gd<>uid://c8ja0ngkitjk2::::res://icon.svg
+monster.tscn::PackedScene::814342845701891529::1718507469::0::1::::<><>::res://monster/monsterManager.gd<>uid://c8ja0ngkitjk2::::res://icon.svg
+monsterManager.gd::GDScript::-1::1718507469::0::1::::<>CharacterBody2D<>::
+monsterRotate.gd::GDScript::-1::1718507469::0::1::::<>CharacterBody2D<>::
 ::res://player/::1718486996
 anchor.txt::TextFile::-1::1718486996::0::1::::<><>::
 ::res://ui/::1718486996

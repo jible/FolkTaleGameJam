@@ -1,5 +1,6 @@
-res://monster.gd
-res://monsterMovement.tscn
 res://monster/monster.tscn
-res://test.tscn
+res://monster.gd
+res://monster/monsterRotate.gd
+res://monster/monsterWalk.gd
 res://jamesTest.tscn
+res://monster/monsterManager.gd

@@ -1,12 +1,10 @@
 extends CharacterBody2D
-## Movement script for the Monster
-## If the monster is supposed to move, it turns to face target, then moves towards target
+## Rotation Script
+## When rotation is set to true, updateRotate should play and the 
 
 
 @export var rotateSpeed = 2
-@export var acceleration = 30
-@export var maxSpeed = 300
-@export var move = true
+@export var rotate = true
 # @export var dashAcceleration = 100
 # @export var dashSpeed = 500
 
@@ -14,16 +12,14 @@ extends CharacterBody2D
 @onready var targetPoint = Vector2(10, 10)
 
 
-func _physics_process(delta):
+func updateRotate(delta):
 	# only move if it is not performing another action
-	if ( move ): 
+	if ( rotate ): 
 		# This stores the direction the player faces as a vector. we need as an angle in radians
 		var directVector = ( targetPoint - global_position).normalized()
 		# The monster should look in this direction, in order to face its target
 		var targetDirection = directVector.angle()
 		rotateTowards( targetDirection, delta)
-		# gonna add movement later!
-		# linear_velocity += forward * acceleration * delta
 	
 	#Always update collision/physics
 	move_and_slide()
