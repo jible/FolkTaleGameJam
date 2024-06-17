@@ -9,9 +9,18 @@ var DODGE_COOLDOWN := 1.0
 
 @onready var fsm : FiniteStateMachine = $FiniteStateMachine
 @export var character : Node2D
-var active := false
+@export var active := false :
+	get:
+		return active
+	set(value):
+		if value:
+			activate()
+		else:
+			deactivate()
+
 var _dodgeTimer : Timer
 var movement_input := Vector2.ZERO
+
 
 func _ready():
 	_dodgeTimer = Timer.new()
@@ -27,8 +36,9 @@ func _ready():
 	fsm.blackboard.set_value("fsm", fsm)
 	fsm.actor = character
 
-	#DEBUG
-	activate()
+	# This is only the case if set in the editor
+	if active:
+		activate()
 
 
 func _process(_delta):
