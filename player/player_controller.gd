@@ -5,8 +5,7 @@ class_name PlayerController extends Node
 signal dodge_refreshed
 
 # Constants
-var DODGE_COOLDOWN := 0.5
-var DODGE_SPEED := 500.0
+var DODGE_COOLDOWN := 1.0
 
 @onready var camera : Camera2D = %MainCamera
 @onready var fsm : FiniteStateMachine = $FiniteStateMachine
@@ -25,6 +24,7 @@ func _ready():
 	# Set the actor
 	fsm.blackboard.set_value("movement_input", movement_input)
 	fsm.blackboard.set_value("character", character)
+	fsm.blackboard.set_value("dodge_timer", _dodgeTimer)
 	fsm.blackboard.set_value("camera", camera)
 	fsm.blackboard.set_value("fsm", fsm)
 	fsm.actor = character
@@ -62,3 +62,4 @@ func deactivate() -> void:
 
 func _on_dodge_timer_timeout():
 	dodge_refreshed.emit()
+	print("Dodge refreshed")
