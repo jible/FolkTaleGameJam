@@ -1,0 +1,58 @@
+[gd_scene load_steps=10 format=3 uid="uid://cyjr87hwvsi6d"]
+
+[ext_resource type="Script" path="res://ally/melee_ally_controller.gd" id="1_nyl13"]
+[ext_resource type="Script" path="res://addons/behaviour_toolkit/finite_state_machine/fsm.gd" id="1_yroyi"]
+[ext_resource type="Script" path="res://player/idle_state.gd" id="2_yab10"]
+[ext_resource type="Script" path="res://player/idle_to_move.gd" id="3_a172x"]
+[ext_resource type="Script" path="res://player/to_dodge.gd" id="4_fbtcf"]
+[ext_resource type="Script" path="res://player/move_state.gd" id="5_88djy"]
+[ext_resource type="Script" path="res://player/move_to_idle.gd" id="6_fkpd2"]
+[ext_resource type="Script" path="res://player/dodge_state.gd" id="7_20gwd"]
+[ext_resource type="Script" path="res://addons/behaviour_toolkit/finite_state_machine/fsm_transition.gd" id="8_fl87g"]
+
+[node name="MeleeAllyController" type="Node2D" node_paths=PackedStringArray("fsm")]
+script = ExtResource("1_nyl13")
+fsm = NodePath("FiniteStateMachine")
+
+[node name="FiniteStateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state", "actor")]
+script = ExtResource("1_yroyi")
+active = false
+initial_state = NodePath("")
+actor = NodePath("")
+
+[node name="IdleState" type="Node" parent="FiniteStateMachine"]
+script = ExtResource("2_yab10")
+
+[node name="ToMove" type="Node" parent="FiniteStateMachine/IdleState" node_paths=PackedStringArray("next_state")]
+script = ExtResource("3_a172x")
+next_state = NodePath("")
+
+[node name="ToDodge" type="Node" parent="FiniteStateMachine/IdleState" node_paths=PackedStringArray("next_state")]
+script = ExtResource("4_fbtcf")
+next_state = NodePath("")
+
+[node name="MoveState" type="Node" parent="FiniteStateMachine"]
+script = ExtResource("5_88djy")
+
+[node name="ToIdle" type="Node" parent="FiniteStateMachine/MoveState" node_paths=PackedStringArray("next_state")]
+script = ExtResource("6_fkpd2")
+next_state = NodePath("")
+
+[node name="ToDodge" type="Node" parent="FiniteStateMachine/MoveState" node_paths=PackedStringArray("next_state")]
+script = ExtResource("4_fbtcf")
+next_state = NodePath("")
+
+[node name="DodgeState" type="Node" parent="FiniteStateMachine"]
+script = ExtResource("7_20gwd")
+
+[node name="ToIdle" type="Node" parent="FiniteStateMachine/DodgeState" node_paths=PackedStringArray("next_state")]
+script = ExtResource("8_fl87g")
+next_state = NodePath("")
+use_event = true
+event = "dodge_to_idle"
+
+[node name="ToMove" type="Node" parent="FiniteStateMachine/DodgeState" node_paths=PackedStringArray("next_state")]
+script = ExtResource("8_fl87g")
+next_state = NodePath("")
+use_event = true
+event = "dodge_to_move"

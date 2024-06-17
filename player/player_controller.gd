@@ -7,15 +7,17 @@ signal dodge_refreshed
 # Constants
 var DODGE_COOLDOWN := 1.0
 
-@onready var fsm : FiniteStateMachine = $FiniteStateMachine
-@export var character : Node2D
+@export var fsm : FiniteStateMachine
+@export var character : CharacterBody2D 
 @export var active := false :
 	get:
 		return active
 	set(value):
-		if value:
+		if value and not active:
+			active = true
 			activate()
-		else:
+		elif not value and active:
+			active = false
 			deactivate()
 
 var _dodgeTimer : Timer
@@ -23,6 +25,8 @@ var movement_input := Vector2.ZERO
 
 
 func _ready():
+	assert(fsm, "FSM not set")
+	
 	_dodgeTimer = Timer.new()
 	_dodgeTimer.set_wait_time(DODGE_COOLDOWN)
 	_dodgeTimer.set_one_shot(true)
@@ -34,6 +38,7 @@ func _ready():
 	fsm.blackboard.set_value("character", character)
 	fsm.blackboard.set_value("dodge_timer", _dodgeTimer)
 	fsm.blackboard.set_value("fsm", fsm)
+	assert(character, "Character not set")
 	fsm.actor = character
 
 	# This is only the case if set in the editor
@@ -57,13 +62,15 @@ func _process(_delta):
 
 
 func activate() -> void:
-	active = true
+	if not active:
+		active = true
 	fsm.active = true
 	fsm.start()
 
 
 func deactivate() -> void:
-	active = false
+	if active:
+		active = false
 	fsm.active = false
 	fsm.stop()
 

@@ -1,0 +1,29 @@
+[gd_scene load_steps=6 format=3 uid="uid://bkng0wgb1t33i"]
+
+[ext_resource type="PackedScene" uid="uid://cyjr87hwvsi6d" path="res://ally/melee_ally_controller.tscn" id="1_rodko"]
+[ext_resource type="Script" path="res://ally/link_transforms.gd" id="1_rt06i"]
+[ext_resource type="PackedScene" uid="uid://dv0vecchefmfo" path="res://player/player_controller.tscn" id="3_kogib"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wejaw"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_rxin3"]
+size = Vector2(20, 20)
+
+[node name="MeleeAlly" type="Node2D"]
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="." node_paths=PackedStringArray("follower_node")]
+script = ExtResource("1_rt06i")
+follower_node = NodePath("..")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+shape = SubResource("CircleShape2D_wejaw")
+
+[node name="MeleeAllyController" parent="." node_paths=PackedStringArray("character") instance=ExtResource("1_rodko")]
+character = NodePath("../CharacterBody2D")
+active = true
+
+[node name="PlayerController" parent="." node_paths=PackedStringArray("character") instance=ExtResource("3_kogib")]
+character = NodePath("../CharacterBody2D")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("PlaceholderTexture2D_rxin3")
