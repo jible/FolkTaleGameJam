@@ -7,7 +7,6 @@ signal dodge_refreshed
 # Constants
 var DODGE_COOLDOWN := 1.0
 
-@onready var camera : Camera2D = %MainCamera
 @onready var fsm : FiniteStateMachine = $FiniteStateMachine
 @export var character : Node2D
 var active := false
@@ -25,7 +24,6 @@ func _ready():
 	fsm.blackboard.set_value("movement_input", movement_input)
 	fsm.blackboard.set_value("character", character)
 	fsm.blackboard.set_value("dodge_timer", _dodgeTimer)
-	fsm.blackboard.set_value("camera", camera)
 	fsm.blackboard.set_value("fsm", fsm)
 	fsm.actor = character
 
