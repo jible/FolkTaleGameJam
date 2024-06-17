@@ -1,3 +1,30 @@
-[gd_scene format=3 uid="uid://dkxsgrashw8hy"]
+[gd_scene load_steps=5 format=3 uid="uid://dkxsgrashw8hy"]
+
+[ext_resource type="PackedScene" uid="uid://dv0vecchefmfo" path="res://player/player_controller.tscn" id="1_2ilp5"]
+[ext_resource type="PackedScene" uid="uid://bkng0wgb1t33i" path="res://ally/melee_ally.tscn" id="2_pnas7"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_uvc8q"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_wb5dr"]
 
 [node name="Node2D" type="Node2D"]
+
+[node name="MainCamera" type="Camera2D" parent="."]
+unique_name_in_owner = true
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+shape = SubResource("CircleShape2D_uvc8q")
+
+[node name="PlayerController" parent="CharacterBody2D" node_paths=PackedStringArray("character") instance=ExtResource("1_2ilp5")]
+character = NodePath("..")
+active = true
+
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
+position = Vector2(2.98023e-07, 8.34465e-07)
+scale = Vector2(20, 20)
+texture = SubResource("PlaceholderTexture2D_wb5dr")
+
+[node name="MeleeAlly" parent="." instance=ExtResource("2_pnas7")]
+position = Vector2(-104, -59)
