@@ -1,3 +1,72 @@
-[gd_scene format=3 uid="uid://dkxsgrashw8hy"]
+[gd_scene load_steps=7 format=3 uid="uid://dkxsgrashw8hy"]
+
+[ext_resource type="PackedScene" uid="uid://bkng0wgb1t33i" path="res://ally/melee_ally.tscn" id="1_6r42u"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_65lmi"]
+size = Vector2(20, 1080)
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_q4fed"]
+size = Vector2(20, 1080)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o4f3d"]
+size = Vector2(20, 1920)
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_4qluu"]
+size = Vector2(20, 1920)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jaewe"]
+size = Vector2(20, 1920)
 
 [node name="Node2D" type="Node2D"]
+
+[node name="MeleeAlly" parent="." instance=ExtResource("1_6r42u")]
+
+[node name="MainCamera" type="Camera2D" parent="."]
+editor_draw_limits = true
+
+[node name="Walls" type="Node2D" parent="."]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Walls"]
+position = Vector2(-940, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/StaticBody2D"]
+position = Vector2(-10, 0)
+shape = SubResource("RectangleShape2D_65lmi")
+
+[node name="Sprite2D" type="Sprite2D" parent="Walls/StaticBody2D"]
+position = Vector2(-10, 0)
+texture = SubResource("PlaceholderTexture2D_q4fed")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="Walls"]
+position = Vector2(940, 0)
+rotation = -3.14159
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/StaticBody2D2"]
+position = Vector2(-10, 0)
+shape = SubResource("RectangleShape2D_65lmi")
+
+[node name="Sprite2D" type="Sprite2D" parent="Walls/StaticBody2D2"]
+position = Vector2(-10, 0)
+texture = SubResource("PlaceholderTexture2D_q4fed")
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="Walls"]
+position = Vector2(0, -530)
+rotation = 1.5708
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/StaticBody2D3"]
+shape = SubResource("RectangleShape2D_o4f3d")
+
+[node name="Sprite2D" type="Sprite2D" parent="Walls/StaticBody2D3"]
+position = Vector2(0, 1.98816e-08)
+texture = SubResource("PlaceholderTexture2D_4qluu")
+
+[node name="StaticBody2D4" type="StaticBody2D" parent="Walls"]
+position = Vector2(1, 530)
+rotation = -1.57079
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/StaticBody2D4"]
+shape = SubResource("RectangleShape2D_jaewe")
+
+[node name="Sprite2D" type="Sprite2D" parent="Walls/StaticBody2D4"]
+position = Vector2(0, 1.98816e-08)
+texture = SubResource("PlaceholderTexture2D_4qluu")

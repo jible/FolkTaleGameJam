@@ -19,25 +19,22 @@ var DODGE_COOLDOWN := 1.0
 		elif not value and active:
 			active = false
 			deactivate()
-
-var _dodgeTimer : Timer
+var _dodge_timer : Timer
 var movement_input := Vector2.ZERO
 
 
 func _ready():
 	assert(fsm, "FSM not set")
-	
-	_dodgeTimer = Timer.new()
-	_dodgeTimer.set_wait_time(DODGE_COOLDOWN)
-	_dodgeTimer.set_one_shot(true)
-	_dodgeTimer.timeout.connect(_on_dodge_timer_timeout)
-	add_child(_dodgeTimer)
+
+	if not _dodge_timer:
+		_create_dodge_timer()
 	
 	# Set the actor
 	fsm.blackboard.set_value("movement_input", movement_input)
 	fsm.blackboard.set_value("character", character)
-	fsm.blackboard.set_value("dodge_timer", _dodgeTimer)
+	fsm.blackboard.set_value("dodge_timer", _dodge_timer)
 	fsm.blackboard.set_value("fsm", fsm)
+	fsm.blackboard.set_value("dodge_input", false)
 	assert(character, "Character not set")
 	fsm.actor = character
 
@@ -59,11 +56,25 @@ func _process(_delta):
 			movement_input.y -= 1
 		movement_input = movement_input.normalized()
 		fsm.blackboard.set_value("movement_input", movement_input)
+		# Hack to avoid input being lost due to one frame lag on FSM processing
+		if Input.is_action_pressed("dodge") or Input.is_action_just_released("dodge"):
+			fsm.blackboard.set_value("dodge_input", true)
+		else:
+			fsm.blackboard.set_value("dodge_input", false)
+
+
+func _create_dodge_timer() -> void:
+	_dodge_timer = Timer.new()
+	_dodge_timer.set_wait_time(DODGE_COOLDOWN)
+	_dodge_timer.set_one_shot(true)
+	add_child(_dodge_timer)
 
 
 func activate() -> void:
 	if not active:
 		active = true
+	if not _dodge_timer:
+		_create_dodge_timer()
 	fsm.active = true
 	fsm.start()
 
@@ -72,7 +83,6 @@ func deactivate() -> void:
 	if active:
 		active = false
 	fsm.active = false
-	fsm.stop()
 
 
 func _on_dodge_timer_timeout():

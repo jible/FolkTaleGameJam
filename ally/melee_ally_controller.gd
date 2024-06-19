@@ -1,4 +1,4 @@
-extends Node2D
+class_name MeleeAllyController extends Node2D
 
 
 # Constants
@@ -24,45 +24,62 @@ var movement_input := Vector2.ZERO
 func _ready():
 	assert(fsm, "FSM not set")
 	
-	_dodge_timer = Timer.new()
-	_dodge_timer.set_wait_time(DODGE_COOLDOWN)
-	_dodge_timer.set_one_shot(true)
-	add_child(_dodge_timer)
-	_movement_timer = Timer.new()
-	_movement_timer.set_wait_time(0.3)
-	_movement_timer.set_one_shot(false)
-	_movement_timer.timeout.connect(_on_movement_timer_timeout)
-	add_child(_movement_timer)
+	if not _dodge_timer:
+		_create_dodge_timer()
+
+	if not _movement_timer:
+		_create_movement_timer()
 
 	# Set the actor
 	fsm.blackboard.set_value("movement_input", movement_input)
 	fsm.blackboard.set_value("character", character)
 	fsm.blackboard.set_value("dodge_timer", _dodge_timer)
 	fsm.blackboard.set_value("fsm", fsm)
+	fsm.blackboard.set_value("dodge_input", false)
 	assert(character, "Character not set")
 	fsm.actor = character
+	
+	if active:
+		activate()
+
+
+func _create_dodge_timer() -> void:
+	_dodge_timer = Timer.new()
+	_dodge_timer.set_wait_time(DODGE_COOLDOWN)
+	_dodge_timer.set_one_shot(true)
+	add_child(_dodge_timer)
+
+
+func _create_movement_timer() -> void:
+	_movement_timer = Timer.new()
+	_movement_timer.set_wait_time(4)
+	_movement_timer.set_one_shot(false)
+	_movement_timer.timeout.connect(_on_movement_timer_timeout)
+	_movement_timer.autostart = true
+	add_child(_movement_timer)
 
 
 func activate() -> void:
-	if active:
-		return
-	else:
+	if not active:
 		active = true
+	if not _dodge_timer:
+		_create_dodge_timer()
+	if not _movement_timer:
+		_create_movement_timer()
 	fsm.active = true
 	fsm.start()
 	_movement_timer.start()
 
 
 func deactivate() -> void:
-	if not active:
-		return
-	else:
+	if active:
 		active = false
 	fsm.active = false
-	fsm.stop()
 	_movement_timer.stop()
 
 
 # Placeholder movement AI
 func _on_movement_timer_timeout() -> void:
 	movement_input = Vector2(randf_range(-1, 1), randf_range(-1, 1)).normalized()
+	fsm.blackboard.set_value("movement_input", movement_input)
+	

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Blackboard" load_steps=2 format=3 uid="uid://bso25fl7uvhcc"]
+
+[ext_resource type="Script" path="res://addons/behaviour_toolkit/blackboard.gd" id="1_ve5ya"]
+
+[resource]
+script = ExtResource("1_ve5ya")
+content = {
+"ally_positions": null,
+"danger_zones": null,
+"monster_position": null,
+"monster_state": null,
+"player_position": null
+}
