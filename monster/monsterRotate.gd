@@ -21,8 +21,6 @@ func updateRotate(delta):
 		var targetDirection = directVector.angle()
 		rotateTowards( targetDirection, delta)
 	
-	#Always update collision/physics
-	move_and_slide()
 
 func rotateTowards( targetDirection, delta): ## this incrementally rotates the player towards the 
 	# Get the difference between the current angle and the target angle to find which direction it should turn
