@@ -1,0 +1,62 @@
+[gd_scene load_steps=4 format=3 uid="uid://qo5th2v38las"]
+
+[ext_resource type="Theme" uid="uid://bv5pcromgr1dm" path="res://gameTheme.tres" id="1_hmihj"]
+[ext_resource type="Texture2D" uid="uid://cpryysxc0x35u" path="res://ui/uiAssets/skin.png" id="1_vo5h6"]
+[ext_resource type="Texture2D" uid="uid://bnqxlrl8wj6qx" path="res://ui/uiAssets/frame.png" id="2_janv8"]
+
+[node name="inteface" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_hmihj")
+
+[node name="frame2" type="TextureRect" parent="."]
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = ExtResource("1_vo5h6")
+
+[node name="titleScreen" type="Control" parent="."]
+anchors_preset = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+metadata/_edit_use_anchors_ = true
+
+[node name="selections" type="VBoxContainer" parent="titleScreen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -496.5
+offset_top = -397.5
+offset_right = 496.5
+offset_bottom = 397.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+
+[node name="title" type="Label" parent="titleScreen/selections"]
+layout_mode = 2
+text = "GAME TITLE LOL"
+horizontal_alignment = 1
+
+[node name="startButton" type="Button" parent="titleScreen/selections"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+text = " START "
+
+[node name="creditsButton" type="Button" parent="titleScreen/selections"]
+unique_name_in_owner = true
+layout_mode = 2
+text = " CREDITS "
+
+[node name="frame" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = ExtResource("2_janv8")
