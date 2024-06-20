@@ -1,30 +1,100 @@
-[gd_scene load_steps=5 format=3 uid="uid://dkxsgrashw8hy"]
+[gd_scene load_steps=9 format=3 uid="uid://dkxsgrashw8hy"]
 
-[ext_resource type="PackedScene" uid="uid://dv0vecchefmfo" path="res://player/player_controller.tscn" id="1_2ilp5"]
-[ext_resource type="PackedScene" uid="uid://bkng0wgb1t33i" path="res://ally/melee_ally.tscn" id="2_pnas7"]
+[ext_resource type="PackedScene" uid="uid://bkng0wgb1t33i" path="res://ally/melee_ally.tscn" id="1_6r42u"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_uvc8q"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_65lmi"]
+size = Vector2(20, 1080)
 
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_wb5dr"]
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_q4fed"]
+size = Vector2(20, 1080)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o4f3d"]
+size = Vector2(20, 1920)
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_4qluu"]
+size = Vector2(20, 1920)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jaewe"]
+size = Vector2(20, 1920)
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_xtgy8"]
+
+[sub_resource type="GDScript" id="GDScript_kyyc7"]
+script/source = "extends Sprite2D
+
+var ally_blackboard = preload(\"res://ally/ally_blackboard.tres\") as Blackboard
+
+func _process(delta):
+	ally_blackboard.set_value(\"monster_position\", position)
+	ally_blackboard.set_value(\"monster_rotation\", rotation)
+"
 
 [node name="Node2D" type="Node2D"]
 
+[node name="Player" parent="." instance=ExtResource("1_6r42u")]
+position = Vector2(-304, -178)
+_player_controlled = true
+
+[node name="MeleeAlly2" parent="." instance=ExtResource("1_6r42u")]
+position = Vector2(199, -96)
+
+[node name="MeleeAlly3" parent="." instance=ExtResource("1_6r42u")]
+position = Vector2(268, 211)
+
+[node name="MeleeAlly4" parent="." instance=ExtResource("1_6r42u")]
+position = Vector2(-298, 200)
+
 [node name="MainCamera" type="Camera2D" parent="."]
-unique_name_in_owner = true
+editor_draw_limits = true
 
-[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+[node name="Walls" type="Node2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
-shape = SubResource("CircleShape2D_uvc8q")
+[node name="StaticBody2D" type="StaticBody2D" parent="Walls"]
+position = Vector2(-940, 0)
 
-[node name="PlayerController" parent="CharacterBody2D" node_paths=PackedStringArray("character") instance=ExtResource("1_2ilp5")]
-character = NodePath("..")
-active = true
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/StaticBody2D"]
+position = Vector2(-10, 0)
+shape = SubResource("RectangleShape2D_65lmi")
 
-[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
-position = Vector2(2.98023e-07, 8.34465e-07)
-scale = Vector2(20, 20)
-texture = SubResource("PlaceholderTexture2D_wb5dr")
+[node name="Sprite2D" type="Sprite2D" parent="Walls/StaticBody2D"]
+position = Vector2(-10, 0)
+texture = SubResource("PlaceholderTexture2D_q4fed")
 
-[node name="MeleeAlly" parent="." instance=ExtResource("2_pnas7")]
-position = Vector2(-104, -59)
+[node name="StaticBody2D2" type="StaticBody2D" parent="Walls"]
+position = Vector2(940, 0)
+rotation = -3.14159
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/StaticBody2D2"]
+position = Vector2(-10, 0)
+shape = SubResource("RectangleShape2D_65lmi")
+
+[node name="Sprite2D" type="Sprite2D" parent="Walls/StaticBody2D2"]
+position = Vector2(-10, 0)
+texture = SubResource("PlaceholderTexture2D_q4fed")
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="Walls"]
+position = Vector2(0, -530)
+rotation = 1.5708
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/StaticBody2D3"]
+shape = SubResource("RectangleShape2D_o4f3d")
+
+[node name="Sprite2D" type="Sprite2D" parent="Walls/StaticBody2D3"]
+position = Vector2(0, 1.98816e-08)
+texture = SubResource("PlaceholderTexture2D_4qluu")
+
+[node name="StaticBody2D4" type="StaticBody2D" parent="Walls"]
+position = Vector2(1, 530)
+rotation = -1.57079
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/StaticBody2D4"]
+shape = SubResource("RectangleShape2D_jaewe")
+
+[node name="Sprite2D" type="Sprite2D" parent="Walls/StaticBody2D4"]
+position = Vector2(0, 1.98816e-08)
+texture = SubResource("PlaceholderTexture2D_4qluu")
+
+[node name="Monster" type="Sprite2D" parent="."]
+scale = Vector2(40, 40)
+texture = SubResource("CanvasTexture_xtgy8")
+script = SubResource("GDScript_kyyc7")

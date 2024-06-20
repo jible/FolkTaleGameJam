@@ -1,0 +1,40 @@
+[gd_scene load_steps=9 format=3 uid="uid://bkng0wgb1t33i"]
+
+[ext_resource type="Script" path="res://ally/melee_ally.gd" id="1_2kl42"]
+[ext_resource type="PackedScene" uid="uid://cyjr87hwvsi6d" path="res://ally/melee_ally_controller.tscn" id="1_rodko"]
+[ext_resource type="Script" path="res://components/health.gd" id="3_kcofi"]
+[ext_resource type="PackedScene" uid="uid://dv0vecchefmfo" path="res://player/player_controller.tscn" id="3_kogib"]
+[ext_resource type="Script" path="res://components/hurtbox.gd" id="4_5xgoq"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_wejaw"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_rxin3"]
+size = Vector2(20, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1ss5y"]
+
+[node name="MeleeAlly" type="CharacterBody2D"]
+collision_mask = 2
+script = ExtResource("1_2kl42")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_wejaw")
+
+[node name="MeleeAllyController" parent="." node_paths=PackedStringArray("character") instance=ExtResource("1_rodko")]
+character = NodePath("..")
+active = true
+
+[node name="PlayerController" parent="." node_paths=PackedStringArray("character") instance=ExtResource("3_kogib")]
+character = NodePath("..")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("PlaceholderTexture2D_rxin3")
+
+[node name="Health" type="Node2D" parent="."]
+script = ExtResource("3_kcofi")
+invulnerability_time = 0.5
+
+[node name="Hurtbox" type="Area2D" parent="." node_paths=PackedStringArray("health")]
+script = ExtResource("4_5xgoq")
+shape = SubResource("RectangleShape2D_1ss5y")
+health = NodePath("../Health")
