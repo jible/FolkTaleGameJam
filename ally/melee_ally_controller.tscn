@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://cyjr87hwvsi6d"]
+[gd_scene load_steps=23 format=3 uid="uid://cyjr87hwvsi6d"]
 
 [ext_resource type="Script" path="res://ally/melee_ally_controller.gd" id="1_nyl13"]
 [ext_resource type="Script" path="res://addons/behaviour_toolkit/behaviour_tree/bt_root.gd" id="2_snybo"]
@@ -20,6 +20,7 @@
 [ext_resource type="Script" path="res://player/move_to_idle.gd" id="17_ttfyf"]
 [ext_resource type="Script" path="res://player/dodge_state.gd" id="18_iwsjn"]
 [ext_resource type="Script" path="res://addons/behaviour_toolkit/finite_state_machine/fsm_transition.gd" id="19_4mloi"]
+[ext_resource type="Script" path="res://ally/charge_state.gd" id="21_otv4w"]
 
 [sub_resource type="GDScript" id="GDScript_ctjtk"]
 script/source = "# Custom Condition
@@ -72,13 +73,17 @@ condition_type = 6
 custom_script = SubResource("GDScript_ctjtk")
 custom_target = NodePath("../../../../../..")
 
+[node name="WaitToCharge" type="Node" parent="BTRoot/BTSelector/BTSelector/AttackLimiter/BTSequence"]
+script = ExtResource("12_h67lc")
+wait_for_ticks = 15
+
 [node name="Charge" type="Node" parent="BTRoot/BTSelector/BTSelector/AttackLimiter/BTSequence"]
 script = ExtResource("9_uwfo3")
 
 [node name="Attack" type="Node" parent="BTRoot/BTSelector/BTSelector/AttackLimiter/BTSequence"]
 script = ExtResource("10_qouux")
 
-[node name="LeafWait" type="Node" parent="BTRoot/BTSelector/BTSelector/AttackLimiter/BTSequence"]
+[node name="WaitAfterAttack" type="Node" parent="BTRoot/BTSelector/BTSelector/AttackLimiter/BTSequence"]
 script = ExtResource("12_h67lc")
 wait_for_ticks = 10
 
@@ -129,3 +134,18 @@ script = ExtResource("19_4mloi")
 next_state = NodePath("../../MoveState")
 use_event = true
 event = "dodge_to_move"
+
+[node name="ChargeState" type="Node" parent="FiniteStateMachine"]
+script = ExtResource("21_otv4w")
+
+[node name="ToIdle" type="Node" parent="FiniteStateMachine/ChargeState" node_paths=PackedStringArray("next_state")]
+script = ExtResource("19_4mloi")
+next_state = NodePath("../../IdleState")
+use_event = true
+event = "charge_to_idle"
+
+[node name="ToMove" type="Node" parent="FiniteStateMachine/ChargeState" node_paths=PackedStringArray("next_state")]
+script = ExtResource("19_4mloi")
+next_state = NodePath("../../MoveState")
+use_event = true
+event = "charge_to_move"
