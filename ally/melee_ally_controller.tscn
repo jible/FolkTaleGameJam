@@ -1,15 +1,131 @@
-[gd_scene load_steps=4 format=3 uid="uid://cyjr87hwvsi6d"]
+[gd_scene load_steps=22 format=3 uid="uid://cyjr87hwvsi6d"]
 
 [ext_resource type="Script" path="res://ally/melee_ally_controller.gd" id="1_nyl13"]
 [ext_resource type="Script" path="res://addons/behaviour_toolkit/behaviour_tree/bt_root.gd" id="2_snybo"]
-[ext_resource type="Script" path="res://addons/behaviour_toolkit/behaviour_tree/bt_leaf.gd" id="3_wy5lk"]
+[ext_resource type="Resource" uid="uid://bso25fl7uvhcc" path="res://ally/ally_blackboard.tres" id="3_025jm"]
+[ext_resource type="Script" path="res://addons/behaviour_toolkit/behaviour_tree/composites/bt_selector.gd" id="4_1hmxs"]
+[ext_resource type="Script" path="res://ally/ally_evade.gd" id="5_nmvee"]
+[ext_resource type="Script" path="res://addons/behaviour_toolkit/behaviour_tree/decorators/decorator_limiter.gd" id="6_cbern"]
+[ext_resource type="Script" path="res://addons/behaviour_toolkit/behaviour_tree/composites/bt_sequence.gd" id="6_ewssj"]
+[ext_resource type="Script" path="res://addons/behaviour_toolkit/behaviour_tree/leaves/leaf_condition.gd" id="7_l5x62"]
+[ext_resource type="Script" path="res://ally/melee_ally_charge.gd" id="9_uwfo3"]
+[ext_resource type="Script" path="res://ally/melee_ally_attack.gd" id="10_qouux"]
+[ext_resource type="Script" path="res://ally/ally_circle.gd" id="11_5i0xm"]
+[ext_resource type="Script" path="res://addons/behaviour_toolkit/behaviour_tree/leaves/leaf_wait.gd" id="12_h67lc"]
+[ext_resource type="Script" path="res://addons/behaviour_toolkit/finite_state_machine/fsm.gd" id="12_kpav6"]
+[ext_resource type="Script" path="res://player/idle_state.gd" id="13_to5kq"]
+[ext_resource type="Script" path="res://player/idle_to_move.gd" id="14_hig0k"]
+[ext_resource type="Script" path="res://player/to_dodge.gd" id="15_gvlp5"]
+[ext_resource type="Script" path="res://player/move_state.gd" id="16_x2er8"]
+[ext_resource type="Script" path="res://player/move_to_idle.gd" id="17_ttfyf"]
+[ext_resource type="Script" path="res://player/dodge_state.gd" id="18_iwsjn"]
+[ext_resource type="Script" path="res://addons/behaviour_toolkit/finite_state_machine/fsm_transition.gd" id="19_4mloi"]
 
-[node name="MeleeAllyController" type="Node2D" node_paths=PackedStringArray("fsm")]
+[sub_resource type="GDScript" id="GDScript_ctjtk"]
+script/source = "# Custom Condition
+static func is_valid(_actor: Node, _blackboard: Blackboard) -> bool:
+	var monster_pos := _blackboard.get_value(\"monster_position\") as Vector2
+	var monster_rot := _blackboard.get_value(\"monster_rotation\") as float
+	var monster_health := _blackboard.get_value(\"monster_health\") as int
+	var actor_pos := _blackboard.get_value(\"ally_positions\")[_actor.get_instance_id()] as Vector2
+	const charge_distance := 500.0
+	const sight_cone_angle = PI/2
+	const health_override_threshold := 25
+	var within_range = actor_pos.distance_to(monster_pos) <= charge_distance
+	var monster_facing_away = abs(actor_pos.angle_to_point(monster_pos) - monster_rot) > sight_cone_angle
+
+	if within_range and monster_facing_away or monster_health < health_override_threshold:
+		return true
+	else:
+		return false
+"
+
+[node name="MeleeAllyController" type="Node2D" node_paths=PackedStringArray("fsm", "bt")]
 script = ExtResource("1_nyl13")
-fsm = NodePath("")
+fsm = NodePath("FiniteStateMachine")
+bt = NodePath("BTRoot")
 
-[node name="BTRoot" type="Node" parent="."]
+[node name="BTRoot" type="Node" parent="." node_paths=PackedStringArray("actor")]
 script = ExtResource("2_snybo")
+actor = NodePath("..")
+blackboard = ExtResource("3_025jm")
 
-[node name="Circle" type="Node" parent="BTRoot"]
-script = ExtResource("3_wy5lk")
+[node name="BTSelector" type="Node" parent="BTRoot"]
+script = ExtResource("4_1hmxs")
+
+[node name="Evade" type="Node" parent="BTRoot/BTSelector"]
+script = ExtResource("5_nmvee")
+
+[node name="BTSelector" type="Node" parent="BTRoot/BTSelector"]
+script = ExtResource("4_1hmxs")
+
+[node name="AttackLimiter" type="Node" parent="BTRoot/BTSelector/BTSelector"]
+unique_name_in_owner = true
+script = ExtResource("6_cbern")
+
+[node name="BTSequence" type="Node" parent="BTRoot/BTSelector/BTSelector/AttackLimiter"]
+script = ExtResource("6_ewssj")
+
+[node name="ChargeCondition" type="Node" parent="BTRoot/BTSelector/BTSelector/AttackLimiter/BTSequence" node_paths=PackedStringArray("custom_target")]
+script = ExtResource("7_l5x62")
+condition_type = 6
+custom_script = SubResource("GDScript_ctjtk")
+custom_target = NodePath("../../../../../..")
+
+[node name="Charge" type="Node" parent="BTRoot/BTSelector/BTSelector/AttackLimiter/BTSequence"]
+script = ExtResource("9_uwfo3")
+
+[node name="Attack" type="Node" parent="BTRoot/BTSelector/BTSelector/AttackLimiter/BTSequence"]
+script = ExtResource("10_qouux")
+
+[node name="LeafWait" type="Node" parent="BTRoot/BTSelector/BTSelector/AttackLimiter/BTSequence"]
+script = ExtResource("12_h67lc")
+wait_for_ticks = 10
+
+[node name="Circle" type="Node" parent="BTRoot/BTSelector/BTSelector"]
+script = ExtResource("11_5i0xm")
+circle_radius = 300
+min_behaviour_time = 4.0
+
+[node name="FiniteStateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state", "actor")]
+script = ExtResource("12_kpav6")
+active = false
+initial_state = NodePath("IdleState")
+actor = NodePath("..")
+
+[node name="IdleState" type="Node" parent="FiniteStateMachine"]
+script = ExtResource("13_to5kq")
+
+[node name="ToMove" type="Node" parent="FiniteStateMachine/IdleState" node_paths=PackedStringArray("next_state")]
+script = ExtResource("14_hig0k")
+next_state = NodePath("../../MoveState")
+
+[node name="ToDodge" type="Node" parent="FiniteStateMachine/IdleState" node_paths=PackedStringArray("next_state")]
+script = ExtResource("15_gvlp5")
+next_state = NodePath("../../DodgeState")
+
+[node name="MoveState" type="Node" parent="FiniteStateMachine"]
+script = ExtResource("16_x2er8")
+
+[node name="ToIdle" type="Node" parent="FiniteStateMachine/MoveState" node_paths=PackedStringArray("next_state")]
+script = ExtResource("17_ttfyf")
+next_state = NodePath("../../IdleState")
+
+[node name="ToDodge" type="Node" parent="FiniteStateMachine/MoveState" node_paths=PackedStringArray("next_state")]
+script = ExtResource("15_gvlp5")
+next_state = NodePath("../../DodgeState")
+
+[node name="DodgeState" type="Node" parent="FiniteStateMachine"]
+script = ExtResource("18_iwsjn")
+
+[node name="ToIdle" type="Node" parent="FiniteStateMachine/DodgeState" node_paths=PackedStringArray("next_state")]
+script = ExtResource("19_4mloi")
+next_state = NodePath("../../IdleState")
+use_event = true
+event = "dodge_to_idle"
+
+[node name="ToMove" type="Node" parent="FiniteStateMachine/DodgeState" node_paths=PackedStringArray("next_state")]
+script = ExtResource("19_4mloi")
+next_state = NodePath("../../MoveState")
+use_event = true
+event = "dodge_to_move"

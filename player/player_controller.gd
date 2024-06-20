@@ -8,7 +8,7 @@ signal dodge_refreshed
 var DODGE_COOLDOWN := 1.0
 
 @export var fsm : FiniteStateMachine
-@export var character : CharacterBody2D 
+@export var character : CharacterBody2D
 @export var active := false :
 	get:
 		return active
@@ -21,6 +21,7 @@ var DODGE_COOLDOWN := 1.0
 			deactivate()
 var _dodge_timer : Timer
 var movement_input := Vector2.ZERO
+var ally_blackboard := preload("res://ally/ally_blackboard.tres") as Blackboard
 
 
 func _ready():
@@ -61,6 +62,7 @@ func _process(_delta):
 			fsm.blackboard.set_value("dodge_input", true)
 		else:
 			fsm.blackboard.set_value("dodge_input", false)
+		ally_blackboard.set_value("player_position", character.position)
 
 
 func _create_dodge_timer() -> void:

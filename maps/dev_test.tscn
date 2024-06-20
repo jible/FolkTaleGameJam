@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://dkxsgrashw8hy"]
+[gd_scene load_steps=9 format=3 uid="uid://dkxsgrashw8hy"]
 
 [ext_resource type="PackedScene" uid="uid://bkng0wgb1t33i" path="res://ally/melee_ally.tscn" id="1_6r42u"]
 
@@ -17,9 +17,32 @@ size = Vector2(20, 1920)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jaewe"]
 size = Vector2(20, 1920)
 
+[sub_resource type="CanvasTexture" id="CanvasTexture_xtgy8"]
+
+[sub_resource type="GDScript" id="GDScript_kyyc7"]
+script/source = "extends Sprite2D
+
+var ally_blackboard = preload(\"res://ally/ally_blackboard.tres\") as Blackboard
+
+func _process(delta):
+	ally_blackboard.set_value(\"monster_position\", position)
+	ally_blackboard.set_value(\"monster_rotation\", rotation)
+"
+
 [node name="Node2D" type="Node2D"]
 
-[node name="MeleeAlly" parent="." instance=ExtResource("1_6r42u")]
+[node name="Player" parent="." instance=ExtResource("1_6r42u")]
+position = Vector2(-304, -178)
+_player_controlled = true
+
+[node name="MeleeAlly2" parent="." instance=ExtResource("1_6r42u")]
+position = Vector2(199, -96)
+
+[node name="MeleeAlly3" parent="." instance=ExtResource("1_6r42u")]
+position = Vector2(268, 211)
+
+[node name="MeleeAlly4" parent="." instance=ExtResource("1_6r42u")]
+position = Vector2(-298, 200)
 
 [node name="MainCamera" type="Camera2D" parent="."]
 editor_draw_limits = true
@@ -70,3 +93,8 @@ shape = SubResource("RectangleShape2D_jaewe")
 [node name="Sprite2D" type="Sprite2D" parent="Walls/StaticBody2D4"]
 position = Vector2(0, 1.98816e-08)
 texture = SubResource("PlaceholderTexture2D_4qluu")
+
+[node name="Monster" type="Sprite2D" parent="."]
+scale = Vector2(40, 40)
+texture = SubResource("CanvasTexture_xtgy8")
+script = SubResource("GDScript_kyyc7")

@@ -5,9 +5,12 @@
 [resource]
 script = ExtResource("1_ve5ya")
 content = {
-"ally_positions": null,
-"danger_zones": null,
-"monster_position": null,
+"ally_blackboards": {},
+"ally_positions": {},
+"danger_zones": [],
+"monster_health": 100,
+"monster_position": Vector2(0, 0),
+"monster_rotation": 0.0,
 "monster_state": null,
-"player_position": null
+"player_position": Vector2(0, 0)
 }

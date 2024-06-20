@@ -2,9 +2,10 @@ class_name MeleeAllyController extends Node2D
 
 
 # Constants
-var DODGE_COOLDOWN := 1.0
+const DODGE_COOLDOWN := 1.0
 
 @export var fsm : FiniteStateMachine
+@export var bt : BTRoot
 @export var character : CharacterBody2D 
 @export var active := false :
 	get:
@@ -17,20 +18,17 @@ var DODGE_COOLDOWN := 1.0
 			active = false
 			deactivate()
 var _dodge_timer : Timer
-var _movement_timer : Timer
 var movement_input := Vector2.ZERO
 
 
 func _ready():
 	assert(fsm, "FSM not set")
+	assert(bt, "BT not set")
 	
 	if not _dodge_timer:
 		_create_dodge_timer()
 
-	if not _movement_timer:
-		_create_movement_timer()
-
-	# Set the actor
+	# Initialize blackboard values
 	fsm.blackboard.set_value("movement_input", movement_input)
 	fsm.blackboard.set_value("character", character)
 	fsm.blackboard.set_value("dodge_timer", _dodge_timer)
@@ -39,8 +37,25 @@ func _ready():
 	assert(character, "Character not set")
 	fsm.actor = character
 	
+	bt.blackboard.get_value("ally_positions")[get_instance_id()] = character.position
+	bt.blackboard.get_value("ally_blackboards")[get_instance_id()] = fsm.blackboard
+	
 	if active:
 		activate()
+
+
+func _process(_delta):
+	if not active:
+		return
+	
+	bt.blackboard.get_value("ally_positions")[get_instance_id()] = character.position
+
+
+func _exit_tree():
+	if bt:
+		var dict = bt.blackboard.get_value("ally_positions") as Dictionary
+		dict.erase(get_instance_id())
+		dict.erase(get_instance_id())
 
 
 func _create_dodge_timer() -> void:
@@ -50,36 +65,18 @@ func _create_dodge_timer() -> void:
 	add_child(_dodge_timer)
 
 
-func _create_movement_timer() -> void:
-	_movement_timer = Timer.new()
-	_movement_timer.set_wait_time(4)
-	_movement_timer.set_one_shot(false)
-	_movement_timer.timeout.connect(_on_movement_timer_timeout)
-	_movement_timer.autostart = true
-	add_child(_movement_timer)
-
-
 func activate() -> void:
 	if not active:
 		active = true
 	if not _dodge_timer:
 		_create_dodge_timer()
-	if not _movement_timer:
-		_create_movement_timer()
 	fsm.active = true
 	fsm.start()
-	_movement_timer.start()
+	bt.active = true
 
 
 func deactivate() -> void:
 	if active:
 		active = false
 	fsm.active = false
-	_movement_timer.stop()
-
-
-# Placeholder movement AI
-func _on_movement_timer_timeout() -> void:
-	movement_input = Vector2(randf_range(-1, 1), randf_range(-1, 1)).normalized()
-	fsm.blackboard.set_value("movement_input", movement_input)
-	
+	bt.active = false

@@ -3,8 +3,8 @@ class_name MoveState extends FSMState
 
 var character : CharacterBody2D
 var MAX_MOVE_VELOCITY := 200
-var ACCELERATION := 20
-var FRICTION := 0.2
+var ACCELERATION := 25
+var FRICTION := 0.25
 
 # Executes after the state is entered.
 func _on_enter(_actor: Node, _blackboard: Blackboard) -> void:
