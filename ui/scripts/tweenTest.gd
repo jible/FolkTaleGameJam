@@ -1,20 +1,12 @@
 extends Control
 
-var tween
-var pos
-var s
 var tween_lib : Dictionary = {};
+
+## just some general tweening code for all puppets
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	self.modulate = Color(0, 0, 0, 0)
-	s = self.scale
-	self.scale = Vector2(s.x * 1.3, s.y * 1.3)
-	self.pivot_offset = Vector2(self.size.x/2, self.size.y/2)
-	pos = self.position
-	self.position = Vector2(pos.x, pos.y + 150)
-	puppet_in()
-	#puppet_out()
+	pass
 
 
 ## find tween OR create tween
