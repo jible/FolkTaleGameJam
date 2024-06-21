@@ -27,13 +27,24 @@ func _ready():
 func _process(_delta):
 	if abs(source.velocity.x) < flip_speed_threshold or not flip_timer.is_stopped():
 		return
-	if source.velocity.x < 0:
+	if source.velocity.x < 0 and x_axis:
 		targets.map(func(e): 
 			e.scale.x = -abs(e.scale.x)
 		)
 		flip_timer.start()
-	elif source.velocity.x > 0:
+	elif source.velocity.x > 0 and x_axis:
 		targets.map(func(e): 
 			e.scale.x = abs(e.scale.x)
+		)
+		flip_timer.start()
+		
+	if source.velocity.y < 0 and y_axis:
+		targets.map(func(e): 
+			e.scale.y = abs(e.scale.y)
+		)
+		flip_timer.start()
+	elif source.velocity.y > 0 and y_axis:
+		targets.map(func(e): 
+			e.scale.x = -abs(e.scale.x)
 		)
 		flip_timer.start()
