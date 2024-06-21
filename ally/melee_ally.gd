@@ -11,8 +11,10 @@ var is_alive := true
 @onready var _melee_ally_controller := $MeleeAllyController as MeleeAllyController
 @onready var _player_controller := $PlayerController as PlayerController
 
+
 func _ready():
 	set_player_controlled(_player_controlled)
+
 
 func set_player_controlled(value: bool) -> void:
 	_player_controlled = value
