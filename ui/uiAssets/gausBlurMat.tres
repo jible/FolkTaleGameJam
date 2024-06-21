@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://dndxjwr4j1dk0"]
+
+[ext_resource type="Shader" path="res://ui/uiAssets/gausBlur.gdshader" id="1_mm8mb"]
+
+[resource]
+shader = ExtResource("1_mm8mb")
+shader_parameter/strength = 2
