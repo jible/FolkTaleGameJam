@@ -1,6 +1,6 @@
 class_name uiTweens extends Control
-var tween_lib : Dictionary = {};
-var test : String = "wah testing";
+
+
 ## just some general tweening code for all puppets
 
 
@@ -11,16 +11,9 @@ func _ready():
 func wah() -> void:
 	print("wah");
 
-
-## (for inner use only) find tween OR create tween
-func _get_tween(obj : Object = self) -> Tween:
-	# find tween
-	if obj in tween_lib:
-		return tween_lib[obj];
-	# none found, creating tween
-	var t = obj.create_tween();
-	tween_lib[obj] = t;
-	return t;
+## create tween
+func _get_tween(obj : Object) -> Tween:
+	return obj.create_tween();;
 
 
 ## puppet into scene 
@@ -43,26 +36,19 @@ func puppet_out(
 		pos : Vector2 = Vector2(1920/2, 1080*1.5),
 		s : Vector2 = Vector2(0.5, 0.5),
 	) -> void:
-	var spd : float = 0.5;
-	var tween = _get_tween(puppet).set_parallel(true);
-	tween.tween_property(puppet, "modulate", Color(0, 0, 0, 0), spd * 0.75);
-	tween.tween_property(puppet, "scale", Vector2(s.x, s.y), spd);
-	tween.tween_property(puppet, "position", Vector2(pos.x, pos.y), spd);
-	tween.set_parallel(false);
-	puppet_wobble(puppet);
-
-
-## puppet wobble wobble
-func puppet_wobble(
-		puppet : Object = self
-	) -> void:
+	var tween = _get_tween(puppet);
 	var spd : float = 0.1;
 	var ang : int = 5;
-	var tween = _get_tween(puppet);
-	# terribly written welp
-	tween.tween_property(puppet, "rotation_degrees", ang, spd);
-	tween.tween_property(puppet, "rotation_degrees", -ang, spd);
-	tween.tween_property(puppet, "rotation_degrees", ang/2, spd/2);
-	tween.tween_property(puppet, "rotation_degrees", -ang/2, spd/2);
-	tween.tween_property(puppet, "rotation_degrees", 0, spd);
+	## terribly written wobble
+	#tween.tween_property(puppet, "rotation_degrees", ang, spd);
+	#tween.tween_property(puppet, "rotation_degrees", -ang, spd);
+	#tween.tween_property(puppet, "rotation_degrees", ang/2, spd/2);
+	#tween.tween_property(puppet, "rotation_degrees", -ang/2, spd/2);
+	#tween.tween_property(puppet, "rotation_degrees", 0, spd);
+	spd = 0.3;
+	tween.set_parallel(true);
+	tween.tween_property(puppet, "modulate", Color(1, 1, 1, 0), spd*0.75);
+	tween.tween_property(puppet, "scale", Vector2(s.x*1.05, s.y*1.05), spd);
+	tween.tween_property(puppet, "position", Vector2(pos.x, pos.y+150), spd*2);
+	tween.set_parallel(false);
 
