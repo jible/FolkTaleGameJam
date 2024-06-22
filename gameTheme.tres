@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=10 format=3 uid="uid://bv5pcromgr1dm"]
+[gd_resource type="Theme" load_steps=11 format=3 uid="uid://bv5pcromgr1dm"]
 
 [ext_resource type="FontFile" uid="uid://cofa1ejl8vviy" path="res://ui/uiAssets/Hogback Demo Version.otf" id="1_lkv7e"]
 [ext_resource type="Texture2D" uid="uid://c1c423byhjwng" path="res://ui/uiAssets/button_hover.png" id="2_v5p4l"]
@@ -28,6 +28,8 @@ texture_margin_top = 100.0
 texture_margin_right = 275.0
 texture_margin_bottom = 100.0
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wv7mo"]
+
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_t08g6"]
 texture = ExtResource("4_7cjgp")
 texture_margin_left = 130.0
@@ -53,6 +55,10 @@ Button/styles/focus = SubResource("StyleBoxTexture_5enqp")
 Button/styles/hover = SubResource("StyleBoxTexture_5udat")
 Button/styles/normal = SubResource("StyleBoxTexture_7dbvy")
 Button/styles/pressed = SubResource("StyleBoxTexture_74lh2")
+JustText/base_type = &"Label"
+JustText/colors/font_color = Color(0.505882, 0.172549, 0.0588235, 1)
+JustText/fonts/font = ExtResource("1_lkv7e")
+JustText/styles/normal = SubResource("StyleBoxEmpty_wv7mo")
 Label/colors/font_color = Color(0.505882, 0.172549, 0.0588235, 1)
 Label/colors/font_outline_color = Color(0.505882, 0.172549, 0.0588235, 1)
 Label/colors/font_shadow_color = Color(0.505882, 0.172549, 0.0588235, 1)

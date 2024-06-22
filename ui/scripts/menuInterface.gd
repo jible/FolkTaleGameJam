@@ -14,7 +14,7 @@ func _ready():
 	for child in screenObjects:
 		og_pos[child] = child.position;
 		child.position = Vector2(child.position.x, child.position.y+150)
-		child.scale *= 1.3;
+		child.scale *= 1.05;
 		child.modulate = Color(1, 1, 1, 0);
 	## button functionality
 	%startButton.connect("pressed", Callable(self, "_swap_scene").bind("game"))
