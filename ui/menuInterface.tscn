@@ -1,0 +1,142 @@
+[gd_scene load_steps=6 format=3 uid="uid://qo5th2v38las"]
+
+[ext_resource type="Theme" uid="uid://bv5pcromgr1dm" path="res://gameTheme.tres" id="1_02imr"]
+[ext_resource type="Script" path="res://ui/scripts/uiTweens.gd" id="2_q3cr2"]
+[ext_resource type="Script" path="res://ui/scripts/menuInterface.gd" id="2_yryyt"]
+[ext_resource type="Texture2D" uid="uid://cpryysxc0x35u" path="res://ui/uiAssets/skin.png" id="3_cvvab"]
+[ext_resource type="Texture2D" uid="uid://bnqxlrl8wj6qx" path="res://ui/uiAssets/frame.png" id="5_vtnsa"]
+
+[node name="menuInterface" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_02imr")
+script = ExtResource("2_yryyt")
+
+[node name="disappointment" type="Control" parent="."]
+unique_name_in_owner = true
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("2_q3cr2")
+
+[node name="skin" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = ExtResource("3_cvvab")
+
+[node name="creditsScreen" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="creditsText" type="Label" parent="creditsScreen"]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 110.0
+offset_top = 100.0
+offset_right = 1313.0
+offset_bottom = 711.0
+scale = Vector2(0.5, 0.5)
+theme_override_font_sizes/font_size = 128
+text = "CREDITS
+
+game by Cole Falxa-Sturken, James Milestone, Lily Chen, and Lyssa Li
+font from DaFont (Hogback)
+all art assets drawn by hand
+
+thank you for playing!"
+
+[node name="menuButton" type="Button" parent="creditsScreen"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -540.0
+offset_top = -290.0
+offset_right = 379.0
+offset_bottom = 39.0
+grow_horizontal = 0
+grow_vertical = 0
+scale = Vector2(0.5, 0.5)
+text = "RETURN"
+
+[node name="titleScreen" type="Control" parent="."]
+unique_name_in_owner = true
+anchors_preset = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+metadata/_edit_use_anchors_ = true
+
+[node name="title" type="Label" parent="titleScreen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -704.0
+offset_top = -229.0
+offset_right = 704.0
+offset_bottom = 229.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+pivot_offset = Vector2(704, -150)
+theme_override_font_sizes/font_size = 207
+text = "GAME TITLE LOL"
+horizontal_alignment = 1
+
+[node name="startButton" type="Button" parent="titleScreen"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -248.0
+offset_top = -7.0
+offset_right = 745.0
+offset_bottom = 329.75
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+size_flags_vertical = 3
+text = " START "
+
+[node name="creditsButton" type="Button" parent="titleScreen"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 1.0
+offset_top = 516.0
+offset_right = 496.5
+offset_bottom = 164.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+text = " CREDITS "
+
+[node name="frame" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_filter = 2
+texture = ExtResource("5_vtnsa")

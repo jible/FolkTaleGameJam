@@ -11,6 +11,7 @@ config_version=5
 [application]
 
 config/name="FolkTaleGameJam"
+run/main_scene="res://ui/menuInterface.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -20,6 +21,7 @@ window/size/viewport_width=1920
 window/size/viewport_height=1080
 window/size/mode=2
 window/stretch/mode="canvas_items"
+
 
 [dotnet]
 
@@ -42,7 +44,7 @@ folder_colors={
 "res://maps/": "green",
 "res://monster/": "orange",
 "res://player/": "blue",
-"res://ui/": "pink"
+"res://ui/": "red"
 }
 
 [input]
