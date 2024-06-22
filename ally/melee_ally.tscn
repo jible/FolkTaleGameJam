@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bkng0wgb1t33i"]
+[gd_scene load_steps=23 format=3 uid="uid://bkng0wgb1t33i"]
 
 [ext_resource type="Script" path="res://ally/melee_ally.gd" id="1_2kl42"]
 [ext_resource type="PackedScene" uid="uid://cyjr87hwvsi6d" path="res://ally/melee_ally_controller.tscn" id="1_rodko"]
@@ -7,12 +7,20 @@
 [ext_resource type="Script" path="res://components/hurtbox.gd" id="4_5xgoq"]
 [ext_resource type="Texture2D" uid="uid://7iv3d6dil0hg" path="res://player/FolkPlayerSeparate.png" id="7_m0w6b"]
 [ext_resource type="Script" path="res://components/node_flipper.gd" id="7_tax3y"]
+[ext_resource type="Animation" uid="uid://cbw8ymavt4jdq" path="res://ally/animations/melee_ally_sword_attack.anim" id="8_6n4vw"]
+[ext_resource type="Animation" uid="uid://cc7td456kw0li" path="res://ally/animations/melee_ally_spear_charge.anim" id="9_5h5ob"]
+[ext_resource type="Animation" uid="uid://dnvg3m0i1rdfj" path="res://ally/animations/melee_ally_take_damage.anim" id="10_geblj"]
+[ext_resource type="Animation" uid="uid://bybcg67wnnd2x" path="res://ally/animations/melee_ally_walk.anim" id="11_h6w0c"]
+[ext_resource type="Animation" uid="uid://du5mqxrsvykx5" path="res://ally/animations/melee_ally_dodge_roll.anim" id="12_o7evk"]
+[ext_resource type="Animation" uid="uid://is8crpg0aekd" path="res://ally/animations/melee_ally_idle.anim" id="13_i1652"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ikb5w"]
 radius = 14.0
 height = 65.0
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_1ss5y"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_la5av"]
+radius = 11.0
+height = 60.0
 
 [sub_resource type="SkeletonModification2DTwoBoneIK" id="SkeletonModification2DTwoBoneIK_k6l6y"]
 target_nodepath = NodePath("../RightArmIKTarget")
@@ -53,6 +61,20 @@ modifications/1 = SubResource("SkeletonModification2DTwoBoneIK_j18be")
 modifications/2 = SubResource("SkeletonModification2DLookAt_klxcp")
 modifications/3 = SubResource("SkeletonModification2DLookAt_m8qip")
 
+[sub_resource type="Animation" id="Animation_l1h3e"]
+resource_name = "spear_attack"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xqvq2"]
+_data = {
+"dodge_roll": ExtResource("12_o7evk"),
+"idle": ExtResource("13_i1652"),
+"spear_attack": SubResource("Animation_l1h3e"),
+"spear_charge": ExtResource("9_5h5ob"),
+"sword_attack": ExtResource("8_6n4vw"),
+"take_damage": ExtResource("10_geblj"),
+"walk": ExtResource("11_h6w0c")
+}
+
 [node name="MeleeAlly" type="CharacterBody2D"]
 collision_mask = 2
 script = ExtResource("1_2kl42")
@@ -74,7 +96,7 @@ invulnerability_time = 0.5
 
 [node name="Hurtbox" type="Area2D" parent="." node_paths=PackedStringArray("health")]
 script = ExtResource("4_5xgoq")
-shape = SubResource("RectangleShape2D_1ss5y")
+shape = SubResource("CapsuleShape2D_la5av")
 health = NodePath("../Health")
 
 [node name="IKTargets" type="Node2D" parent="."]
@@ -261,3 +283,8 @@ bones = ["hips", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 script = ExtResource("7_tax3y")
 source = NodePath("..")
 targets = [NodePath("../Polygons"), NodePath("../Skeleton2D"), NodePath("../IKTargets")]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_xqvq2")
+}

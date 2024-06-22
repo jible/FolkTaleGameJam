@@ -1,8 +1,15 @@
-[gd_scene load_steps=11 format=3 uid="uid://luqdwqylqh5b"]
+[gd_scene load_steps=19 format=3 uid="uid://luqdwqylqh5b"]
 
 [ext_resource type="Script" path="res://monster/monsterManager.gd" id="1_f061f"]
 [ext_resource type="Texture2D" uid="uid://c28hyc7ushe60" path="res://monster/nianshou_separate.png" id="3_3b0i1"]
 [ext_resource type="Script" path="res://components/node_flipper.gd" id="4_khyp3"]
+[ext_resource type="Animation" uid="uid://dnljiktwwbcmc" path="res://monster/animations/nianshou_run.anim" id="4_rpeke"]
+[ext_resource type="Animation" uid="uid://c73c3g8dhuyms" path="res://monster/animations/nianshou_pounce.anim" id="5_6vgsf"]
+[ext_resource type="Animation" uid="uid://bkctj031ovpib" path="res://monster/animations/nianshou_pounce_return.anim" id="6_cofsn"]
+[ext_resource type="Animation" uid="uid://du8k7maq501k3" path="res://monster/animations/nianshou_slashing_attack.anim" id="7_ub2kg"]
+[ext_resource type="Animation" uid="uid://dek88xj5i6n5" path="res://monster/animations/nianshou_gore_attack.anim" id="8_2n8a6"]
+[ext_resource type="Animation" uid="uid://b8nkv8bkvfelb" path="res://monster/animations/nianshou_charge.anim" id="9_q6yfo"]
+[ext_resource type="Animation" uid="uid://dfsl2wdrq2hv" path="res://monster/animations/nianshou_death.anim" id="10_hdijf"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3e2n5"]
 
@@ -52,6 +59,17 @@ modifications/1 = SubResource("SkeletonModification2DTwoBoneIK_fbufd")
 modifications/2 = SubResource("SkeletonModification2DTwoBoneIK_hpicv")
 modifications/3 = SubResource("SkeletonModification2DTwoBoneIK_jjaxl")
 modifications/4 = SubResource("SkeletonModification2DLookAt_kfd6s")
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ywi78"]
+_data = {
+"charge": ExtResource("9_q6yfo"),
+"death": ExtResource("10_hdijf"),
+"gore_attack": ExtResource("8_2n8a6"),
+"pounce": ExtResource("5_6vgsf"),
+"pounce_return": ExtResource("6_cofsn"),
+"run": ExtResource("4_rpeke"),
+"slashing_attack": ExtResource("7_ub2kg")
+}
 
 [node name="Monster" type="CharacterBody2D"]
 script = ExtResource("1_f061f")
@@ -111,7 +129,6 @@ bone_angle = 115.0
 [node name="leg_back_fg" type="Bone2D" parent="Skeleton2D/hips"]
 position = Vector2(134, 37)
 rotation = 0.0904264
-scale = Vector2(1, 1)
 rest = Transform2D(0.995914, 0.0903032, -0.0903032, 0.995914, 134, 37)
 metadata/_local_pose_override_enabled_ = true
 
@@ -287,3 +304,8 @@ position = Vector2(231, 575)
 
 [node name="HeadIKTarget" type="Marker2D" parent="IKTargets"]
 position = Vector2(-1295, -344)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_ywi78")
+}
