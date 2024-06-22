@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="Blackboard" load_steps=2 format=3 uid="uid://bso25fl7uvhcc"]
+
+[ext_resource type="Script" path="res://addons/behaviour_toolkit/blackboard.gd" id="1_ve5ya"]
+
+[resource]
+script = ExtResource("1_ve5ya")
+content = {
+"ally_blackboards": {},
+"ally_positions": {},
+"danger_zones": [],
+"monster_health": 100,
+"monster_position": Vector2(0, 0),
+"monster_rotation": 0.0,
+"monster_state": null,
+"player_position": Vector2(0, 0)
+}

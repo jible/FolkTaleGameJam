@@ -1,14 +1,12 @@
-class_name PlayerController extends Node
+class_name MeleeAllyController extends Node2D
 
-
-# Signals
-signal dodge_refreshed
 
 # Constants
-var DODGE_COOLDOWN := 1.0
+const DODGE_COOLDOWN := 1.0
 
 @export var fsm : FiniteStateMachine
-@export var character : CharacterBody2D
+@export var bt : BTRoot
+@export var character : CharacterBody2D 
 @export var active := false :
 	get:
 		return active
@@ -21,16 +19,16 @@ var DODGE_COOLDOWN := 1.0
 			deactivate()
 var _dodge_timer : Timer
 var movement_input := Vector2.ZERO
-var ally_blackboard := preload("res://ally/ally_blackboard.tres") as Blackboard
 
 
 func _ready():
 	assert(fsm, "FSM not set")
-
+	assert(bt, "BT not set")
+	
 	if not _dodge_timer:
 		_create_dodge_timer()
-	
-	# Set the actor
+
+	# Initialize blackboard values
 	fsm.blackboard.set_value("movement_input", movement_input)
 	fsm.blackboard.set_value("character", character)
 	fsm.blackboard.set_value("dodge_timer", _dodge_timer)
@@ -38,31 +36,26 @@ func _ready():
 	fsm.blackboard.set_value("dodge_input", false)
 	assert(character, "Character not set")
 	fsm.actor = character
-
-	# This is only the case if set in the editor
+	
+	bt.blackboard.get_value("ally_positions")[get_instance_id()] = character.position
+	bt.blackboard.get_value("ally_blackboards")[get_instance_id()] = fsm.blackboard
+	
 	if active:
 		activate()
 
 
 func _process(_delta):
-	if active:
-		movement_input = Vector2.ZERO
-		if Input.is_action_pressed("move_right"):
-			movement_input.x += 1
-		if Input.is_action_pressed("move_left"):
-			movement_input.x -= 1
-		if Input.is_action_pressed("move_down"):
-			movement_input.y += 1
-		if Input.is_action_pressed("move_up"):
-			movement_input.y -= 1
-		movement_input = movement_input.normalized()
-		fsm.blackboard.set_value("movement_input", movement_input)
-		# Hack to avoid input being lost due to one frame lag on FSM processing
-		if Input.is_action_pressed("dodge") or Input.is_action_just_released("dodge"):
-			fsm.blackboard.set_value("dodge_input", true)
-		else:
-			fsm.blackboard.set_value("dodge_input", false)
-		ally_blackboard.set_value("player_position", character.position)
+	if not active:
+		return
+	
+	bt.blackboard.get_value("ally_positions")[get_instance_id()] = character.position
+
+
+func _exit_tree():
+	if bt:
+		var dict = bt.blackboard.get_value("ally_positions") as Dictionary
+		dict.erase(get_instance_id())
+		dict.erase(get_instance_id())
 
 
 func _create_dodge_timer() -> void:
@@ -79,14 +72,11 @@ func activate() -> void:
 		_create_dodge_timer()
 	fsm.active = true
 	fsm.start()
+	bt.active = true
 
 
 func deactivate() -> void:
 	if active:
 		active = false
 	fsm.active = false
-
-
-func _on_dodge_timer_timeout():
-	dodge_refreshed.emit()
-	print("Dodge refreshed")
+	bt.active = false
