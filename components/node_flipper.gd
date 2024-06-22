@@ -21,7 +21,6 @@ func _ready():
 	flip_timer.one_shot = true
 	flip_timer.autostart = false
 	flip_timer.wait_time = flip_time_threshold
-	flip_timer.timeout.connect(func(): print("Timeout"))
 	add_child(flip_timer)
 
 func _process(_delta):

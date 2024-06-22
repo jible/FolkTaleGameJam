@@ -12,7 +12,7 @@ signal just_hit(object, hurtbox: Hurtbox)
 
 func _ready():
 	assert(shape, "Hitbox shape not set")
-	add_child(collision_shape)
+	add_child(collision_shape, false, INTERNAL_MODE_FRONT)
 
 func _process(_delta):
 	if Engine.is_editor_hint():

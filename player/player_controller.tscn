@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dv0vecchefmfo"]
+[gd_scene load_steps=11 format=3 uid="uid://dv0vecchefmfo"]
 
 [ext_resource type="Script" path="res://player/player_controller.gd" id="1_f7svn"]
 [ext_resource type="Script" path="res://addons/behaviour_toolkit/finite_state_machine/fsm.gd" id="1_xwekq"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://player/to_dodge.gd" id="5_06pb5"]
 [ext_resource type="Script" path="res://player/move_to_idle.gd" id="6_xe4et"]
 [ext_resource type="Script" path="res://player/dodge_state.gd" id="7_w7ath"]
+[ext_resource type="Script" path="res://player/attack_state.gd" id="10_38pf4"]
 
 [node name="PlayerController" type="Node2D" node_paths=PackedStringArray("fsm")]
 script = ExtResource("1_f7svn")
@@ -31,6 +32,12 @@ next_state = NodePath("../../MoveState")
 script = ExtResource("5_06pb5")
 next_state = NodePath("../../DodgeState")
 
+[node name="ToAttack" type="Node" parent="FiniteStateMachine/IdleState" node_paths=PackedStringArray("next_state")]
+script = ExtResource("3_3tgbv")
+next_state = NodePath("../../AttackState")
+use_event = true
+event = "attack"
+
 [node name="MoveState" type="Node" parent="FiniteStateMachine"]
 script = ExtResource("4_caye1")
 
@@ -41,6 +48,12 @@ next_state = NodePath("../../IdleState")
 [node name="ToDodge" type="Node" parent="FiniteStateMachine/MoveState" node_paths=PackedStringArray("next_state")]
 script = ExtResource("5_06pb5")
 next_state = NodePath("../../DodgeState")
+
+[node name="ToAttack" type="Node" parent="FiniteStateMachine/MoveState" node_paths=PackedStringArray("next_state")]
+script = ExtResource("3_3tgbv")
+next_state = NodePath("../../AttackState")
+use_event = true
+event = "attack"
 
 [node name="DodgeState" type="Node" parent="FiniteStateMachine"]
 script = ExtResource("7_w7ath")
@@ -56,3 +69,12 @@ script = ExtResource("3_3tgbv")
 next_state = NodePath("../../MoveState")
 use_event = true
 event = "dodge_to_move"
+
+[node name="AttackState" type="Node" parent="FiniteStateMachine"]
+script = ExtResource("10_38pf4")
+
+[node name="ToIdle" type="Node" parent="FiniteStateMachine/AttackState" node_paths=PackedStringArray("next_state")]
+script = ExtResource("3_3tgbv")
+next_state = NodePath("../../IdleState")
+use_event = true
+event = "attack_to_idle"

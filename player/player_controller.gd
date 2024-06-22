@@ -5,10 +5,12 @@ class_name PlayerController extends Node
 signal dodge_refreshed
 
 # Constants
-var DODGE_COOLDOWN := 1.0
+const DODGE_COOLDOWN := 1.0
+const ATTACK_COOLDOWN := 1.0
 
 @export var fsm : FiniteStateMachine
 @export var character : CharacterBody2D
+@export var anim_player : AnimationPlayer
 @export var active := false :
 	get:
 		return active
@@ -20,6 +22,7 @@ var DODGE_COOLDOWN := 1.0
 			active = false
 			deactivate()
 var _dodge_timer : Timer
+var _attack_timer : Timer
 var movement_input := Vector2.ZERO
 var ally_blackboard := preload("res://ally/ally_blackboard.tres") as Blackboard
 
@@ -34,8 +37,10 @@ func _ready():
 	fsm.blackboard.set_value("movement_input", movement_input)
 	fsm.blackboard.set_value("character", character)
 	fsm.blackboard.set_value("dodge_timer", _dodge_timer)
+	fsm.blackboard.set_value("attack_timer", _attack_timer)
 	fsm.blackboard.set_value("fsm", fsm)
 	fsm.blackboard.set_value("dodge_input", false)
+	fsm.blackboard.set_value("anim_player", anim_player)
 	assert(character, "Character not set")
 	fsm.actor = character
 
@@ -70,6 +75,13 @@ func _create_dodge_timer() -> void:
 	_dodge_timer.set_wait_time(DODGE_COOLDOWN)
 	_dodge_timer.set_one_shot(true)
 	add_child(_dodge_timer)
+
+
+func _create_attack_timer() -> void:
+	_attack_timer = Timer.new()
+	_attack_timer.set_wait_timer(ATTACK_COOLDOWN)
+	_attack_timer.set_one_shot(true)
+	add_child(_attack_timer)
 
 
 func activate() -> void:

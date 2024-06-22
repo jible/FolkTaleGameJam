@@ -1,4 +1,4 @@
-extends CharacterBody2D
+class_name MeleeAlly extends CharacterBody2D
 
 
 @export var _player_controlled := false :
@@ -24,3 +24,7 @@ func set_player_controlled(value: bool) -> void:
 	else:
 		_player_controller.deactivate()
 		_melee_ally_controller.activate()
+
+
+func get_player_controlled() -> bool:
+	return _player_controlled

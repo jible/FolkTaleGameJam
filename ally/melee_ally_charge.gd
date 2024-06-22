@@ -18,8 +18,7 @@ func tick(_delta: float, _actor: Node, _blackboard: Blackboard) -> BTStatus:
 		return BTStatus.FAILURE
 	elif actor_pos.distance_to(monster_pos) < attack_threshold:
 		_blackboard.get_value("ally_blackboards")[_actor.get_instance_id()].set_value("movement_input", Vector2.ZERO)
-		# REPLACE THIS WITH THE ACTUAL ATTACK TRANSITION LOGIC
-		fsm.fire_event("charge_to_idle")
+		fsm.fire_event("attack")
 		_just_entered = true
 		return BTStatus.SUCCESS
 	

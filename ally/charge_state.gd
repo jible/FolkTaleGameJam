@@ -27,11 +27,11 @@ func _on_update(_delta: float, _actor: Node, _blackboard: Blackboard) -> void:
 
 
 # Executes before the state is exited.
-func _on_exit(_actor: Node, _blackboard: Blackboard) -> void:
-	var movement = _blackboard.get_value("movement_input")
-	var fsm = _blackboard.get_value("fsm") as FiniteStateMachine
-	if movement.length_squared() < 0.1:
-		character.velocity = Vector2.ZERO
-		fsm.fire_event("charge_to_idle")
-	else:
-		fsm.fire_event("charge_to_move")
+#func _on_exit(_actor: Node, _blackboard: Blackboard) -> void:
+	#var movement = _blackboard.get_value("movement_input")
+	#var fsm = _blackboard.get_value("fsm") as FiniteStateMachine
+	#if movement.length_squared() < 0.1:
+		#character.velocity = Vector2.ZERO
+		#fsm.fire_event("charge_to_idle")
+	#else:
+		#fsm.fire_event("charge_to_move")
