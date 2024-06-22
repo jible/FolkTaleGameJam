@@ -3,13 +3,13 @@ class_name MoveState extends FSMState
 
 var character : CharacterBody2D
 var MAX_MOVE_VELOCITY := 200
-var ACCELERATION := 25
-var FRICTION := 0.25
-
+var ACCELERATION := 20
+var FRICTION := 0.2
 
 # Executes after the state is entered.
 func _on_enter(_actor: Node, _blackboard: Blackboard) -> void:
 	character = _blackboard.get_value("character") as CharacterBody2D
+
 
 
 # Executes every _process call, if the state is active.
@@ -20,7 +20,6 @@ func _on_update(_delta: float, _actor: Node, _blackboard: Blackboard) -> void:
 	if movement.length_squared() < 0.1:
 		character.velocity *= 1 - FRICTION
 	character.move_and_slide()
-
 
 # Executes before the state is exited.
 func _on_exit(_actor: Node, _blackboard: Blackboard) -> void:

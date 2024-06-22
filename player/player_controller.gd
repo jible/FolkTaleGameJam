@@ -7,41 +7,30 @@ signal dodge_refreshed
 # Constants
 var DODGE_COOLDOWN := 1.0
 
-@export var fsm : FiniteStateMachine
-@export var character : CharacterBody2D
-@export var active := false :
-	get:
-		return active
-	set(value):
-		if value and not active:
-			active = true
-			activate()
-		elif not value and active:
-			active = false
-			deactivate()
-var _dodge_timer : Timer
+@onready var camera : Camera2D = %MainCamera
+@onready var fsm : FiniteStateMachine = $FiniteStateMachine
+@export var character : Node2D
+var active := false
+var _dodgeTimer : Timer
 var movement_input := Vector2.ZERO
-var ally_blackboard := preload("res://ally/ally_blackboard.tres") as Blackboard
-
 
 func _ready():
-	assert(fsm, "FSM not set")
-
-	if not _dodge_timer:
-		_create_dodge_timer()
+	_dodgeTimer = Timer.new()
+	_dodgeTimer.set_wait_time(DODGE_COOLDOWN)
+	_dodgeTimer.set_one_shot(true)
+	_dodgeTimer.timeout.connect(_on_dodge_timer_timeout)
+	add_child(_dodgeTimer)
 	
 	# Set the actor
 	fsm.blackboard.set_value("movement_input", movement_input)
 	fsm.blackboard.set_value("character", character)
-	fsm.blackboard.set_value("dodge_timer", _dodge_timer)
+	fsm.blackboard.set_value("dodge_timer", _dodgeTimer)
+	fsm.blackboard.set_value("camera", camera)
 	fsm.blackboard.set_value("fsm", fsm)
-	fsm.blackboard.set_value("dodge_input", false)
-	assert(character, "Character not set")
 	fsm.actor = character
 
-	# This is only the case if set in the editor
-	if active:
-		activate()
+	#DEBUG
+	activate()
 
 
 func _process(_delta):
@@ -57,34 +46,18 @@ func _process(_delta):
 			movement_input.y -= 1
 		movement_input = movement_input.normalized()
 		fsm.blackboard.set_value("movement_input", movement_input)
-		# Hack to avoid input being lost due to one frame lag on FSM processing
-		if Input.is_action_pressed("dodge") or Input.is_action_just_released("dodge"):
-			fsm.blackboard.set_value("dodge_input", true)
-		else:
-			fsm.blackboard.set_value("dodge_input", false)
-		ally_blackboard.set_value("player_position", character.position)
-
-
-func _create_dodge_timer() -> void:
-	_dodge_timer = Timer.new()
-	_dodge_timer.set_wait_time(DODGE_COOLDOWN)
-	_dodge_timer.set_one_shot(true)
-	add_child(_dodge_timer)
 
 
 func activate() -> void:
-	if not active:
-		active = true
-	if not _dodge_timer:
-		_create_dodge_timer()
+	active = true
 	fsm.active = true
 	fsm.start()
 
 
 func deactivate() -> void:
-	if active:
-		active = false
+	active = false
 	fsm.active = false
+	fsm.stop()
 
 
 func _on_dodge_timer_timeout():
