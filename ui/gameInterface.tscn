@@ -1,0 +1,113 @@
+[gd_scene load_steps=9 format=3 uid="uid://dex2cwa14qh6v"]
+
+[ext_resource type="Theme" uid="uid://bv5pcromgr1dm" path="res://gameTheme.tres" id="1_lny2w"]
+[ext_resource type="Script" path="res://ui/scripts/gameInterface.gd" id="2_m3ae1"]
+[ext_resource type="Script" path="res://ui/scripts/uiTweens.gd" id="2_ve4p1"]
+[ext_resource type="Texture2D" uid="uid://cpryysxc0x35u" path="res://ui/uiAssets/skin.png" id="3_hwb62"]
+[ext_resource type="Texture2D" uid="uid://hgaq8f3uvndj" path="res://ui/uiAssets/panelBot.png" id="4_h7s7a"]
+[ext_resource type="Texture2D" uid="uid://bnqxlrl8wj6qx" path="res://ui/uiAssets/frame.png" id="5_erbov"]
+[ext_resource type="Texture2D" uid="uid://bpcydexikmxcd" path="res://ui/uiAssets/panelTop.png" id="5_j0sdo"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_u6rga"]
+
+[node name="gameInterface" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_lny2w")
+script = ExtResource("2_m3ae1")
+
+[node name="disappointment" type="Control" parent="."]
+unique_name_in_owner = true
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("2_ve4p1")
+
+[node name="skin" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = ExtResource("3_hwb62")
+
+[node name="nianHealthBar" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 40.0
+grow_horizontal = 0
+
+[node name="back" type="TextureRect" parent="nianHealthBar"]
+custom_minimum_size = Vector2(2500, 231)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_top = 70.0
+offset_right = 1810.0
+grow_horizontal = 0
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("4_h7s7a")
+
+[node name="nianHealth" type="Control" parent="nianHealthBar"]
+unique_name_in_owner = true
+clip_contents = true
+anchors_preset = 0
+offset_left = -650.0
+offset_top = 70.0
+offset_right = -25.0
+offset_bottom = 127.75
+pivot_offset = Vector2(625, 57.75)
+
+[node name="color" type="TextureRect" parent="nianHealthBar/nianHealth"]
+custom_minimum_size = Vector2(2500, 231)
+layout_mode = 2
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -625.0
+offset_right = 1875.0
+offset_bottom = 231.0
+grow_horizontal = 0
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("5_j0sdo")
+
+[node name="text" type="Label" parent="nianHealthBar/nianHealth"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -165.0
+offset_top = -25.5
+offset_right = -42.0
+offset_bottom = 25.5
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxEmpty_u6rga")
+text = "nianshou"
+horizontal_alignment = 2
+
+[node name="playerHealthBar" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_right = 40.0
+grow_vertical = 0
+
+[node name="frame" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_filter = 2
+texture = ExtResource("5_erbov")
