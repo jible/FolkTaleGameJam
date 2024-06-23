@@ -119,13 +119,11 @@ func onEnter(state): # Start coroutines and animations for new state
 		States.GORE:
 			print("im doing gore?")
 			#play gore animation
-			
-			$AnimationPlayer.play("charge")
-			$attackHitbox.monitoring = true
-			await $AnimationPlayer.animation_finished
+			if targetPoint.distance_to(position) > attackRange:
+				$AnimationPlayer.play("charge")
+				await $AnimationPlayer.animation_finished
 			$AnimationPlayer.play("gore_attack")
 			await $AnimationPlayer.animation_finished
-			$attackHitbox.monitoring = false
 			changeState(States.IDLE)
 			pass
 		States.POUNCE:

@@ -11,6 +11,7 @@ const ATTACK_COOLDOWN := 1.0
 @export var character : CharacterBody2D 
 @export var anim_player : AnimationPlayer
 @export var hitbox : Hitbox
+@export var hurtbox : Hurtbox
 @export var active := false :
 	get:
 		return active
@@ -55,6 +56,9 @@ func _ready():
 		if object is MeleeAlly:
 			return
 		hurtbox.hit(self, hitbox, SPEAR_DAMAGE)
+	)
+	hurtbox.just_hit.connect(func(object, hitbox):
+		anim_player.play("take_damage")	
 	)
 	if active:
 		activate()

@@ -13,7 +13,7 @@ func _on_enter(_actor: Node, _blackboard: Blackboard) -> void:
 	if actor.get_player_controlled():
 		_anim_player.play("sword_attack")
 	else:
-		_anim_player.play("spear_attack")
+		_anim_player.play("melee_ally_spear_attack")
 	_anim_player.animation_finished.connect(\
 			func(_anim_name):
 				var fsm := _blackboard.get_value("fsm") as FiniteStateMachine
