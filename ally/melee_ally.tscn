@@ -1,10 +1,12 @@
-[gd_scene load_steps=23 format=3 uid="uid://bkng0wgb1t33i"]
+[gd_scene load_steps=33 format=3 uid="uid://bkng0wgb1t33i"]
 
 [ext_resource type="Script" path="res://ally/melee_ally.gd" id="1_2kl42"]
 [ext_resource type="PackedScene" uid="uid://cyjr87hwvsi6d" path="res://ally/melee_ally_controller.tscn" id="1_rodko"]
 [ext_resource type="Script" path="res://components/health.gd" id="3_kcofi"]
 [ext_resource type="PackedScene" uid="uid://dv0vecchefmfo" path="res://player/player_controller.tscn" id="3_kogib"]
 [ext_resource type="Script" path="res://components/hurtbox.gd" id="4_5xgoq"]
+[ext_resource type="Texture2D" uid="uid://bdeoib704pg2m" path="res://ally/ji.png" id="6_xatci"]
+[ext_resource type="Texture2D" uid="uid://bv0icnq0dkdmr" path="res://player/jian.png" id="7_g7080"]
 [ext_resource type="Texture2D" uid="uid://7iv3d6dil0hg" path="res://player/FolkPlayerSeparate.png" id="7_m0w6b"]
 [ext_resource type="Script" path="res://components/node_flipper.gd" id="7_tax3y"]
 [ext_resource type="Animation" uid="uid://cbw8ymavt4jdq" path="res://ally/animations/melee_ally_sword_attack.anim" id="8_6n4vw"]
@@ -22,8 +24,64 @@ height = 65.0
 radius = 11.0
 height = 60.0
 
+[sub_resource type="SkeletonModification2DFABRIK" id="SkeletonModification2DFABRIK_corq6"]
+target_nodepath = NodePath("../IKTargets/Ji/JiLeftHandIKTarget")
+fabrik_data_chain_length = 2
+joint_data/0/bone_index = 5
+joint_data/0/bone2d_node = NodePath("hips/torso/arm_left")
+joint_data/1/bone_index = 6
+joint_data/1/bone2d_node = NodePath("hips/torso/arm_left/hand_left")
+joint_data/1/magnet_position = Vector2(0, 0)
+joint_data/1/use_target_rotation = false
+
+[sub_resource type="SkeletonModification2DFABRIK" id="SkeletonModification2DFABRIK_k5yqu"]
+target_nodepath = NodePath("../IKTargets/Ji/JiRightHandIKTarget")
+fabrik_data_chain_length = 2
+joint_data/0/bone_index = 3
+joint_data/0/bone2d_node = NodePath("hips/torso/arm_right")
+joint_data/1/bone_index = 4
+joint_data/1/bone2d_node = NodePath("hips/torso/arm_right/hand_right")
+joint_data/1/magnet_position = Vector2(28.415, -5.06)
+joint_data/1/use_target_rotation = false
+
+[sub_resource type="SkeletonModificationStack2D" id="SkeletonModificationStack2D_n8e4c"]
+enabled = true
+modification_count = 2
+modifications/0 = SubResource("SkeletonModification2DFABRIK_corq6")
+modifications/1 = SubResource("SkeletonModification2DFABRIK_k5yqu")
+
+[sub_resource type="SkeletonModification2DStackHolder" id="SkeletonModification2DStackHolder_dh0yg"]
+held_modification_stack = SubResource("SkeletonModificationStack2D_n8e4c")
+
+[sub_resource type="SkeletonModification2DTwoBoneIK" id="SkeletonModification2DTwoBoneIK_6vy5h"]
+target_nodepath = NodePath("hips/torso/arm_left/hand_left/Jian/JianLeftHandIKTarget")
+flip_bend_direction = true
+joint_one_bone_idx = 5
+joint_one_bone2d_node = NodePath("hips/torso/arm_left")
+joint_two_bone_idx = 6
+joint_two_bone2d_node = NodePath("hips/torso/arm_left/hand_left")
+
+[sub_resource type="SkeletonModification2DTwoBoneIK" id="SkeletonModification2DTwoBoneIK_sb57f"]
+target_nodepath = NodePath("hips/torso/arm_left/hand_left/Jian/JianRightHandIKTarget")
+flip_bend_direction = true
+joint_one_bone_idx = 3
+joint_one_bone2d_node = NodePath("hips/torso/arm_right")
+joint_two_bone_idx = 4
+joint_two_bone2d_node = NodePath("hips/torso/arm_right/hand_right")
+
+[sub_resource type="SkeletonModificationStack2D" id="SkeletonModificationStack2D_gg2vp"]
+enabled = true
+modification_count = 2
+modifications/0 = SubResource("SkeletonModification2DTwoBoneIK_6vy5h")
+modifications/1 = SubResource("SkeletonModification2DTwoBoneIK_sb57f")
+
+[sub_resource type="SkeletonModification2DStackHolder" id="SkeletonModification2DStackHolder_nk12f"]
+enabled = false
+held_modification_stack = SubResource("SkeletonModificationStack2D_gg2vp")
+
 [sub_resource type="SkeletonModification2DTwoBoneIK" id="SkeletonModification2DTwoBoneIK_k6l6y"]
-target_nodepath = NodePath("../RightArmIKTarget")
+enabled = false
+target_nodepath = NodePath("../IKTargets/RightArmIKTarget")
 flip_bend_direction = true
 joint_one_bone_idx = 3
 joint_one_bone2d_node = NodePath("hips/torso/arm_right")
@@ -31,7 +89,8 @@ joint_two_bone_idx = 4
 joint_two_bone2d_node = NodePath("hips/torso/arm_right/hand_right")
 
 [sub_resource type="SkeletonModification2DTwoBoneIK" id="SkeletonModification2DTwoBoneIK_j18be"]
-target_nodepath = NodePath("../LeftArmIKTarget")
+enabled = false
+target_nodepath = NodePath("../IKTargets/LeftArmIKTarget")
 flip_bend_direction = true
 joint_one_bone_idx = 5
 joint_one_bone2d_node = NodePath("hips/torso/arm_left")
@@ -41,7 +100,7 @@ joint_two_bone2d_node = NodePath("hips/torso/arm_left/hand_left")
 [sub_resource type="SkeletonModification2DLookAt" id="SkeletonModification2DLookAt_klxcp"]
 bone_index = 8
 bone2d_node = NodePath("hips/leg_left")
-target_nodepath = NodePath("../LeftLegIKTarget")
+target_nodepath = NodePath("../IKTargets/LeftLegIKTarget")
 enable_constraint = true
 constraint_angle_min = 90.0
 constraint_angle_max = -100.0
@@ -51,15 +110,22 @@ constraint_in_localspace = true
 [sub_resource type="SkeletonModification2DLookAt" id="SkeletonModification2DLookAt_m8qip"]
 bone_index = 7
 bone2d_node = NodePath("hips/leg_right")
-target_nodepath = NodePath("../RightLeftIKTarget")
+target_nodepath = NodePath("../IKTargets/RightLegIKTarget")
+enable_constraint = true
+constraint_angle_min = -90.0
+constraint_angle_max = 110.0
+constraint_angle_invert = true
+constraint_in_localspace = true
 
 [sub_resource type="SkeletonModificationStack2D" id="SkeletonModificationStack2D_vpysh"]
 enabled = true
-modification_count = 4
-modifications/0 = SubResource("SkeletonModification2DTwoBoneIK_k6l6y")
-modifications/1 = SubResource("SkeletonModification2DTwoBoneIK_j18be")
-modifications/2 = SubResource("SkeletonModification2DLookAt_klxcp")
-modifications/3 = SubResource("SkeletonModification2DLookAt_m8qip")
+modification_count = 6
+modifications/0 = SubResource("SkeletonModification2DStackHolder_dh0yg")
+modifications/1 = SubResource("SkeletonModification2DStackHolder_nk12f")
+modifications/2 = SubResource("SkeletonModification2DTwoBoneIK_k6l6y")
+modifications/3 = SubResource("SkeletonModification2DTwoBoneIK_j18be")
+modifications/4 = SubResource("SkeletonModification2DLookAt_klxcp")
+modifications/5 = SubResource("SkeletonModification2DLookAt_m8qip")
 
 [sub_resource type="Animation" id="Animation_l1h3e"]
 resource_name = "spear_attack"
@@ -104,11 +170,11 @@ health = NodePath("../Health")
 [node name="IKTargets" type="Node2D" parent="."]
 
 [node name="RightArmIKTarget" type="Marker2D" parent="IKTargets"]
-position = Vector2(9.53674e-07, 16)
+position = Vector2(11, 12)
 scale = Vector2(0.1, 0.1)
 
 [node name="LeftArmIKTarget" type="Marker2D" parent="IKTargets"]
-position = Vector2(9.53674e-07, 16)
+position = Vector2(16, 8)
 scale = Vector2(0.1, 0.1)
 
 [node name="RightLegIKTarget" type="Marker2D" parent="IKTargets"]
@@ -117,6 +183,19 @@ position = Vector2(3, 28)
 [node name="LeftLegIKTarget" type="Marker2D" parent="IKTargets"]
 position = Vector2(-12, 27)
 scale = Vector2(0.1, 0.1)
+
+[node name="Ji" type="Sprite2D" parent="IKTargets"]
+position = Vector2(16, 6)
+rotation = 0.748804
+scale = Vector2(0.0999843, 0.0999843)
+texture = ExtResource("6_xatci")
+offset = Vector2(69, -178.985)
+
+[node name="JiLeftHandIKTarget" type="Marker2D" parent="IKTargets/Ji"]
+position = Vector2(1.44139, -4.93566)
+
+[node name="JiRightHandIKTarget" type="Marker2D" parent="IKTargets/Ji"]
+position = Vector2(-19.2399, 62.6847)
 
 [node name="Skeleton2D" type="Skeleton2D" parent="."]
 scale = Vector2(0.1, 0.1)
@@ -146,6 +225,7 @@ rotation = -0.98404
 scale = Vector2(1, 1)
 rest = Transform2D(0.553663, -0.832741, 0.832741, 0.553663, -16, -129)
 editor_settings/show_bone_gizmo = false
+metadata/_local_pose_override_enabled_ = true
 
 [node name="hand_right" type="Bone2D" parent="Skeleton2D/hips/torso/arm_right"]
 position = Vector2(-78, 45)
@@ -154,21 +234,37 @@ auto_calculate_length_and_angle = false
 length = 125.0
 bone_angle = 127.89
 editor_settings/show_bone_gizmo = false
+metadata/_local_pose_override_enabled_ = true
 
 [node name="arm_left" type="Bone2D" parent="Skeleton2D/hips/torso"]
 position = Vector2(25, -113)
-rotation = 1.31393
+rotation = 0.89351
 rest = Transform2D(0.254048, 0.967192, -0.967192, 0.254048, 25, -113)
 editor_settings/show_bone_gizmo = false
+metadata/_local_pose_override_enabled_ = true
 
 [node name="hand_left" type="Bone2D" parent="Skeleton2D/hips/torso/arm_left"]
 position = Vector2(94.5181, 34.049)
-rotation = -0.00401145
+rotation = -0.698602
+scale = Vector2(0.999986, 0.999986)
 rest = Transform2D(0.999992, -0.00401144, 0.00401144, 0.999992, 94.5181, 34.049)
 auto_calculate_length_and_angle = false
 length = 125.0
 bone_angle = -55.87
 editor_settings/show_bone_gizmo = false
+metadata/_local_pose_override_enabled_ = true
+
+[node name="Jian" type="Sprite2D" parent="Skeleton2D/hips/torso/arm_left/hand_left"]
+visible = false
+position = Vector2(68.6729, -98.541)
+rotation = 0.00401143
+texture = ExtResource("7_g7080")
+offset = Vector2(-13.805, -105.73)
+
+[node name="JianLeftHandIKTarget" type="Marker2D" parent="Skeleton2D/hips/torso/arm_left/hand_left/Jian"]
+
+[node name="JianRightHandIKTarget" type="Marker2D" parent="Skeleton2D/hips/torso/arm_left/hand_left/Jian"]
+position = Vector2(-1.13069, 71.1825)
 
 [node name="leg_right" type="Bone2D" parent="Skeleton2D/hips"]
 position = Vector2(39, -25)
@@ -177,6 +273,7 @@ auto_calculate_length_and_angle = false
 length = 163.0
 bone_angle = 80.0
 editor_settings/show_bone_gizmo = false
+metadata/_local_pose_override_enabled_ = true
 
 [node name="leg_left" type="Bone2D" parent="Skeleton2D/hips"]
 position = Vector2(-30, -35)
@@ -185,12 +282,14 @@ auto_calculate_length_and_angle = false
 length = 163.0
 bone_angle = 107.0
 editor_settings/show_bone_gizmo = false
+metadata/_local_pose_override_enabled_ = true
 
 [node name="Polygons" type="Node2D" parent="."]
 rotation = -0.00569538
 scale = Vector2(0.1, 0.1)
 
 [node name="head" type="Polygon2D" parent="Polygons"]
+use_parent_material = true
 position = Vector2(0, -1)
 offset = Vector2(-444, -497.465)
 texture = ExtResource("7_m0w6b")
@@ -201,6 +300,7 @@ bones = ["hips", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 
 [node name="torso" type="Polygon2D" parent="Polygons"]
 z_index = 1
+use_parent_material = true
 position = Vector2(-15, -118)
 offset = Vector2(-463.5, -497.465)
 texture = ExtResource("7_m0w6b")
@@ -211,6 +311,7 @@ bones = ["hips", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hips/t
 
 [node name="hips" type="Polygon2D" parent="Polygons"]
 z_index = 1
+use_parent_material = true
 position = Vector2(-15, -118)
 offset = Vector2(-854.5, -635.46)
 texture = ExtResource("7_m0w6b")
@@ -220,6 +321,7 @@ uv = PackedVector2Array(841.016, 779.335, 808.591, 785.602, 764.45, 814.757, 754
 bones = ["hips", PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1), "hips/torso", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hips/torso/head", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hips/torso/arm_right", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hips/torso/arm_right/hand_right", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hips/torso/arm_left", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hips/torso/arm_left/hand_left", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hips/leg_right", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hips/leg_left", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)]
 
 [node name="leg_right" type="Polygon2D" parent="Polygons"]
+use_parent_material = true
 position = Vector2(-15, -118)
 offset = Vector2(-518.5, -603.62)
 texture = ExtResource("7_m0w6b")
@@ -229,6 +331,7 @@ uv = PackedVector2Array(528.466, 807.966, 506.169, 825.759, 500.764, 849.633, 50
 bones = ["hips", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hips/torso", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hips/torso/head", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hips/torso/arm_right", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hips/torso/arm_right/hand_right", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hips/torso/arm_left", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hips/torso/arm_left/hand_left", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hips/leg_right", PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1), "hips/leg_left", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)]
 
 [node name="leg_left" type="Polygon2D" parent="Polygons"]
+use_parent_material = true
 position = Vector2(-15, -118)
 offset = Vector2(-428.5, -608.5)
 texture = ExtResource("7_m0w6b")
@@ -239,6 +342,7 @@ bones = ["hips", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
 
 [node name="arm_right" type="Polygon2D" parent="Polygons"]
 z_index = 2
+use_parent_material = true
 position = Vector2(-44.7316, -47.2555)
 rotation = -0.905262
 offset = Vector2(-923.86, -225.464)
@@ -250,6 +354,7 @@ bones = ["hips", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hips/torso",
 
 [node name="hand_right" type="Polygon2D" parent="Polygons"]
 z_index = 2
+use_parent_material = true
 position = Vector2(-50.2441, 42.7145)
 rotation = -0.938163
 offset = Vector2(-771.37, -312.14)
@@ -261,6 +366,7 @@ bones = ["hips", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hips/t
 
 [node name="arm_left" type="Polygon2D" parent="Polygons"]
 z_index = -2
+use_parent_material = true
 position = Vector2(-3.82338, -31.0223)
 rotation = 1.35547
 offset = Vector2(-631.61, -539.4)
@@ -272,6 +378,7 @@ bones = ["hips", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0), "hips/tors
 
 [node name="hand_left" type="Polygon2D" parent="Polygons"]
 z_index = -1
+use_parent_material = true
 position = Vector2(32.6407, 63.1869)
 rotation = 0.916246
 offset = Vector2(-830.95, -524.235)
