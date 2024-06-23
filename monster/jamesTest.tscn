@@ -6,6 +6,11 @@
 
 [node name="Monster" parent="." instance=ExtResource("1_wt3yy")]
 position = Vector2(-3, -6)
+pounceAcceleration = 30
+pounceMaxSpeed = 150
+attackRange = 100
+acceleration = 20
+maxSpeed = 200
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(2, -3)

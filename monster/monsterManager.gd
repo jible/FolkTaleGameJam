@@ -4,6 +4,11 @@ class_name monster
 
 enum States  { IDLE, PURSUIT, GORE, POUNCE, DEATH, SLASH}
 
+
+signal hurt(newHealth)
+signal died()
+
+
 var currentState = States.IDLE
 @onready var facePlayer = self.get_script()
 @onready var targetAngle = Vector2()
@@ -11,16 +16,21 @@ var currentState = States.IDLE
 @export var pounceMaxSpeed = 150
 @export var attackRange = 100
 @onready var currentTween = null
-# Move towards this point
 @onready var targetPoint = Vector2(0 , 0)
 @export var acceleration = 20
+@export var maxSpeed = 200
 
 @export var gameManager = owner
-@export var maxSpeed = 100
+
 @onready var previousState = States.GORE
 @onready var currentTarget = null
 
 func _ready():
+	$Health.health_changed.connect( func(newHealth, oldHealth):hurt.emit(newHealth))
+	$Health.died.connect( func(): died.emit())
+	
+	#$attackHitbox.just_hit.connect( func (object, hurtbox: Hurtbox): hurtbox.hit(self, hurtbox, damage))
+	
 	newTarget()
 	await get_tree().create_timer(3).timeout
 	targetPoint = get_global_mouse_position()
@@ -93,9 +103,11 @@ func onEnter(state): # Start coroutines and animations for new state
 			#play gore animation
 			
 			$AnimationPlayer.play("charge")
+			$attackHitbox.monitoring = true
 			await $AnimationPlayer.animation_finished
 			$AnimationPlayer.play("gore_attack")
 			await $AnimationPlayer.animation_finished
+			$attackHitbox.monitoring = false
 			changeState(States.IDLE)
 			pass
 		States.POUNCE:
@@ -252,4 +264,6 @@ func newTarget():
 		# roll a 50/50
 		# chases player or
 		#chooses random target from all hunters
+	elif (player != null):
+		currentTarget = player
 	return
