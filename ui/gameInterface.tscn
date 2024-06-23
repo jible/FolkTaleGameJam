@@ -1,9 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://c0str0jgqs2mt"]
+[gd_scene load_steps=9 format=3 uid="uid://c0str0jgqs2mt"]
 
 [ext_resource type="Theme" uid="uid://dx4xvtjjb6wv2" path="res://gameTheme.tres" id="1_lny2w"]
 [ext_resource type="Script" path="res://ui/scripts/gameInterface.gd" id="2_m3ae1"]
 [ext_resource type="Script" path="res://ui/scripts/uiTweens.gd" id="2_ve4p1"]
-[ext_resource type="Texture2D" uid="uid://cpryysxc0x35u" path="res://ui/uiAssets/skin.png" id="3_hwb62"]
 [ext_resource type="Texture2D" uid="uid://hgaq8f3uvndj" path="res://ui/uiAssets/panelBot.png" id="4_h7s7a"]
 [ext_resource type="Texture2D" uid="uid://bnqxlrl8wj6qx" path="res://ui/uiAssets/frame.png" id="5_erbov"]
 [ext_resource type="Texture2D" uid="uid://bpcydexikmxcd" path="res://ui/uiAssets/panelTop.png" id="5_j0sdo"]
@@ -27,12 +26,6 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("2_ve4p1")
-
-[node name="skin" type="TextureRect" parent="."]
-layout_mode = 0
-offset_right = 1920.0
-offset_bottom = 1080.0
-texture = ExtResource("3_hwb62")
 
 [node name="nianHealthBar" type="Control" parent="."]
 unique_name_in_owner = true

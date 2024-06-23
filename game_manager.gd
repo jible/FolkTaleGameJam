@@ -6,7 +6,7 @@ signal characters_swapped(old_character: MeleeAlly, new_character: MeleeAlly)
 var player : MeleeAlly
 @onready var outline_material := preload("res://outline.material") as Material
 @onready var ally_blackboard := preload("res://ally/ally_blackboard.tres") as Blackboard
-@onready var camera := $MainCamera as Camera2D
+@onready var camera := %MainCamera as Camera2D
 @onready var menu_scene := preload("res://ui/menuInterface.tscn")
 @onready var ally := preload("res://ally/melee_ally.tscn")
 @export var game_ui : GameInterface
@@ -15,7 +15,9 @@ var allies : Array[MeleeAlly]
 
 
 func _ready():
-	pass
+	_setup_game()
+	await get_tree().create_timer(2).timeout
+	start_game()
 
 
 func enter_character_swap() -> void:
@@ -89,15 +91,15 @@ func end_game() -> void:
 	get_tree().change_scene_to_packed(menu_scene)
 
 
+func _setup_game() -> void:
+	await _spawn_allies()
+	player = allies.pick_random()
+	player.set_player_controlled(true)
+
+
 func start_game() -> void:
-	var screen := get_viewport_rect().size / 2
-	for i in range(ally_start_count):
-		var character := ally.instantiate() as MeleeAlly
-		character.position = Vector2.from_angle(randi_range(0, 360)) * randi_range(300, 500)
-		character.position += screen
-		character.set_player_controlled(false)
-		allies.append(character)
-	allies.pick_random().set_player_controlled(true)
+	get_tree().paused = false
+	
 
 
 func _get_character_under_cursor() -> MeleeAlly:
@@ -111,6 +113,16 @@ func _get_character_under_cursor() -> MeleeAlly:
 	if result.is_empty():
 		return null
 	return result["collider"]
+
+
+func _spawn_allies() -> void:
+	var screen := get_viewport_rect().size / 2
+	for i in range(ally_start_count):
+		var character := ally.instantiate() as MeleeAlly
+		character.position = Vector2.from_angle(randi_range(0, 360)) * randi_range(300, 500)
+		# character.position -= screen
+		allies.append(character)
+		add_child(character)
 
 
 func _on_player_died():
