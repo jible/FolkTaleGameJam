@@ -5,48 +5,71 @@ signal characters_swapped(old_character: MeleeAlly, new_character: MeleeAlly)
 
 var player : MeleeAlly
 @onready var outline_material := preload("res://outline.material") as Material
+@onready var ally_blackboard := preload("res://ally/ally_blackboard.tres") as Blackboard
+@onready var camera := $MainCamera as Camera2D
+@onready var menu_scene := preload("res://ui/menuInterface.tscn")
+@onready var ally := preload("res://ally/melee_ally.tscn")
+@export var game_ui : GameInterface
+@export var ally_start_count : int = 20
+var allies : Array[MeleeAlly]
 
-func _on_player_death():
-	enter_character_swap()
+
+func _ready():
+	pass
 
 
 func enter_character_swap() -> void:
 	var selected_character : MeleeAlly = null
 	var swappable_characters : Array[MeleeAlly]
+	game_ui.toggle_vignette(true)
+	Engine.time_scale = 0.25
 	while true:
 		var old_swappable_characters := swappable_characters.duplicate()
 		swappable_characters = get_swappable_characters(player.position)
 		highlight_swappable_characters(old_swappable_characters, swappable_characters)
 		selected_character = _get_character_under_cursor()
 		print(selected_character)
-		
+		if swappable_characters.is_empty():
+			end_game()
 		if Input.is_action_just_pressed("attack") and selected_character:
 			if not selected_character._melee_ally_controller in swappable_characters:
 				continue
 			var old_character = player
-			var func_progress = swap_character(player, selected_character)
-			while func_progress.is_valid():
-				var success = await(func_progress.resume())
-				if success == true:
-					characters_swapped.emit(old_character, player)
-				elif success == false:
-					break
-				else:
-					await get_tree().process_frame
-			
+			var success = await swap_character(old_character, selected_character)
+			if success:
+				exit_character_swap()
+				break
 		await get_tree().process_frame
 
 
 func exit_character_swap() -> void:
-	pass
+	Engine.time_scale = 1
+	game_ui.toggle_vignette(false)
 
 
 func swap_character(old_character : MeleeAlly, new_character : MeleeAlly):
-	return false
+	var camera_tween := camera.create_tween()
+	camera_tween.tween_property(camera, "position", new_character.position, 0.5).\
+			set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
+	await camera_tween.finished
+	if not new_character.is_alive:
+		return false
+	player = new_character
+	player.died.connect(_on_player_died)
+	player.set_player_controlled(true)
+	return true
 
 
 func get_swappable_characters(position: Vector2) -> Array[MeleeAlly]:
-	return []
+	for i in range(allies.size()):
+		if not allies[i]:
+			allies.pop_at(i)
+	
+	allies.sort_custom(func(a, b): 
+		return a.distance_to(position) < b.distance_to(position)
+	)
+
+	return allies.slice(0, 3)
 
 
 func highlight_swappable_characters(old_swappable_characters: Array[MeleeAlly],\
@@ -62,11 +85,19 @@ func highlight_swappable_characters(old_swappable_characters: Array[MeleeAlly],\
 
 
 func end_game() -> void:
-	pass
+	await get_tree().create_timer(3).timeout
+	get_tree().change_scene_to_packed(menu_scene)
 
 
 func start_game() -> void:
-	pass
+	var screen := get_viewport_rect().size / 2
+	for i in range(ally_start_count):
+		var character := ally.instantiate() as MeleeAlly
+		character.position = Vector2.from_angle(randi_range(0, 360)) * randi_range(300, 500)
+		character.position += screen
+		character.set_player_controlled(false)
+		allies.append(character)
+	allies.pick_random().set_player_controlled(true)
 
 
 func _get_character_under_cursor() -> MeleeAlly:
@@ -80,3 +111,7 @@ func _get_character_under_cursor() -> MeleeAlly:
 	if result.is_empty():
 		return null
 	return result["collider"]
+
+
+func _on_player_died():
+	enter_character_swap()
