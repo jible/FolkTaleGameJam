@@ -75,32 +75,38 @@ func onExit(state): # End coroutines and animations for one state
 func onEnter(state): # Start coroutines and animations for new state
 	match state:
 		States.IDLE:
+			print("im idle")
 			pass
 		States.PURSUIT:
+			print("im in pursuit")
 			pass
 		States.GORE:
+			print("im doing gore?")
 			#play gore animation
 			$AnimationPlayer.play("gore_attack")
 			await $AnimationPlayer.animation_finished
 			changeState(States.IDLE)
 			pass
 		States.POUNCE:
+			print("im pouncing")
 			var startingPosition = global_position 
 			#jump towards the target
-			var doJump = targetPoint.distance_to(global_position)  > attackRange
-			if (doJump):
-				await jumpToTarget()
-				print ("completed pounce")
+			
+			await jumpToTarget()
+			print ("completed pounce")
 			pounceAttack()
-			if doJump:
-				await jumpToStart(startingPosition)
-			pass
+			await jumpToStart(startingPosition)
+			print("complete Return pounce")
 			changeState(States.IDLE)
+			pass
+			
 		States.SLASH:
+			print("im slashing")
 			$AnimationPlayer.play("slashing_attack")
 			await $AnimationPlayer.animation_finished
 			changeState(States.IDLE)
 		States.DEATH:
+			print("im died")
 			$AnimationPlayer.play("death")
 			await $AnimationPlayer.animation_finished
 			## Go to next scene  
@@ -123,9 +129,18 @@ func slash(delta):
 
 #region IDLE STATE
 func idle(delta):
-	
-	changeState(States.PURSUIT)
+	# Pick the next Target
+	# Maybe choose the closest hunter
+	# Pick what action to perform
+	chooseAction()
 	return
+func chooseAction():
+	var potentialStates= [States.GORE, States.PURSUIT, States.POUNCE, States.SLASH]
+	var rand = randi()%4
+	if( potentialStates[rand] == States.POUNCE  && targetPoint.distance_to(global_position) < attackRange):
+		chooseAction()
+	changeState(potentialStates[rand])
+	
 #endregion
 
 #region GORE STATE
@@ -148,16 +163,18 @@ func jumpToTarget():
 	currentTween = tween
 	$AnimationPlayer.play("pounce")
 	tween.tween_property(self, "position",jumpEnd, $AnimationPlayer.current_animation_length).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUART)
-	await $AnimationPlayer.animation_finished
+	
+	await tween.finished
+	#await $AnimationPlayer.animation_finished
 	currentTween = null
 
 	
 func pounceAttack():
 	#makeHitbox
-	$pounceHitbox.monitoring = true
-	
+	$pounceHitbox.set_monitoring(true)
 	# await play animation
-	$pounceHitbox.monitoring = false
+	$pounceHitbox.set_monitoring(false)
+	return
 	
 func jumpToStart(startingPosition):
 	var tween = create_tween()
@@ -187,3 +204,7 @@ func moveToward(delta):
 func findDistance(pointA, pointB):
 	return pointA.distance_to(pointB)
 #endregion
+
+
+
+#
