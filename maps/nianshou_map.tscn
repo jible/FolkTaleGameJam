@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://b3dkhosmvr7hh"]
+[gd_scene load_steps=7 format=3 uid="uid://b3dkhosmvr7hh"]
 
 [ext_resource type="Script" path="res://game_manager.gd" id="1_xdfbt"]
 [ext_resource type="PackedScene" uid="uid://c0str0jgqs2mt" path="res://ui/gameInterface.tscn" id="2_kl4mb"]
 [ext_resource type="PackedScene" uid="uid://luqdwqylqh5b" path="res://monster/monster.tscn" id="3_csq38"]
 [ext_resource type="Texture2D" uid="uid://cpryysxc0x35u" path="res://ui/uiAssets/skin.png" id="3_q3di7"]
+[ext_resource type="AudioStream" uid="uid://ctpi7yuoqhmxs" path="res://sfx/bg_music.mp3" id="5_y7sls"]
+[ext_resource type="Script" path="res://maps/audioLoop.gd" id="6_crap6"]
 
 [node name="NianshouMap" type="Node2D"]
 process_mode = 1
@@ -32,3 +34,9 @@ unique_name_in_owner = true
 [node name="Monster" parent="." node_paths=PackedStringArray("gameManager") instance=ExtResource("3_csq38")]
 z_index = 1
 gameManager = NodePath("../GameManager")
+
+[node name="bgmusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_y7sls")
+volume_db = -40.0
+autoplay = true
+script = ExtResource("6_crap6")

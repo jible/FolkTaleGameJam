@@ -55,6 +55,7 @@ constraint_angle_invert = true
 constraint_in_localspace = true
 
 [sub_resource type="SkeletonModificationStack2D" id="SkeletonModificationStack2D_8yko7"]
+enabled = true
 modification_count = 5
 modifications/0 = SubResource("SkeletonModification2DTwoBoneIK_qbsu7")
 modifications/1 = SubResource("SkeletonModification2DTwoBoneIK_fbufd")
@@ -584,43 +585,48 @@ rest = Transform2D(1, 0, 0, 1, 437, -192)
 
 [node name="torso" type="Bone2D" parent="Skeleton2D/hips"]
 position = Vector2(-486, 18)
-scale = Vector2(0.999826, 0.999826)
+scale = Vector2(0.999834, 0.999834)
 rest = Transform2D(1, 0, 0, 1, -486, 18)
 
 [node name="leg_front_fg" type="Bone2D" parent="Skeleton2D/hips/torso"]
 position = Vector2(-82, 99)
-scale = Vector2(0.999834, 0.999834)
+scale = Vector2(0.999836, 0.999836)
 rest = Transform2D(1, 0, 0, 1, -82, 99)
+metadata/_local_pose_override_enabled_ = true
 
 [node name="foot_front_fg" type="Bone2D" parent="Skeleton2D/hips/torso/leg_front_fg"]
 position = Vector2(212, 317)
-scale = Vector2(0.999853, 0.999853)
+scale = Vector2(0.999823, 0.999823)
 rest = Transform2D(1, 0, 0, 1, 212, 317)
 auto_calculate_length_and_angle = false
 length = 390.0
 bone_angle = 123.0
+metadata/_local_pose_override_enabled_ = true
 
 [node name="leg_front_bg" type="Bone2D" parent="Skeleton2D/hips/torso"]
 position = Vector2(-241, 111)
-scale = Vector2(0.99984, 0.99984)
+scale = Vector2(0.999845, 0.999845)
 rest = Transform2D(1, 0, 0, 1, -241, 111)
+metadata/_local_pose_override_enabled_ = true
 
 [node name="foot_front_bg" type="Bone2D" parent="Skeleton2D/hips/torso/leg_front_bg"]
 position = Vector2(-93, 319)
-scale = Vector2(0.99985, 0.99985)
+scale = Vector2(0.999844, 0.999844)
 rest = Transform2D(1, 0, 0, 1, -93, 319)
 auto_calculate_length_and_angle = false
 length = 390.0
 bone_angle = 123.0
+metadata/_local_pose_override_enabled_ = true
 
 [node name="head" type="Bone2D" parent="Skeleton2D/hips/torso"]
 position = Vector2(-225.971, -126.819)
 scale = Vector2(1.00049, 1.00049)
 rest = Transform2D(1, 0, 0, 1, -226, -127)
+metadata/_local_pose_override_enabled_ = true
 
 [node name="jaw" type="Bone2D" parent="Skeleton2D/hips/torso/head"]
 position = Vector2(-73, 55)
-scale = Vector2(0.99985, 0.99985)
+scale = Vector2(0.999849, 0.999849)
 rest = Transform2D(1, 0, 0, 1, -73, 55)
 auto_calculate_length_and_angle = false
 length = 313.282
@@ -628,33 +634,37 @@ bone_angle = 115.0
 
 [node name="leg_back_fg" type="Bone2D" parent="Skeleton2D/hips"]
 position = Vector2(134, 37)
-scale = Vector2(0.999845, 0.999845)
+scale = Vector2(0.999841, 0.999841)
 rest = Transform2D(0.995914, 0.0903032, -0.0903032, 0.995914, 134, 37)
+metadata/_local_pose_override_enabled_ = true
 
 [node name="foot_back_fg" type="Bone2D" parent="Skeleton2D/hips/leg_back_fg"]
 position = Vector2(212, 317)
-scale = Vector2(0.999844, 0.999844)
+scale = Vector2(0.999843, 0.999843)
 rest = Transform2D(1, 0, 0, 1, 212, 317)
 auto_calculate_length_and_angle = false
 length = 390.0
 bone_angle = 105.0
+metadata/_local_pose_override_enabled_ = true
 
 [node name="leg_back_bg" type="Bone2D" parent="Skeleton2D/hips"]
 position = Vector2(-276, 47)
 scale = Vector2(0.999834, 0.999834)
 rest = Transform2D(1, 0, 0, 1, -276, 47)
+metadata/_local_pose_override_enabled_ = true
 
 [node name="foot_back_bg" type="Bone2D" parent="Skeleton2D/hips/leg_back_bg"]
 position = Vector2(212, 317)
-scale = Vector2(0.999848, 0.999848)
+scale = Vector2(0.999849, 0.999849)
 rest = Transform2D(1, 0, 0, 1, 212, 317)
 auto_calculate_length_and_angle = false
 length = 390.0
 bone_angle = 105.0
+metadata/_local_pose_override_enabled_ = true
 
 [node name="tail" type="Bone2D" parent="Skeleton2D/hips"]
 position = Vector2(57, -156)
-scale = Vector2(0.999843, 0.999843)
+scale = Vector2(0.999842, 0.999842)
 rest = Transform2D(1, 0, 0, 1, 57, -156)
 auto_calculate_length_and_angle = false
 length = 275.0
