@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://blupx5mwnkmpb"]
+
+[ext_resource type="Shader" path="res://vignette.gdshader" id="1_k8jlb"]
+
+[resource]
+shader = ExtResource("1_k8jlb")
+shader_parameter/vignette_intensity = 2.185
+shader_parameter/vignette_opacity = 0.3
+shader_parameter/vignette_rgb = Color(0, 0, 0, 1)

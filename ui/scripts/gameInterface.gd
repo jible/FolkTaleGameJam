@@ -1,4 +1,4 @@
-extends Control
+class_name GameInterface extends Control
 
 
 var playerHearts : Array[Object] = [];
@@ -65,3 +65,8 @@ func nian_health_update(health : float) -> void:
 	t.tween_property(%nianHealth, "size", Vector2(h, %nianHealth.size.y), spd);
 	t.tween_property(%nianHealth, "position", Vector2(-650+(625-h), %nianHealth.position.y), spd);
 
+
+func toggle_vignette(visible: bool) -> void:
+	%vignette.visible = visible
+	var alpha = Color(1, 1, 1, 0) if visible else Color(1, 1, 1, 1)
+	%vignette.create_tween().tween_property(%vignette, "modulate", alpha, 0.75)
