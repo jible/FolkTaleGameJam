@@ -19,8 +19,10 @@ var currentState = States.IDLE
 @onready var targetPoint = Vector2(0 , 0)
 @export var acceleration = 20
 @export var maxSpeed = 200
-
-@export var gameManager = owner
+@export var pounce_damage := 4
+@export var gore_damage := 5
+@export var slash_damage := 3
+@export var gameManager : GameManager
 
 @onready var previousState = States.GORE
 @onready var currentTarget = null
@@ -29,16 +31,32 @@ func _ready():
 	$Health.health_changed.connect( func(newHealth, oldHealth):hurt.emit(newHealth))
 	$Health.died.connect( func(): died.emit())
 	
-	#$attackHitbox.just_hit.connect( func (object, hurtbox: Hurtbox): hurtbox.hit(self, hurtbox, damage))
-	
+	$attackHitbox.just_hit.connect( func (object, hurtbox: Hurtbox): 
+		if object is monster:
+			return
+		var damage = 0
+		match currentState:
+			States.GORE:
+				damage = gore_damage
+			States.SLASH:
+				damage = slash_damage
+		hurtbox.hit(self, $attackHitbox, damage)
+	)
+	$pounceHitbox.just_hit.connect(func(object, hurtbox):
+		if object is monster:
+			return
+		if not currentState == States.POUNCE:
+			return
+		hurtbox.hit(self, $attackHitbox, pounce_damage)
+	)
 	newTarget()
 	await get_tree().create_timer(3).timeout
-	targetPoint = get_global_mouse_position()
 	onEnter(currentState)
 
 
 func _physics_process(delta):
-	targetPoint = get_global_mouse_position()
+	if currentTarget:
+		targetPoint = currentTarget.position
 	targetAngle = ( targetPoint - global_position)
 	updateStateMachine(delta)
 	move_and_slide()
@@ -232,7 +250,7 @@ func jumpToStart(startingPosition):
 func pursuit(delta):
 	$AnimationPlayer.play("run")
 	moveToward(delta)
-	if ( findDistance(position, targetPoint)  < 50):
+	if findDistance(position, targetPoint) < attackRange:
 		changeState(States.GORE)
 	# If it get close enough to attack, stop pursuing and attack
 	
@@ -253,13 +271,13 @@ func newTarget():
 	#get the array of enemies
 	var player = null
 	var enemies = null
-	if ( gameManager != null && gameManager.allies!= null && gameManager.allies.length()!=0):
+	if ( not gameManager.allies.is_empty()):
 		enemies = gameManager.allies
 	
 		if randf() >1/2:
-			currentTarget = player
+			currentTarget = gameManager.player
 		else:
-			currentTarget = enemies[(enemies.length()*randf()) ]
+			currentTarget = enemies.pick_random().character
 			
 		# roll a 50/50
 		# chases player or

@@ -11,6 +11,7 @@ var player : MeleeAlly
 @onready var ally := preload("res://ally/melee_ally.tscn")
 @export var game_ui : GameInterface
 @export var ally_start_count : int = 20
+@export var monster : Node2D
 var allies : Array[MeleeAlly]
 
 
@@ -19,6 +20,11 @@ func _ready():
 	await get_tree().create_timer(2).timeout
 	start_game()
 
+
+func _process(_delta):
+	ally_blackboard.set_value("monster_position", monster.position)
+	ally_blackboard.set_value("monster_rotation", sign(monster.scale.x) * 90)
+	ally_blackboard.set_value("monster_health", 100)
 
 func enter_character_swap() -> void:
 	var selected_character : MeleeAlly = null
@@ -64,7 +70,7 @@ func swap_character(old_character : MeleeAlly, new_character : MeleeAlly):
 
 func get_swappable_characters(position: Vector2) -> Array[MeleeAlly]:
 	for i in range(allies.size()):
-		if not allies[i]:
+		if not allies[i] or not allies[i].is_alive:
 			allies.pop_at(i)
 	
 	allies.sort_custom(func(a, b): 

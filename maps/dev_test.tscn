@@ -1,6 +1,6 @@
-[gd_scene load_steps=10 format=3 uid="uid://dkxsgrashw8hy"]
+[gd_scene load_steps=11 format=3 uid="uid://dkxsgrashw8hy"]
 
-[ext_resource type="PackedScene" uid="uid://bkng0wgb1t33i" path="res://ally/melee_ally.tscn" id="1_6r42u"]
+[ext_resource type="Script" path="res://components/node_flipper.gd" id="1_hrdi5"]
 [ext_resource type="Script" path="res://game_manager.gd" id="2_538jx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_65lmi"]
@@ -18,32 +18,23 @@ size = Vector2(20, 1920)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jaewe"]
 size = Vector2(20, 1920)
 
-[sub_resource type="CanvasTexture" id="CanvasTexture_xtgy8"]
-
 [sub_resource type="GDScript" id="GDScript_kyyc7"]
-script/source = "extends Sprite2D
+script/source = "extends CharacterBody2D
 
 var ally_blackboard = preload(\"res://ally/ally_blackboard.tres\") as Blackboard
 
 func _process(delta):
+	position = get_global_mouse_position()
 	ally_blackboard.set_value(\"monster_position\", position)
 	ally_blackboard.set_value(\"monster_rotation\", rotation)
 "
 
+[sub_resource type="CanvasTexture" id="CanvasTexture_6c6jd"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o3eq5"]
+size = Vector2(1, 1)
+
 [node name="Node2D" type="Node2D"]
-
-[node name="Player" parent="." instance=ExtResource("1_6r42u")]
-position = Vector2(-304, -178)
-_player_controlled = true
-
-[node name="MeleeAlly2" parent="." instance=ExtResource("1_6r42u")]
-position = Vector2(199, -96)
-
-[node name="MeleeAlly3" parent="." instance=ExtResource("1_6r42u")]
-position = Vector2(268, 211)
-
-[node name="MeleeAlly4" parent="." instance=ExtResource("1_6r42u")]
-position = Vector2(-298, 200)
 
 [node name="MainCamera" type="Camera2D" parent="."]
 editor_draw_limits = true
@@ -99,10 +90,21 @@ shape = SubResource("RectangleShape2D_jaewe")
 position = Vector2(0, 1.98816e-08)
 texture = SubResource("PlaceholderTexture2D_4qluu")
 
-[node name="Monster" type="Sprite2D" parent="."]
+[node name="Monster" type="CharacterBody2D" parent="."]
 scale = Vector2(40, 40)
-texture = SubResource("CanvasTexture_xtgy8")
 script = SubResource("GDScript_kyyc7")
 
-[node name="GameManager" type="Node2D" parent="."]
+[node name="NodeFlipper" type="Node2D" parent="Monster" node_paths=PackedStringArray("source", "targets")]
+script = ExtResource("1_hrdi5")
+source = NodePath("..")
+targets = [NodePath("..")]
+
+[node name="Sprite2D" type="Sprite2D" parent="Monster"]
+texture = SubResource("CanvasTexture_6c6jd")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Monster"]
+shape = SubResource("RectangleShape2D_o3eq5")
+
+[node name="GameManager" type="Node2D" parent="." node_paths=PackedStringArray("monster")]
 script = ExtResource("2_538jx")
+monster = NodePath("../Monster")

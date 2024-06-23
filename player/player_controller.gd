@@ -5,12 +5,10 @@ class_name PlayerController extends Node
 signal dodge_refreshed
 
 # Constants
-const DODGE_COOLDOWN := 1.0
-const ATTACK_COOLDOWN := 1.0
-
-@export var fsm : FiniteStateMachine
-@export var character : CharacterBody2D
-@export var anim_player : AnimationPlayer
+@export_group("Combat")
+@export var DODGE_COOLDOWN := 1.0
+@export var ATTACK_COOLDOWN := 1.0
+@export var SWORD_DAMAGE := 6
 @export var active := false :
 	get:
 		return active
@@ -21,6 +19,11 @@ const ATTACK_COOLDOWN := 1.0
 		elif not value and active:
 			active = false
 			deactivate()
+@export_group("Node Refs")
+@export var fsm : FiniteStateMachine
+@export var character : CharacterBody2D
+@export var anim_player : AnimationPlayer
+@export var hitbox : Hitbox
 var _dodge_timer : Timer
 var _attack_timer : Timer
 var movement_input := Vector2.ZERO
@@ -41,8 +44,15 @@ func _ready():
 	fsm.blackboard.set_value("fsm", fsm)
 	fsm.blackboard.set_value("dodge_input", false)
 	fsm.blackboard.set_value("anim_player", anim_player)
+	fsm.blackboard.set_value("hitbox", hitbox)
 	assert(character, "Character not set")
 	fsm.actor = character
+
+	hitbox.just_hit.connect(func(object, hurtbox):
+		if object is MeleeAlly:
+			return
+		hurtbox.hit(self, hitbox, SWORD_DAMAGE)
+	)
 
 	# This is only the case if set in the editor
 	if active:
@@ -72,15 +82,15 @@ func _process(_delta):
 
 func _create_dodge_timer() -> void:
 	_dodge_timer = Timer.new()
-	_dodge_timer.set_wait_time(DODGE_COOLDOWN)
-	_dodge_timer.set_one_shot(true)
+	_dodge_timer.wait_time = DODGE_COOLDOWN
+	_dodge_timer.one_shot = true
 	add_child(_dodge_timer)
 
 
 func _create_attack_timer() -> void:
 	_attack_timer = Timer.new()
-	_attack_timer.set_wait_timer(ATTACK_COOLDOWN)
-	_attack_timer.set_one_shot(true)
+	_attack_timer.wait_time = ATTACK_COOLDOWN
+	_attack_timer.one_shot = true
 	add_child(_attack_timer)
 
 

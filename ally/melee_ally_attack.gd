@@ -18,11 +18,7 @@ func tick(_delta: float, _actor: Node, _blackboard: Blackboard) -> BTStatus:
 		ally_blackboard.set_value("movement_input", Vector2.ZERO)
 		var fsm := ally_blackboard.get_value("fsm") as FiniteStateMachine
 		fsm.fire_event("attack")
-		fsm.state_changed.connect(func(state):
-			if not state is AttackState:
-				print("Leaving Attack Leaf")
-				return BTStatus.SUCCESS
-		)
+		return BTStatus.SUCCESS
 	else:
 		# Move towards the monster
 		var direction = (monster_pos - actor_pos).normalized()

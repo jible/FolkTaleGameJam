@@ -23,6 +23,7 @@ func _ready():
 			_player_controller.deactivate()
 		else:
 			_melee_ally_controller.deactivate()
+		is_alive = false
 		create_tween().tween_interval(5).tween_callback(uiTweens.puppet_out.bind(self))
 		died.emit()
 	)

@@ -4,12 +4,13 @@ class_name MeleeAllyController extends Node2D
 # Constants
 const DODGE_COOLDOWN := 1.0
 const ATTACK_COOLDOWN := 1.0
-
+@export var SPEAR_DAMAGE := 2
 
 @export var fsm : FiniteStateMachine
 @export var bt : BTRoot
 @export var character : CharacterBody2D 
 @export var anim_player : AnimationPlayer
+@export var hitbox : Hitbox
 @export var active := false :
 	get:
 		return active
@@ -32,6 +33,9 @@ func _ready():
 	if not _dodge_timer:
 		_create_dodge_timer()
 
+	if not _attack_timer:
+		_create_attack_timer()
+
 	# Initialize blackboard values
 	fsm.blackboard.set_value("movement_input", movement_input)
 	fsm.blackboard.set_value("character", character)
@@ -40,13 +44,18 @@ func _ready():
 	fsm.blackboard.set_value("fsm", fsm)
 	fsm.blackboard.set_value("dodge_input", false)
 	fsm.blackboard.set_value("anim_player", anim_player)
+	fsm.blackboard.set_value("hitbox", hitbox)
 	assert(character, "Character not set")
 	assert(anim_player, "AnimationPlayer not set")
 	fsm.actor = character
 	
 	bt.blackboard.get_value("ally_positions")[get_instance_id()] = character.position
 	bt.blackboard.get_value("ally_blackboards")[get_instance_id()] = fsm.blackboard
-	
+	hitbox.just_hit.connect(func(object, hurtbox):
+		if object is MeleeAlly:
+			return
+		hurtbox.hit(self, hitbox, SPEAR_DAMAGE)
+	)
 	if active:
 		activate()
 
@@ -67,15 +76,15 @@ func _exit_tree():
 
 func _create_dodge_timer() -> void:
 	_dodge_timer = Timer.new()
-	_dodge_timer.set_wait_time(DODGE_COOLDOWN)
-	_dodge_timer.set_one_shot(true)
+	_dodge_timer.wait_time = DODGE_COOLDOWN
+	_dodge_timer.one_shot = true
 	add_child(_dodge_timer)
 
 
 func _create_attack_timer() -> void:
 	_attack_timer = Timer.new()
-	_attack_timer.set_wait_timer(ATTACK_COOLDOWN)
-	_attack_timer.set_one_shot(true)
+	_attack_timer.wait_time = ATTACK_COOLDOWN
+	_attack_timer.one_shot = true
 	add_child(_attack_timer)
 
 
@@ -84,6 +93,8 @@ func activate() -> void:
 		active = true
 	if not _dodge_timer:
 		_create_dodge_timer()
+	if not _attack_timer:
+		_create_attack_timer()
 	fsm.active = true
 	fsm.start()
 	bt.active = true
