@@ -5,6 +5,7 @@ class_name NodeFlipper extends Node2D
 @export var source : CharacterBody2D
 ## The targets to flip when the velocity flips signs
 @export var targets : Array[Node2D]
+@export var active := true
 @export_category("Configuration")
 @export_group("Thresholds")
 @export var flip_time_threshold : float = 0.1
@@ -24,8 +25,35 @@ func _ready():
 	add_child(flip_timer)
 
 func _process(_delta):
+	if not active:
+		return
 	if abs(source.velocity.x) < flip_speed_threshold or not flip_timer.is_stopped():
 		return
+	if source.velocity.x < 0 and x_axis:
+		targets.map(func(e): 
+			e.scale.x = -abs(e.scale.x)
+		)
+		flip_timer.start()
+	elif source.velocity.x > 0 and x_axis:
+		targets.map(func(e): 
+			e.scale.x = abs(e.scale.x)
+		)
+		flip_timer.start()
+		
+	if source.velocity.y < 0 and y_axis:
+		targets.map(func(e): 
+			e.scale.y = abs(e.scale.y)
+		)
+		flip_timer.start()
+	elif source.velocity.y > 0 and y_axis:
+		targets.map(func(e): 
+			e.scale.x = -abs(e.scale.x)
+		)
+		flip_timer.start()
+
+
+func flip(direction: Vector2, x_axis: bool = false, y_axis: bool = false):
+	var source = {"velocity": direction}
 	if source.velocity.x < 0 and x_axis:
 		targets.map(func(e): 
 			e.scale.x = -abs(e.scale.x)
