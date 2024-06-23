@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://bkng0wgb1t33i"]
+[gd_scene load_steps=25 format=3 uid="uid://bkng0wgb1t33i"]
 
 [ext_resource type="Script" path="res://ally/melee_ally.gd" id="1_2kl42"]
 [ext_resource type="PackedScene" uid="uid://cyjr87hwvsi6d" path="res://ally/melee_ally_controller.tscn" id="1_rodko"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://components/hurtbox.gd" id="4_5xgoq"]
 [ext_resource type="Texture2D" uid="uid://bdeoib704pg2m" path="res://ally/ji.png" id="6_xatci"]
 [ext_resource type="Texture2D" uid="uid://bv0icnq0dkdmr" path="res://player/jian.png" id="7_g7080"]
+[ext_resource type="Script" path="res://components/hitbox.gd" id="7_gq5pq"]
 [ext_resource type="Texture2D" uid="uid://7iv3d6dil0hg" path="res://player/FolkPlayerSeparate.png" id="7_m0w6b"]
 [ext_resource type="Script" path="res://components/node_flipper.gd" id="7_tax3y"]
 [ext_resource type="Animation" uid="uid://cbw8ymavt4jdq" path="res://ally/animations/melee_ally_sword_attack.anim" id="8_6n4vw"]
@@ -24,6 +25,14 @@ height = 65.0
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_la5av"]
 radius = 11.0
 height = 60.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qmre6"]
+radius = 33.54
+height = 408.94
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fdse5"]
+radius = 115.93
+height = 361.33
 
 [sub_resource type="Animation" id="Animation_kvpuw"]
 length = 0.001
@@ -508,14 +517,16 @@ script = ExtResource("1_2kl42")
 position = Vector2(0, -2)
 shape = SubResource("CapsuleShape2D_ikb5w")
 
-[node name="MeleeAllyController" parent="." node_paths=PackedStringArray("character", "anim_player") instance=ExtResource("1_rodko")]
+[node name="MeleeAllyController" parent="." node_paths=PackedStringArray("character", "anim_player", "hitbox") instance=ExtResource("1_rodko")]
 character = NodePath("..")
 anim_player = NodePath("../AnimationPlayer")
+hitbox = NodePath("../IKTargets/Ji/SpearHitbox")
 active = true
 
-[node name="PlayerController" parent="." node_paths=PackedStringArray("character", "anim_player") instance=ExtResource("3_kogib")]
+[node name="PlayerController" parent="." node_paths=PackedStringArray("character", "anim_player", "hitbox") instance=ExtResource("3_kogib")]
 character = NodePath("..")
 anim_player = NodePath("../AnimationPlayer")
+hitbox = NodePath("../IKTargets/Jian/SwordHitbox")
 
 [node name="Health" type="Node2D" parent="."]
 script = ExtResource("3_kcofi")
@@ -547,7 +558,17 @@ offset = Vector2(-13.805, -105.73)
 [node name="JianLeftHandIKTarget" type="Marker2D" parent="IKTargets/Jian"]
 position = Vector2(-2.89258, 50.9685)
 
+[node name="SwordHitbox" type="Area2D" parent="IKTargets/Jian"]
+position = Vector2(-1.1502, -222.296)
+rotation = -0.00597389
+input_pickable = false
+monitoring = false
+monitorable = false
+script = ExtResource("7_gq5pq")
+shape = SubResource("CapsuleShape2D_qmre6")
+
 [node name="Ji" type="Sprite2D" parent="IKTargets"]
+visible = false
 z_index = 2
 position = Vector2(16, -4.76837e-07)
 rotation = 0.189483
@@ -560,6 +581,15 @@ position = Vector2(1.44139, -4.93566)
 
 [node name="JiRightHandIKTarget" type="Marker2D" parent="IKTargets/Ji"]
 position = Vector2(-19.2399, 62.6847)
+
+[node name="SpearHitbox" type="Area2D" parent="IKTargets/Ji"]
+position = Vector2(207.618, -457.355)
+rotation = 0.35765
+input_pickable = false
+monitoring = false
+monitorable = false
+script = ExtResource("7_gq5pq")
+shape = SubResource("CapsuleShape2D_fdse5")
 
 [node name="Skeleton2D" type="Skeleton2D" parent="."]
 scale = Vector2(0.0998373, 0.1)
@@ -582,7 +612,7 @@ editor_settings/show_bone_gizmo = false
 [node name="head" type="Bone2D" parent="Skeleton2D/hips/torso"]
 position = Vector2(6, -166)
 rotation = -0.072318
-scale = Vector2(0.999828, 0.999828)
+scale = Vector2(0.999829, 0.999829)
 rest = Transform2D(1, 0, 0, 1, 6, -166)
 auto_calculate_length_and_angle = false
 length = 210.0
@@ -750,3 +780,6 @@ targets = [NodePath("../Polygons"), NodePath("../Skeleton2D"), NodePath("../IKTa
 libraries = {
 "": SubResource("AnimationLibrary_xqvq2")
 }
+
+[connection signal="area_entered" from="IKTargets/Jian/SwordHitbox" to="IKTargets/Jian/SwordHitbox" method="_on_area_entered"]
+[connection signal="area_entered" from="IKTargets/Ji/SpearHitbox" to="IKTargets/Ji/SpearHitbox" method="_on_area_entered"]
