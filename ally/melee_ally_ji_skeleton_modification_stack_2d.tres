@@ -1,0 +1,45 @@
+[gd_resource type="SkeletonModificationStack2D" load_steps=5 format=3 uid="uid://bafy33kycvu2v"]
+
+[sub_resource type="SkeletonModification2DTwoBoneIK" id="SkeletonModification2DTwoBoneIK_tmh86"]
+target_nodepath = NodePath("../IKTargets/Ji/JiLeftHandIKTarget")
+flip_bend_direction = true
+joint_one_bone_idx = 5
+joint_one_bone2d_node = NodePath("hips/torso/arm_left")
+joint_two_bone_idx = 6
+joint_two_bone2d_node = NodePath("hips/torso/arm_left/hand_left")
+
+[sub_resource type="SkeletonModification2DTwoBoneIK" id="SkeletonModification2DTwoBoneIK_soalk"]
+target_nodepath = NodePath("../IKTargets/Ji/JiRightHandIKTarget")
+flip_bend_direction = true
+joint_one_bone_idx = 3
+joint_one_bone2d_node = NodePath("hips/torso/arm_right")
+joint_two_bone_idx = 4
+joint_two_bone2d_node = NodePath("hips/torso/arm_right/hand_right")
+
+[sub_resource type="SkeletonModification2DLookAt" id="SkeletonModification2DLookAt_8dppy"]
+bone_index = 8
+bone2d_node = NodePath("hips/leg_left")
+target_nodepath = NodePath("../IKTargets/LeftLegIKTarget")
+enable_constraint = true
+constraint_angle_min = 90.0
+constraint_angle_max = -100.0
+constraint_angle_invert = true
+constraint_in_localspace = true
+
+[sub_resource type="SkeletonModification2DLookAt" id="SkeletonModification2DLookAt_bx0ru"]
+bone_index = 7
+bone2d_node = NodePath("hips/leg_right")
+target_nodepath = NodePath("../IKTargets/RightLegIKTarget")
+enable_constraint = true
+constraint_angle_min = -90.0
+constraint_angle_max = 110.0
+constraint_angle_invert = true
+constraint_in_localspace = true
+
+[resource]
+enabled = true
+modification_count = 4
+modifications/0 = SubResource("SkeletonModification2DTwoBoneIK_tmh86")
+modifications/1 = SubResource("SkeletonModification2DTwoBoneIK_soalk")
+modifications/2 = SubResource("SkeletonModification2DLookAt_8dppy")
+modifications/3 = SubResource("SkeletonModification2DLookAt_bx0ru")

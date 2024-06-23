@@ -1,6 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://dkxsgrashw8hy"]
+[gd_scene load_steps=10 format=3 uid="uid://dkxsgrashw8hy"]
 
 [ext_resource type="PackedScene" uid="uid://bkng0wgb1t33i" path="res://ally/melee_ally.tscn" id="1_6r42u"]
+[ext_resource type="Script" path="res://game_manager.gd" id="2_538jx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_65lmi"]
 size = Vector2(20, 1080)
@@ -102,3 +103,6 @@ texture = SubResource("PlaceholderTexture2D_4qluu")
 scale = Vector2(40, 40)
 texture = SubResource("CanvasTexture_xtgy8")
 script = SubResource("GDScript_kyyc7")
+
+[node name="GameManager" type="Node2D" parent="."]
+script = ExtResource("2_538jx")
