@@ -1,0 +1,98 @@
+[gd_scene load_steps=6 format=3 uid="uid://djh46n24f08hy"]
+
+[ext_resource type="Theme" uid="uid://dx4xvtjjb6wv2" path="res://gameTheme.tres" id="1_38g7l"]
+[ext_resource type="Script" path="res://ui/scripts/endInterface.gd" id="2_pkl41"]
+[ext_resource type="Script" path="res://ui/scripts/uiTweens.gd" id="3_8a3ls"]
+[ext_resource type="Texture2D" uid="uid://cpryysxc0x35u" path="res://ui/uiAssets/skin.png" id="4_0kju2"]
+[ext_resource type="Texture2D" uid="uid://bnqxlrl8wj6qx" path="res://ui/uiAssets/frame.png" id="5_xav84"]
+
+[node name="endInterface" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_38g7l")
+script = ExtResource("2_pkl41")
+
+[node name="disappointment" type="Control" parent="."]
+unique_name_in_owner = true
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("3_8a3ls")
+
+[node name="skin" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = ExtResource("4_0kju2")
+
+[node name="endScreen" type="Control" parent="."]
+unique_name_in_owner = true
+anchors_preset = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+metadata/_edit_use_anchors_ = true
+
+[node name="title" type="Label" parent="endScreen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -704.0
+offset_top = -229.0
+offset_right = 704.0
+offset_bottom = 229.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+pivot_offset = Vector2(704, -150)
+theme_override_font_sizes/font_size = 207
+text = "PLAY OVER"
+horizontal_alignment = 1
+
+[node name="restartButton" type="Button" parent="endScreen"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -248.0
+offset_top = -8.0
+offset_right = 745.0
+offset_bottom = 328.75
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+size_flags_vertical = 3
+text = "RESTART"
+
+[node name="menuButton" type="Button" parent="endScreen"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -247.75
+offset_top = 194.75
+offset_right = 745.25
+offset_bottom = 523.75
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+text = "MENU"
+
+[node name="frame" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_filter = 2
+texture = ExtResource("5_xav84")
