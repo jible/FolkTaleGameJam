@@ -4,19 +4,16 @@ class_name GameInterface extends Control
 var playerHearts : Array[Object] = [];
 var heartTexture = preload("res://ui/uiAssets/heart.png");
 var NIAN_MAX : float = 100; # get max health for monster!
-var tweens;
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	## create instance of uiTweens class to use for tweens
-	tweens = %disappointment.get_script().new();
 	# start
 	var og_pos : Vector2 = %nianHealthBar.position;
 	%nianHealthBar.position = Vector2(%nianHealthBar.position.x, %nianHealthBar.position.y+150)
 	%nianHealthBar.scale *= 1.05;
 	%nianHealthBar.modulate = Color(1, 1, 1, 0);
-	tweens.puppet_in(%nianHealthBar, og_pos, Vector2(1, 1));
+	uiTweens.puppet_in(%nianHealthBar, og_pos, Vector2(1, 1));
 	# get player current health!
 	player_health_update(5);
 	#await get_tree().create_timer(0.75).timeout;
@@ -43,7 +40,7 @@ func player_health_update(health : int) -> void:
 			playerHearts[i].modulate = Color(1, 1, 1, 0);
 			%playerHealthBar.add_child(playerHearts[i]);
 		await get_tree().create_timer(0.1).timeout;
-		tweens.puppet_in(
+		uiTweens.puppet_in(
 			playerHearts[i],
 			Vector2(70+(i*90), -140),
 			Vector2(0.25, 0.25)
@@ -51,7 +48,7 @@ func player_health_update(health : int) -> void:
 	# the rest of the hearts
 	for i in range(health, len(playerHearts)):
 		await get_tree().create_timer(0.05).timeout;
-		tweens.puppet_out(
+		uiTweens.puppet_out(
 			playerHearts[i],
 			Vector2(70+(i*90), -140),
 			Vector2(0.25, 0.25)

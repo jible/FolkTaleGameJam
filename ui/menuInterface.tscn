@@ -1,6 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://qo5th2v38las"]
+[gd_scene load_steps=6 format=3 uid="uid://b4ldsif7jd14u"]
 
-[ext_resource type="Theme" uid="uid://bv5pcromgr1dm" path="res://gameTheme.tres" id="1_02imr"]
+[ext_resource type="Theme" uid="uid://dx4xvtjjb6wv2" path="res://gameTheme.tres" id="1_02imr"]
 [ext_resource type="Script" path="res://ui/scripts/uiTweens.gd" id="2_q3cr2"]
 [ext_resource type="Script" path="res://ui/scripts/menuInterface.gd" id="2_yryyt"]
 [ext_resource type="Texture2D" uid="uid://cpryysxc0x35u" path="res://ui/uiAssets/skin.png" id="3_cvvab"]
@@ -108,9 +108,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -248.0
-offset_top = -7.0
+offset_top = -8.0
 offset_right = 745.0
-offset_bottom = 329.75
+offset_bottom = 328.75
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(0.5, 0.5)
@@ -125,10 +125,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 1.0
-offset_top = 516.0
-offset_right = 496.5
-offset_bottom = 164.5
+offset_left = -247.75
+offset_top = 194.75
+offset_right = 745.25
+offset_bottom = 523.75
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(0.5, 0.5)
