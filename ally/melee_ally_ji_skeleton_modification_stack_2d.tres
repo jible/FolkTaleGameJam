@@ -1,4 +1,4 @@
-[gd_resource type="SkeletonModificationStack2D" load_steps=5 format=3 uid="uid://bafy33kycvu2v"]
+[gd_resource type="SkeletonModificationStack2D" load_steps=5 format=3 uid="uid://bee04obgh41xd"]
 
 [sub_resource type="SkeletonModification2DTwoBoneIK" id="SkeletonModification2DTwoBoneIK_tmh86"]
 target_nodepath = NodePath("../IKTargets/Ji/JiLeftHandIKTarget")
