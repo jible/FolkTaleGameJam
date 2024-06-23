@@ -508,12 +508,14 @@ script = ExtResource("1_2kl42")
 position = Vector2(0, -2)
 shape = SubResource("CapsuleShape2D_ikb5w")
 
-[node name="MeleeAllyController" parent="." node_paths=PackedStringArray("character") instance=ExtResource("1_rodko")]
+[node name="MeleeAllyController" parent="." node_paths=PackedStringArray("character", "anim_player") instance=ExtResource("1_rodko")]
 character = NodePath("..")
+anim_player = NodePath("../AnimationPlayer")
 active = true
 
-[node name="PlayerController" parent="." node_paths=PackedStringArray("character") instance=ExtResource("3_kogib")]
+[node name="PlayerController" parent="." node_paths=PackedStringArray("character", "anim_player") instance=ExtResource("3_kogib")]
 character = NodePath("..")
+anim_player = NodePath("../AnimationPlayer")
 
 [node name="Health" type="Node2D" parent="."]
 script = ExtResource("3_kcofi")

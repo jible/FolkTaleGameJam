@@ -1,6 +1,9 @@
 class_name MeleeAlly extends CharacterBody2D
 
 
+signal died
+
+
 @export var _player_controlled := false :
 	get:
 		return _player_controlled
@@ -10,14 +13,20 @@ var is_alive := true
 @onready var health := $Health
 @onready var _melee_ally_controller := $MeleeAllyController as MeleeAllyController
 @onready var _player_controller := $PlayerController as PlayerController
-@onready var _skeleton := $Skeleton2D as Skeleton2D
-@onready var _ji_stack := preload("res://ally/melee_ally_jian_skeleton_modification_stack_2d.tres")
-@onready var _jian_stack := preload("res://ally/melee_ally_jian_skeleton_modification_stack_2d.tres")
 @onready var _ji := $IKTargets/Ji as Sprite2D
 @onready var _jian := $IKTargets/Jian as Sprite2D
 
 func _ready():
 	set_player_controlled(_player_controlled)
+	health.died.connect(func(): 
+		if _player_controlled:
+			_player_controller.deactivate()
+		else:
+			_melee_ally_controller.deactivate()
+		var tweener := uiTweens.new()
+		create_tween().tween_interval(5).tween_callback(tweener.puppet_out.bind(self))
+		died.emit()
+	)
 
 
 func set_player_controlled(value: bool) -> void:
@@ -25,13 +34,11 @@ func set_player_controlled(value: bool) -> void:
 	if _player_controlled:
 		_melee_ally_controller.deactivate()
 		_player_controller.activate()
-		_skeleton.set_modification_stack(_jian_stack)
 		_ji.visible = false
 		_jian.visible = true
 	else:
 		_player_controller.deactivate()
 		_melee_ally_controller.activate()
-		_skeleton.set_modification_stack(_ji_stack)
 		_ji.visible = true
 		_jian.visible = false
 

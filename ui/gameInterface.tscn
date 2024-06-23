@@ -108,7 +108,16 @@ grow_vertical = 0
 
 [node name="vignette" type="ColorRect" parent="."]
 unique_name_in_owner = true
-visible = false
+modulate = Color(1, 1, 1, 0.988235)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.709804, 0.662745, 0.866667, 0.639216)
+
+[node name="vignette_overlay" type="ColorRect" parent="vignette"]
 material = ExtResource("8_y6mwy")
 layout_mode = 1
 anchors_preset = 15
