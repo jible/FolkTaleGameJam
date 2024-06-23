@@ -776,6 +776,7 @@ bones = ["hips", PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 script = ExtResource("4_khyp3")
 source = NodePath("..")
 targets = [NodePath("../Skeleton2D"), NodePath("../Polygons")]
+invert_x_axis = true
 
 [node name="IKTargets" type="Node2D" parent="."]
 

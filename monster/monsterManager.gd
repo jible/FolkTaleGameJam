@@ -83,12 +83,17 @@ func onEnter(state): # Start coroutines and animations for new state
 		States.GORE:
 			print("im doing gore?")
 			#play gore animation
+			
+			$AnimationPlayer.play("charge")
+			await $AnimationPlayer.animation_finished
 			$AnimationPlayer.play("gore_attack")
 			await $AnimationPlayer.animation_finished
 			changeState(States.IDLE)
 			pass
 		States.POUNCE:
 			print("im pouncing")
+			$NodeFlipper.flip(-targetAngle, true, false)
+				
 			var startingPosition = global_position 
 			#jump towards the target
 			
