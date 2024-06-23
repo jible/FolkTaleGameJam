@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://b3dkhosmvr7hh"]
+
+[ext_resource type="Script" path="res://game_manager.gd" id="1_xdfbt"]
+[ext_resource type="PackedScene" uid="uid://c0str0jgqs2mt" path="res://ui/gameInterface.tscn" id="2_kl4mb"]
+
+[node name="NianshouMap" type="Node2D"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="gameInterface" parent="CanvasLayer" instance=ExtResource("2_kl4mb")]
+
+[node name="GameManager" type="Node2D" parent="."]
+script = ExtResource("1_xdfbt")
+
+[node name="MainCamera" type="Camera2D" parent="."]
