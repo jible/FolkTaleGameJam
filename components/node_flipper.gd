@@ -13,6 +13,9 @@ class_name NodeFlipper extends Node2D
 @export_group("Axes to Flip")
 @export var x_axis := true
 @export var y_axis := false
+@export_subgroup("Invert Axex")
+@export var invert_x_axis := false
+@export var invert_y_axis := false
 var flip_timer : Timer
 
 
@@ -29,27 +32,9 @@ func _process(_delta):
 		return
 	if abs(source.velocity.x) < flip_speed_threshold or not flip_timer.is_stopped():
 		return
-	if source.velocity.x < 0 and x_axis:
-		targets.map(func(e): 
-			e.scale.x = -abs(e.scale.x)
-		)
-		flip_timer.start()
-	elif source.velocity.x > 0 and x_axis:
-		targets.map(func(e): 
-			e.scale.x = abs(e.scale.x)
-		)
-		flip_timer.start()
-		
-	if source.velocity.y < 0 and y_axis:
-		targets.map(func(e): 
-			e.scale.y = abs(e.scale.y)
-		)
-		flip_timer.start()
-	elif source.velocity.y > 0 and y_axis:
-		targets.map(func(e): 
-			e.scale.x = -abs(e.scale.x)
-		)
-		flip_timer.start()
+	var velocity = source.velocity
+	source.velocity *= Vector2(-1 if invert_x_axis else 1, -1 if invert_y_axis else 1)
+	flip(source.velocity, x_axis, y_axis)
 
 
 func flip(direction: Vector2, x_axis: bool = false, y_axis: bool = false):
