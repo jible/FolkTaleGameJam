@@ -65,3 +65,6 @@ func nian_health_update(health : float) -> void:
 	t.tween_property(%nianHealth, "size", Vector2(h, %nianHealth.size.y), spd);
 	t.tween_property(%nianHealth, "position", Vector2(-650+(625-h), %nianHealth.position.y), spd);
 
+
+func toggle_vignette(visible: bool) -> void:
+	%vignette.visible = visible
