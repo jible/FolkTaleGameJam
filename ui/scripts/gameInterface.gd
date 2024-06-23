@@ -68,3 +68,5 @@ func nian_health_update(health : float) -> void:
 
 func toggle_vignette(visible: bool) -> void:
 	%vignette.visible = visible
+	var alpha = Color(1, 1, 1, 0) if visible else Color(1, 1, 1, 1)
+	%vignette.create_tween().tween_property(%vignette, "modulate", alpha, 0.75)
