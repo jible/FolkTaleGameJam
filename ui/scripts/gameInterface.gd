@@ -1,4 +1,4 @@
-extends Control
+class_name GameInterface extends Control
 
 
 var playerHearts : Array[Object] = [];
