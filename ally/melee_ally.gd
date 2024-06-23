@@ -2,6 +2,7 @@ class_name MeleeAlly extends CharacterBody2D
 
 
 signal died
+signal damaged(new_health)
 
 
 @export var _player_controlled := false :
@@ -42,5 +43,10 @@ func set_player_controlled(value: bool) -> void:
 		_ji.visible = true
 		_jian.visible = false
 
+
 func get_player_controlled() -> bool:
 	return _player_controlled
+
+
+func _on_health_health_changed(new_health, old_health):
+	damaged.emit(new_health)

@@ -19,6 +19,8 @@ func _ready():
 	_setup_game()
 	await get_tree().create_timer(2).timeout
 	start_game()
+	monster.damaged.connect(func(new_health): game_ui.nian_health_update(new_health))
+	monster.died.connect(end_game)
 
 
 func _process(_delta):
@@ -64,6 +66,11 @@ func swap_character(old_character : MeleeAlly, new_character : MeleeAlly):
 		return false
 	player = new_character
 	player.died.connect(_on_player_died)
+	player.damaged.connect(_on_player_damaged)
+	if old_character.damaged.is_connected(_on_player_damaged):
+		old_character.damaged.disconnect(_on_player_damaged)
+	if old_character.died.is_connected(_on_player_died):
+		old_character.died.disconnect(_on_player_died)
 	player.set_player_controlled(true)
 	return true
 
@@ -101,7 +108,7 @@ func _setup_game() -> void:
 	await _spawn_allies()
 	player = allies.pick_random()
 	player.set_player_controlled(true)
-
+	player.damaged.connect(_on_player_damaged)
 
 func start_game() -> void:
 	get_tree().paused = false
@@ -133,3 +140,7 @@ func _spawn_allies() -> void:
 
 func _on_player_died():
 	enter_character_swap()
+
+
+func _on_player_damaged(new_health):
+	game_ui.player_health_update(new_health)

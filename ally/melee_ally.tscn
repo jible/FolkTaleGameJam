@@ -307,6 +307,30 @@ tracks/22/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 1)]
 }
+tracks/23/type = "value"
+tracks/23/imported = false
+tracks/23/enabled = true
+tracks/23/path = NodePath("IKTargets/Jian/SwordHitbox:monitoring")
+tracks/23/interp = 1
+tracks/23/loop_wrap = true
+tracks/23/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/24/type = "value"
+tracks/24/imported = false
+tracks/24/enabled = true
+tracks/24/path = NodePath("IKTargets/Ji/SpearHitbox:monitoring")
+tracks/24/interp = 1
+tracks/24/loop_wrap = true
+tracks/24/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_xqvq2"]
 _data = {
@@ -343,6 +367,8 @@ hurtbox = NodePath("../Hurtbox")
 
 [node name="Health" type="Node2D" parent="."]
 script = ExtResource("3_kcofi")
+MAX_HEALTH = 5
+health = 5
 invulnerability_time = 0.5
 
 [node name="Hurtbox" type="Area2D" parent="." node_paths=PackedStringArray("health")]
@@ -361,7 +387,6 @@ rotation = 0.127885
 scale = Vector2(0.1, 0.1)
 
 [node name="Jian" type="Sprite2D" parent="IKTargets"]
-visible = false
 position = Vector2(20, -2.38419e-07)
 rotation = 0.140702
 scale = Vector2(0.0998846, 0.0998818)
@@ -410,21 +435,21 @@ modification_stack = ExtResource("8_kyawi")
 [node name="hips" type="Bone2D" parent="Skeleton2D"]
 position = Vector2(-32, 136)
 rotation = -0.226893
-scale = Vector2(0.999833, 0.999833)
+scale = Vector2(0.999836, 0.999836)
 rest = Transform2D(1, 0, 0, 1, -32, 136)
 editor_settings/show_bone_gizmo = false
 
 [node name="torso" type="Bone2D" parent="Skeleton2D/hips"]
 position = Vector2(3, -54)
 rotation = 0.167564
-scale = Vector2(0.999833, 0.999833)
+scale = Vector2(0.999832, 0.999832)
 rest = Transform2D(1, 0, 0, 1, 3, -54)
 editor_settings/show_bone_gizmo = false
 
 [node name="head" type="Bone2D" parent="Skeleton2D/hips/torso"]
 position = Vector2(6, -166)
 rotation = -0.072318
-scale = Vector2(0.999824, 0.999824)
+scale = Vector2(0.999825, 0.999825)
 rest = Transform2D(1, 0, 0, 1, 6, -166)
 auto_calculate_length_and_angle = false
 length = 210.0
@@ -433,13 +458,13 @@ editor_settings/show_bone_gizmo = false
 
 [node name="arm_right" type="Bone2D" parent="Skeleton2D/hips/torso"]
 position = Vector2(-16, -129)
-scale = Vector2(0.999857, 0.999857)
+scale = Vector2(0.999856, 0.999856)
 rest = Transform2D(0.553663, -0.832741, 0.832741, 0.553663, -16, -129)
 editor_settings/show_bone_gizmo = false
 
 [node name="hand_right" type="Bone2D" parent="Skeleton2D/hips/torso/arm_right"]
 position = Vector2(-78, 45)
-scale = Vector2(0.999872, 0.999872)
+scale = Vector2(0.999863, 0.999863)
 rest = Transform2D(1, 0, 0, 1, -78, 45)
 auto_calculate_length_and_angle = false
 length = 125.0
@@ -454,7 +479,7 @@ editor_settings/show_bone_gizmo = false
 
 [node name="hand_left" type="Bone2D" parent="Skeleton2D/hips/torso/arm_left"]
 position = Vector2(94.5181, 34.049)
-scale = Vector2(0.999851, 0.999851)
+scale = Vector2(0.999852, 0.999852)
 rest = Transform2D(0.999992, -0.00401144, 0.00401144, 0.999992, 94.5181, 34.049)
 auto_calculate_length_and_angle = false
 length = 125.0
@@ -463,8 +488,8 @@ editor_settings/show_bone_gizmo = false
 
 [node name="leg_right" type="Bone2D" parent="Skeleton2D/hips"]
 position = Vector2(38.8232, -25.2044)
-scale = Vector2(0.999872, 0.999869)
-skew = -0.000540137
+scale = Vector2(0.999874, 0.99987)
+skew = -0.000541568
 rest = Transform2D(1, 0, 0, 1, 39, -25)
 auto_calculate_length_and_angle = false
 length = 163.0
@@ -473,8 +498,8 @@ editor_settings/show_bone_gizmo = false
 
 [node name="leg_left" type="Bone2D" parent="Skeleton2D/hips"]
 position = Vector2(-30.0013, -35.0257)
-scale = Vector2(0.999861, 0.999864)
-skew = -0.000488877
+scale = Vector2(0.999859, 0.999868)
+skew = -0.000490427
 rest = Transform2D(1, 0, 0, 1, -30, -35)
 auto_calculate_length_and_angle = false
 length = 163.0
@@ -595,5 +620,6 @@ libraries = {
 "": SubResource("AnimationLibrary_xqvq2")
 }
 
+[connection signal="health_changed" from="Health" to="." method="_on_health_health_changed"]
 [connection signal="area_entered" from="IKTargets/Jian/SwordHitbox" to="IKTargets/Jian/SwordHitbox" method="_on_area_entered"]
 [connection signal="area_entered" from="IKTargets/Ji/SpearHitbox" to="IKTargets/Ji/SpearHitbox" method="_on_area_entered"]
