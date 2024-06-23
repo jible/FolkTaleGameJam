@@ -24,3 +24,8 @@ func hit(initiator, hitbox: Hitbox, damage: int = 0):
 	if health:
 		health.take_damage(damage)
 	just_hit.emit(initiator, hitbox)
+
+
+func _on_area_entered(area):
+	print_debug()
+	pass # Replace with function body.

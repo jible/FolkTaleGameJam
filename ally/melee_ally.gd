@@ -17,6 +17,7 @@ var is_alive := true
 @onready var _ji := $IKTargets/Ji as Sprite2D
 @onready var _jian := $IKTargets/Jian as Sprite2D
 
+
 func _ready():
 	set_player_controlled(_player_controlled)
 	health.died.connect(func(): 

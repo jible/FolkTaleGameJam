@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://b3dkhosmvr7hh"]
+[gd_scene load_steps=10 format=3 uid="uid://b3dkhosmvr7hh"]
 
 [ext_resource type="Script" path="res://game_manager.gd" id="1_xdfbt"]
 [ext_resource type="PackedScene" uid="uid://c0str0jgqs2mt" path="res://ui/gameInterface.tscn" id="2_kl4mb"]
@@ -6,6 +6,15 @@
 [ext_resource type="Texture2D" uid="uid://cpryysxc0x35u" path="res://ui/uiAssets/skin.png" id="3_q3di7"]
 [ext_resource type="AudioStream" uid="uid://ctpi7yuoqhmxs" path="res://sfx/bg_music.mp3" id="5_y7sls"]
 [ext_resource type="Script" path="res://maps/audioLoop.gd" id="6_crap6"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8wxoj"]
+size = Vector2(20, 1080)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5sev7"]
+size = Vector2(20, 1920)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5vc3s"]
+size = Vector2(20, 1920)
 
 [node name="NianshouMap" type="Node2D"]
 process_mode = 1
@@ -40,3 +49,38 @@ stream = ExtResource("5_y7sls")
 volume_db = -40.0
 autoplay = true
 script = ExtResource("6_crap6")
+
+[node name="Walls" type="Node2D" parent="."]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Walls"]
+position = Vector2(-940, 0)
+collision_layer = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/StaticBody2D"]
+position = Vector2(-10, 0)
+shape = SubResource("RectangleShape2D_8wxoj")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="Walls"]
+position = Vector2(940, 0)
+rotation = -3.14159
+collision_layer = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/StaticBody2D2"]
+position = Vector2(-10, 0)
+shape = SubResource("RectangleShape2D_8wxoj")
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="Walls"]
+position = Vector2(0, -530)
+rotation = 1.5708
+collision_layer = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/StaticBody2D3"]
+shape = SubResource("RectangleShape2D_5sev7")
+
+[node name="StaticBody2D4" type="StaticBody2D" parent="Walls"]
+position = Vector2(1, 530)
+rotation = -1.57079
+collision_layer = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Walls/StaticBody2D4"]
+shape = SubResource("RectangleShape2D_5vc3s")

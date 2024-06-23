@@ -372,6 +372,8 @@ health = 5
 invulnerability_time = 0.5
 
 [node name="Hurtbox" type="Area2D" parent="." node_paths=PackedStringArray("health")]
+collision_layer = 3
+collision_mask = 3
 script = ExtResource("4_5xgoq")
 shape = SubResource("CapsuleShape2D_la5av")
 health = NodePath("../Health")
@@ -399,6 +401,8 @@ position = Vector2(-2.89258, 50.9685)
 [node name="SwordHitbox" type="Area2D" parent="IKTargets/Jian"]
 position = Vector2(-1.1502, -222.296)
 rotation = -0.00597389
+collision_layer = 3
+collision_mask = 3
 input_pickable = false
 monitoring = false
 monitorable = false
@@ -422,6 +426,8 @@ position = Vector2(-19.2399, 62.6847)
 [node name="SpearHitbox" type="Area2D" parent="IKTargets/Ji"]
 position = Vector2(207.618, -457.355)
 rotation = 0.35765
+collision_layer = 3
+collision_mask = 3
 input_pickable = false
 monitoring = false
 monitorable = false
@@ -449,7 +455,7 @@ editor_settings/show_bone_gizmo = false
 [node name="head" type="Bone2D" parent="Skeleton2D/hips/torso"]
 position = Vector2(6, -166)
 rotation = -0.072318
-scale = Vector2(0.999825, 0.999825)
+scale = Vector2(0.999826, 0.999826)
 rest = Transform2D(1, 0, 0, 1, 6, -166)
 auto_calculate_length_and_angle = false
 length = 210.0
@@ -621,5 +627,6 @@ libraries = {
 }
 
 [connection signal="health_changed" from="Health" to="." method="_on_health_health_changed"]
-[connection signal="area_entered" from="IKTargets/Jian/SwordHitbox" to="IKTargets/Jian/SwordHitbox" method="_on_area_entered"]
+[connection signal="area_entered" from="Hurtbox" to="Hurtbox" method="_on_area_entered"]
+[connection signal="body_entered" from="IKTargets/Jian/SwordHitbox" to="." method="_on_sword_hitbox_body_entered"]
 [connection signal="area_entered" from="IKTargets/Ji/SpearHitbox" to="IKTargets/Ji/SpearHitbox" method="_on_area_entered"]

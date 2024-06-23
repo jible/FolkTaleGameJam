@@ -279,10 +279,10 @@ func newTarget():
 	if ( not gameManager.allies.is_empty()):
 		enemies = gameManager.allies
 	
-		if randf() >1/2:
+		if randf() >1/2 and currentTarget != gameManager.player:
 			currentTarget = gameManager.player
 		else:
-			currentTarget = enemies.pick_random().character
+			currentTarget = enemies.pick_random()
 			
 		# roll a 50/50
 		# chases player or

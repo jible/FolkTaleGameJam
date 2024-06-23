@@ -31,7 +31,7 @@ func _swap_scene(scene : String) -> void:
 			uiTweens.puppet_out(child, og_pos[child]);
 			await get_tree().create_timer(0.2).timeout;
 		# update if moved!!
-		get_tree().change_scene_to_file("res://ui/gameInterface.tscn");
+		get_tree().change_scene_to_file("res://maps/nianshou_map.tscn");
 	elif scene == "credits":
 		print("swapping to credits");
 		for child in %titleScreen.get_children():
