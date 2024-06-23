@@ -9,14 +9,19 @@ var currentState = States.IDLE
 @onready var targetAngle = Vector2()
 @export var pounceAcceleration = 30
 @export var pounceMaxSpeed = 150
-@export var attackRange = 50
+@export var attackRange = 100
 @onready var currentTween = null
 # Move towards this point
 @onready var targetPoint = Vector2(0 , 0)
 @export var acceleration = 20
+
+@export var gameManager = owner
 @export var maxSpeed = 100
+@onready var previousState = States.GORE
+@onready var currentTarget = null
 
 func _ready():
+	newTarget()
 	await get_tree().create_timer(3).timeout
 	targetPoint = get_global_mouse_position()
 	onEnter(currentState)
@@ -54,18 +59,22 @@ func changeState(newState):
 	
 func onExit(state): # End coroutines and animations for one state
 	if currentTween != null:
-		currentTween.stop_all()
+		currentTween.stop()
 	$AnimationPlayer.stop()
 	match state:
 		States.IDLE:
 			pass
 		States.PURSUIT:
+			previousState = States.PURSUIT
 			velocity = Vector2(0,0)
 		States.GORE:
+			previousState = States.GORE
 			pass
 		States.POUNCE:
+			previousState = States.POUNCE
 			pass
 		States.SLASH:
+			previousState = States.SLASH
 			pass
 		States.DEATH:
 			pass
@@ -136,14 +145,23 @@ func idle(delta):
 	# Pick the next Target
 	# Maybe choose the closest hunter
 	# Pick what action to perform
+	newTarget()
 	chooseAction()
 	return
 func chooseAction():
-	var potentialStates= [States.GORE, States.PURSUIT, States.POUNCE, States.SLASH]
-	var rand = randi()%4
-	if( potentialStates[rand] == States.POUNCE  && targetPoint.distance_to(global_position) < attackRange):
-		chooseAction()
-	changeState(potentialStates[rand])
+	if previousState == States.PURSUIT:
+		var potentialStates= [States.GORE, States.SLASH]
+		var rand = randi()%2
+		changeState(potentialStates[rand])
+	else:
+		if targetPoint.distance_to(global_position) < 500:
+			changeState(States.PURSUIT)
+		else:
+			if previousState != States.POUNCE:
+				changeState(States.POUNCE)
+			else:
+				changeState(States.PURSUIT)
+		
 	
 #endregion
 
@@ -218,5 +236,20 @@ func findDistance(pointA, pointB):
 #endregion
 
 
-
-#
+func newTarget():
+	
+	#get the array of enemies
+	var player = null
+	var enemies = null
+	if ( gameManager != null && gameManager.allies!= null && gameManager.allies.length()!=0):
+		enemies = gameManager.allies
+	
+		if randf() >1/2:
+			currentTarget = player
+		else:
+			currentTarget = enemies[(enemies.length()*randf()) ]
+			
+		# roll a 50/50
+		# chases player or
+		#chooses random target from all hunters
+	return
