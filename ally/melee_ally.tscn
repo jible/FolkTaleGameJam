@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://bkng0wgb1t33i"]
+[gd_scene load_steps=22 format=3 uid="uid://bkng0wgb1t33i"]
 
 [ext_resource type="Script" path="res://ally/melee_ally.gd" id="1_2kl42"]
 [ext_resource type="PackedScene" uid="uid://cyjr87hwvsi6d" path="res://ally/melee_ally_controller.tscn" id="1_rodko"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://7iv3d6dil0hg" path="res://player/FolkPlayerSeparate.png" id="7_m0w6b"]
 [ext_resource type="Script" path="res://components/node_flipper.gd" id="7_tax3y"]
 [ext_resource type="Animation" uid="uid://cbw8ymavt4jdq" path="res://ally/animations/melee_ally_sword_attack.anim" id="8_6n4vw"]
+[ext_resource type="SkeletonModificationStack2D" uid="uid://bafy33kycvu2v" path="res://ally/melee_ally_ji_skeleton_modification_stack_2d.tres" id="8_kydbe"]
 [ext_resource type="Animation" uid="uid://cc7td456kw0li" path="res://ally/animations/melee_ally_spear_charge.anim" id="9_5h5ob"]
 [ext_resource type="Animation" uid="uid://dnvg3m0i1rdfj" path="res://ally/animations/melee_ally_take_damage.anim" id="10_geblj"]
 [ext_resource type="Animation" uid="uid://bybcg67wnnd2x" path="res://ally/animations/melee_ally_walk.anim" id="11_h6w0c"]
@@ -24,154 +25,45 @@ height = 65.0
 radius = 11.0
 height = 60.0
 
-[sub_resource type="SkeletonModification2DFABRIK" id="SkeletonModification2DFABRIK_corq6"]
-target_nodepath = NodePath("../IKTargets/Ji/JiLeftHandIKTarget")
-fabrik_data_chain_length = 2
-joint_data/0/bone_index = 5
-joint_data/0/bone2d_node = NodePath("hips/torso/arm_left")
-joint_data/1/bone_index = 6
-joint_data/1/bone2d_node = NodePath("hips/torso/arm_left/hand_left")
-joint_data/1/magnet_position = Vector2(0, 0)
-joint_data/1/use_target_rotation = false
-
-[sub_resource type="SkeletonModification2DFABRIK" id="SkeletonModification2DFABRIK_k5yqu"]
-target_nodepath = NodePath("../IKTargets/Ji/JiRightHandIKTarget")
-fabrik_data_chain_length = 2
-joint_data/0/bone_index = 3
-joint_data/0/bone2d_node = NodePath("hips/torso/arm_right")
-joint_data/1/bone_index = 4
-joint_data/1/bone2d_node = NodePath("hips/torso/arm_right/hand_right")
-joint_data/1/magnet_position = Vector2(28.415, -5.06)
-joint_data/1/use_target_rotation = false
-
-[sub_resource type="SkeletonModificationStack2D" id="SkeletonModificationStack2D_n8e4c"]
-enabled = true
-modification_count = 2
-modifications/0 = SubResource("SkeletonModification2DFABRIK_corq6")
-modifications/1 = SubResource("SkeletonModification2DFABRIK_k5yqu")
-
-[sub_resource type="SkeletonModification2DStackHolder" id="SkeletonModification2DStackHolder_dh0yg"]
-held_modification_stack = SubResource("SkeletonModificationStack2D_n8e4c")
-
-[sub_resource type="SkeletonModification2DTwoBoneIK" id="SkeletonModification2DTwoBoneIK_6vy5h"]
-target_nodepath = NodePath("hips/torso/arm_left/hand_left/Jian/JianLeftHandIKTarget")
-flip_bend_direction = true
-joint_one_bone_idx = 5
-joint_one_bone2d_node = NodePath("hips/torso/arm_left")
-joint_two_bone_idx = 6
-joint_two_bone2d_node = NodePath("hips/torso/arm_left/hand_left")
-
-[sub_resource type="SkeletonModification2DTwoBoneIK" id="SkeletonModification2DTwoBoneIK_sb57f"]
-target_nodepath = NodePath("hips/torso/arm_left/hand_left/Jian/JianRightHandIKTarget")
-flip_bend_direction = true
-joint_one_bone_idx = 3
-joint_one_bone2d_node = NodePath("hips/torso/arm_right")
-joint_two_bone_idx = 4
-joint_two_bone2d_node = NodePath("hips/torso/arm_right/hand_right")
-
-[sub_resource type="SkeletonModificationStack2D" id="SkeletonModificationStack2D_gg2vp"]
-enabled = true
-modification_count = 2
-modifications/0 = SubResource("SkeletonModification2DTwoBoneIK_6vy5h")
-modifications/1 = SubResource("SkeletonModification2DTwoBoneIK_sb57f")
-
-[sub_resource type="SkeletonModification2DStackHolder" id="SkeletonModification2DStackHolder_nk12f"]
-enabled = false
-held_modification_stack = SubResource("SkeletonModificationStack2D_gg2vp")
-
-[sub_resource type="SkeletonModification2DTwoBoneIK" id="SkeletonModification2DTwoBoneIK_k6l6y"]
-enabled = false
-target_nodepath = NodePath("../IKTargets/RightArmIKTarget")
-flip_bend_direction = true
-joint_one_bone_idx = 3
-joint_one_bone2d_node = NodePath("hips/torso/arm_right")
-joint_two_bone_idx = 4
-joint_two_bone2d_node = NodePath("hips/torso/arm_right/hand_right")
-
-[sub_resource type="SkeletonModification2DTwoBoneIK" id="SkeletonModification2DTwoBoneIK_j18be"]
-enabled = false
-target_nodepath = NodePath("../IKTargets/LeftArmIKTarget")
-flip_bend_direction = true
-joint_one_bone_idx = 5
-joint_one_bone2d_node = NodePath("hips/torso/arm_left")
-joint_two_bone_idx = 6
-joint_two_bone2d_node = NodePath("hips/torso/arm_left/hand_left")
-
-[sub_resource type="SkeletonModification2DLookAt" id="SkeletonModification2DLookAt_klxcp"]
-bone_index = 8
-bone2d_node = NodePath("hips/leg_left")
-target_nodepath = NodePath("../IKTargets/LeftLegIKTarget")
-enable_constraint = true
-constraint_angle_min = 90.0
-constraint_angle_max = -100.0
-constraint_angle_invert = true
-constraint_in_localspace = true
-
-[sub_resource type="SkeletonModification2DLookAt" id="SkeletonModification2DLookAt_m8qip"]
-bone_index = 7
-bone2d_node = NodePath("hips/leg_right")
-target_nodepath = NodePath("../IKTargets/RightLegIKTarget")
-enable_constraint = true
-constraint_angle_min = -90.0
-constraint_angle_max = 110.0
-constraint_angle_invert = true
-constraint_in_localspace = true
-
-[sub_resource type="SkeletonModificationStack2D" id="SkeletonModificationStack2D_vpysh"]
-enabled = true
-modification_count = 6
-modifications/0 = SubResource("SkeletonModification2DStackHolder_dh0yg")
-modifications/1 = SubResource("SkeletonModification2DStackHolder_nk12f")
-modifications/2 = SubResource("SkeletonModification2DTwoBoneIK_k6l6y")
-modifications/3 = SubResource("SkeletonModification2DTwoBoneIK_j18be")
-modifications/4 = SubResource("SkeletonModification2DLookAt_klxcp")
-modifications/5 = SubResource("SkeletonModification2DLookAt_m8qip")
-
-[sub_resource type="Animation" id="Animation_l1h3e"]
-resource_name = "spear_attack"
-
 [sub_resource type="Animation" id="Animation_kvpuw"]
 length = 0.001
-tracks/0/type = "value"
+tracks/0/type = "bezier"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Skeleton2D/hips/torso:rotation")
+tracks/0/path = NodePath("Skeleton2D/hips/leg_left:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.167564]
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
 }
-tracks/1/type = "value"
+tracks/1/type = "bezier"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Skeleton2D/hips:rotation")
+tracks/1/path = NodePath("Skeleton2D/hips/leg_right:rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [-0.226893]
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
 }
-tracks/2/type = "value"
+tracks/2/type = "bezier"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Skeleton2D/hips/torso/head:rotation")
+tracks/2/path = NodePath("Skeleton2D/hips/torso/arm_left/hand_left:rotation")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [-0.072318]
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
 }
 tracks/3/type = "bezier"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("Skeleton2D/hips/torso/arm_right:rotation")
+tracks/3/path = NodePath("Skeleton2D/hips/torso/arm_left:rotation")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -193,7 +85,7 @@ tracks/4/keys = {
 tracks/5/type = "bezier"
 tracks/5/imported = false
 tracks/5/enabled = true
-tracks/5/path = NodePath("Skeleton2D/hips/torso/arm_left:rotation")
+tracks/5/path = NodePath("Skeleton2D/hips/torso/arm_right:rotation")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
@@ -201,87 +93,69 @@ tracks/5/keys = {
 "points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
 "times": PackedFloat32Array(0)
 }
-tracks/6/type = "bezier"
+tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("Skeleton2D/hips/torso/arm_left/hand_left:rotation")
+tracks/6/path = NodePath("Skeleton2D/hips/torso/head:rotation")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-0.072318]
 }
-tracks/7/type = "bezier"
+tracks/7/type = "value"
 tracks/7/imported = false
 tracks/7/enabled = true
-tracks/7/path = NodePath("Skeleton2D/hips/leg_right:rotation")
+tracks/7/path = NodePath("Skeleton2D/hips:rotation")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-0.226893]
 }
-tracks/8/type = "bezier"
+tracks/8/type = "value"
 tracks/8/imported = false
 tracks/8/enabled = true
-tracks/8/path = NodePath("Skeleton2D/hips/leg_left:rotation")
+tracks/8/path = NodePath("Skeleton2D/hips/torso:rotation")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.167564]
 }
 tracks/9/type = "value"
 tracks/9/imported = false
 tracks/9/enabled = true
-tracks/9/path = NodePath("IKTargets/RightArmIKTarget:position")
+tracks/9/path = NodePath("IKTargets/RightLegIKTarget:position")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(-0.0175467, 14.0175)]
+"values": [Vector2(1, 28)]
 }
 tracks/10/type = "value"
 tracks/10/imported = false
 tracks/10/enabled = true
-tracks/10/path = NodePath("IKTargets/LeftArmIKTarget:position")
+tracks/10/path = NodePath("IKTargets/LeftLegIKTarget:position")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(7.74371, 11)]
-}
-tracks/11/type = "value"
-tracks/11/imported = false
-tracks/11/enabled = true
-tracks/11/path = NodePath("IKTargets/RightLegIKTarget:position")
-tracks/11/interp = 1
-tracks/11/loop_wrap = true
-tracks/11/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(1, 28)]
-}
-tracks/12/type = "value"
-tracks/12/imported = false
-tracks/12/enabled = true
-tracks/12/path = NodePath("IKTargets/LeftLegIKTarget:position")
-tracks/12/interp = 1
-tracks/12/loop_wrap = true
-tracks/12/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
 "values": [Vector2(-8, 27)]
 }
+
+[sub_resource type="Animation" id="Animation_l1h3e"]
+resource_name = "spear_attack"
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_xqvq2"]
 _data = {
@@ -321,14 +195,6 @@ health = NodePath("../Health")
 
 [node name="IKTargets" type="Node2D" parent="."]
 
-[node name="RightArmIKTarget" type="Marker2D" parent="IKTargets"]
-position = Vector2(11, 12)
-scale = Vector2(0.1, 0.1)
-
-[node name="LeftArmIKTarget" type="Marker2D" parent="IKTargets"]
-position = Vector2(16, 8)
-scale = Vector2(0.1, 0.1)
-
 [node name="RightLegIKTarget" type="Marker2D" parent="IKTargets"]
 position = Vector2(1, 28)
 
@@ -337,9 +203,21 @@ position = Vector2(-8, 27)
 rotation = 0.127885
 scale = Vector2(0.1, 0.1)
 
+[node name="Jian" type="Sprite2D" parent="IKTargets"]
+visible = false
+position = Vector2(20, -2.38419e-07)
+rotation = 0.140702
+scale = Vector2(0.0998846, 0.0998818)
+texture = ExtResource("7_g7080")
+offset = Vector2(-13.805, -105.73)
+
+[node name="JianLeftHandIKTarget" type="Marker2D" parent="IKTargets/Jian"]
+position = Vector2(-2.89258, 50.9685)
+
 [node name="Ji" type="Sprite2D" parent="IKTargets"]
-position = Vector2(16, 6)
-rotation = 0.748804
+z_index = 2
+position = Vector2(16, -4.76837e-07)
+rotation = 0.189483
 scale = Vector2(0.0999843, 0.0999843)
 texture = ExtResource("6_xatci")
 offset = Vector2(69, -178.985)
@@ -352,26 +230,24 @@ position = Vector2(-19.2399, 62.6847)
 
 [node name="Skeleton2D" type="Skeleton2D" parent="."]
 scale = Vector2(0.0998373, 0.1)
-modification_stack = SubResource("SkeletonModificationStack2D_vpysh")
+modification_stack = ExtResource("8_kydbe")
 
 [node name="hips" type="Bone2D" parent="Skeleton2D"]
 position = Vector2(-32, 136)
 rotation = -0.226893
-scale = Vector2(0.999833, 0.999833)
+scale = Vector2(0.999999, 0.999999)
 rest = Transform2D(1, 0, 0, 1, -32, 136)
 editor_settings/show_bone_gizmo = false
 
 [node name="torso" type="Bone2D" parent="Skeleton2D/hips"]
 position = Vector2(3, -54)
 rotation = 0.167564
-scale = Vector2(0.999827, 0.999827)
 rest = Transform2D(1, 0, 0, 1, 3, -54)
 editor_settings/show_bone_gizmo = false
 
 [node name="head" type="Bone2D" parent="Skeleton2D/hips/torso"]
-position = Vector2(6, -166.006)
+position = Vector2(6, -166)
 rotation = -0.072318
-scale = Vector2(0.999826, 0.999826)
 rest = Transform2D(1, 0, 0, 1, 6, -166)
 auto_calculate_length_and_angle = false
 length = 210.0
@@ -380,14 +256,13 @@ editor_settings/show_bone_gizmo = false
 
 [node name="arm_right" type="Bone2D" parent="Skeleton2D/hips/torso"]
 position = Vector2(-16, -129)
-scale = Vector2(0.999878, 0.999878)
 rest = Transform2D(0.553663, -0.832741, 0.832741, 0.553663, -16, -129)
 editor_settings/show_bone_gizmo = false
 metadata/_local_pose_override_enabled_ = true
 
 [node name="hand_right" type="Bone2D" parent="Skeleton2D/hips/torso/arm_right"]
 position = Vector2(-78, 45)
-scale = Vector2(0.999852, 0.999852)
+scale = Vector2(0.999973, 0.999973)
 rest = Transform2D(1, 0, 0, 1, -78, 45)
 auto_calculate_length_and_angle = false
 length = 125.0
@@ -397,15 +272,14 @@ metadata/_local_pose_override_enabled_ = true
 
 [node name="arm_left" type="Bone2D" parent="Skeleton2D/hips/torso"]
 position = Vector2(25, -113)
-rotation = 0.89351
+scale = Vector2(0.999978, 0.999978)
 rest = Transform2D(0.254048, 0.967192, -0.967192, 0.254048, 25, -113)
 editor_settings/show_bone_gizmo = false
 metadata/_local_pose_override_enabled_ = true
 
 [node name="hand_left" type="Bone2D" parent="Skeleton2D/hips/torso/arm_left"]
 position = Vector2(94.5181, 34.049)
-rotation = -0.698602
-scale = Vector2(0.999986, 0.999986)
+scale = Vector2(0.999979, 0.999979)
 rest = Transform2D(0.999992, -0.00401144, 0.00401144, 0.999992, 94.5181, 34.049)
 auto_calculate_length_and_angle = false
 length = 125.0
@@ -413,22 +287,8 @@ bone_angle = -55.87
 editor_settings/show_bone_gizmo = false
 metadata/_local_pose_override_enabled_ = true
 
-[node name="Jian" type="Sprite2D" parent="Skeleton2D/hips/torso/arm_left/hand_left"]
-visible = false
-position = Vector2(68.6729, -98.541)
-rotation = 0.00401143
-texture = ExtResource("7_g7080")
-offset = Vector2(-13.805, -105.73)
-
-[node name="JianLeftHandIKTarget" type="Marker2D" parent="Skeleton2D/hips/torso/arm_left/hand_left/Jian"]
-
-[node name="JianRightHandIKTarget" type="Marker2D" parent="Skeleton2D/hips/torso/arm_left/hand_left/Jian"]
-position = Vector2(-1.13069, 71.1825)
-
 [node name="leg_right" type="Bone2D" parent="Skeleton2D/hips"]
-position = Vector2(38.9957, -24.793)
-scale = Vector2(0.942069, 1.06453)
-skew = -0.00141549
+position = Vector2(39, -25)
 rest = Transform2D(1, 0, 0, 1, 39, -25)
 auto_calculate_length_and_angle = false
 length = 163.0
@@ -437,8 +297,7 @@ editor_settings/show_bone_gizmo = false
 metadata/_local_pose_override_enabled_ = true
 
 [node name="leg_left" type="Bone2D" parent="Skeleton2D/hips"]
-position = Vector2(-30.0013, -34.7871)
-scale = Vector2(0.969619, 1.0439)
+position = Vector2(-30, -35)
 rest = Transform2D(1, 0, 0, 1, -30, -35)
 auto_calculate_length_and_angle = false
 length = 163.0
