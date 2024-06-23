@@ -5,7 +5,7 @@ var character : CharacterBody2D
 var dodge_time := 0.3
 var movement_input : Vector2 
 var dodge_direction := Vector2.ZERO
-var dodge_distance := 100
+var dodge_distance := 150
 var dodge_tween : Tween
 var debug_line : Line2D
 
@@ -13,6 +13,11 @@ var debug_line : Line2D
 func _on_enter(_actor: Node, _blackboard: Blackboard) -> void:
 	character = _blackboard.get_value("character") as CharacterBody2D
 	movement_input = _blackboard.get_value("movement_input") as Vector2
+	var anim_player := _blackboard.get_value("anim_player") as AnimationPlayer
+	anim_player.play("dodge_roll")
+	var speed_scale = anim_player.speed_scale
+	anim_player.speed_scale = 1.1 / dodge_time
+
 	assert(character, "Character not found in blackboard")
 
 	dodge_direction = movement_input
@@ -30,7 +35,8 @@ func _on_enter(_actor: Node, _blackboard: Blackboard) -> void:
 	
 	dodge_tween = character.create_tween()
 	dodge_tween.tween_property(character, "position", dodge_end_location, dodge_time)\
-			.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_LINEAR)\
+			.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_LINEAR)
+	dodge_tween.tween_callback(func(): anim_player.speed_scale = speed_scale)\
 			.finished.connect(_on_dodge_finished.bind(_blackboard))
 
 

@@ -6,8 +6,8 @@ signal dodge_refreshed
 
 # Constants
 @export_group("Combat")
-@export var DODGE_COOLDOWN := 1.0
-@export var ATTACK_COOLDOWN := 1.0
+@export var DODGE_COOLDOWN := 1.25
+@export var ATTACK_COOLDOWN := 2.0
 @export var SWORD_DAMAGE := 6
 @export var active := false :
 	get:
@@ -24,6 +24,7 @@ signal dodge_refreshed
 @export var character : CharacterBody2D
 @export var anim_player : AnimationPlayer
 @export var hitbox : Hitbox
+@export var hurtbox : Hurtbox
 var _dodge_timer : Timer
 var _attack_timer : Timer
 var movement_input := Vector2.ZERO
@@ -35,7 +36,8 @@ func _ready():
 
 	if not _dodge_timer:
 		_create_dodge_timer()
-	
+	if not _attack_timer:
+		_create_attack_timer()
 	# Set the actor
 	fsm.blackboard.set_value("movement_input", movement_input)
 	fsm.blackboard.set_value("character", character)
@@ -53,7 +55,9 @@ func _ready():
 			return
 		hurtbox.hit(self, hitbox, SWORD_DAMAGE)
 	)
-
+	hurtbox.just_hit.connect(func(object, hitbox):
+		anim_player.play("take_damage")	
+	)
 	# This is only the case if set in the editor
 	if active:
 		activate()
@@ -78,6 +82,8 @@ func _process(_delta):
 		else:
 			fsm.blackboard.set_value("dodge_input", false)
 		ally_blackboard.set_value("player_position", character.position)
+		if Input.is_action_just_pressed("attack"):
+			fsm.fire_event("attack")
 
 
 func _create_dodge_timer() -> void:
@@ -99,6 +105,8 @@ func activate() -> void:
 		active = true
 	if not _dodge_timer:
 		_create_dodge_timer()
+	if not _attack_timer:
+		_create_attack_timer()
 	fsm.active = true
 	fsm.start()
 

@@ -20,7 +20,7 @@ func _on_update(_delta: float, _actor: Node, _blackboard: Blackboard) -> void:
 	if movement.length_squared() < 0.1:
 		character.velocity *= 1 - FRICTION
 	character.move_and_slide()
-	_blackboard.get_value("anim_player").play("")
+	_blackboard.get_value("anim_player").play("walk")
 
 # Executes before the state is exited.
 func _on_exit(_actor: Node, _blackboard: Blackboard) -> void:

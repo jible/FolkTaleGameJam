@@ -13,6 +13,7 @@ process_mode = 1
 [node name="gameInterface" parent="CanvasLayer" instance=ExtResource("2_kl4mb")]
 
 [node name="skin" type="TextureRect" parent="."]
+z_index = -3
 offset_left = -960.0
 offset_top = -540.0
 offset_right = 960.0
