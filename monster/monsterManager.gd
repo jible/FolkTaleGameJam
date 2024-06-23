@@ -5,7 +5,7 @@ class_name monster
 enum States  { IDLE, PURSUIT, GORE, POUNCE, DEATH, SLASH}
 
 
-signal hurt(newHealth)
+signal damaged(newHealth)
 signal died()
 
 
@@ -26,10 +26,15 @@ var currentState = States.IDLE
 
 @onready var previousState = States.GORE
 @onready var currentTarget = null
+var active := true
 
 func _ready():
-	$Health.health_changed.connect( func(newHealth, oldHealth):hurt.emit(newHealth))
-	$Health.died.connect( func(): died.emit())
+	$Health.health_changed.connect(func(newHealth, _oldHealth): damaged.emit(newHealth))
+	$Health.died.connect(func(): 
+		$AnimationPlayer.play("death")
+		active = false
+		died.emit()
+	)
 	
 	$attackHitbox.just_hit.connect( func (object, hurtbox: Hurtbox): 
 		if object is monster:
@@ -55,6 +60,8 @@ func _ready():
 
 
 func _physics_process(delta):
+	if not active:
+		return
 	if currentTarget:
 		targetPoint = currentTarget.position
 	targetAngle = ( targetPoint - global_position)
@@ -249,7 +256,7 @@ func pursuit(delta):
 	$AnimationPlayer.play("run")
 	moveToward(delta)
 	if findDistance(position, targetPoint) < attackRange:
-		changeState(States.GORE)
+		changeState(States.SLASH)
 	# If it get close enough to attack, stop pursuing and attack
 	
 	return

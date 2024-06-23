@@ -30,4 +30,5 @@ monster = NodePath("../Monster")
 unique_name_in_owner = true
 
 [node name="Monster" parent="." node_paths=PackedStringArray("gameManager") instance=ExtResource("3_csq38")]
+z_index = 1
 gameManager = NodePath("../GameManager")
