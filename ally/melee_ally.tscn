@@ -594,7 +594,6 @@ position = Vector2(-16, -129)
 scale = Vector2(0.999857, 0.999857)
 rest = Transform2D(0.553663, -0.832741, 0.832741, 0.553663, -16, -129)
 editor_settings/show_bone_gizmo = false
-metadata/_local_pose_override_enabled_ = true
 
 [node name="hand_right" type="Bone2D" parent="Skeleton2D/hips/torso/arm_right"]
 position = Vector2(-78, 45)
@@ -604,14 +603,12 @@ auto_calculate_length_and_angle = false
 length = 125.0
 bone_angle = 127.89
 editor_settings/show_bone_gizmo = false
-metadata/_local_pose_override_enabled_ = true
 
 [node name="arm_left" type="Bone2D" parent="Skeleton2D/hips/torso"]
 position = Vector2(25, -113)
 scale = Vector2(0.999837, 0.999837)
 rest = Transform2D(0.254048, 0.967192, -0.967192, 0.254048, 25, -113)
 editor_settings/show_bone_gizmo = false
-metadata/_local_pose_override_enabled_ = true
 
 [node name="hand_left" type="Bone2D" parent="Skeleton2D/hips/torso/arm_left"]
 position = Vector2(94.5181, 34.049)
@@ -621,7 +618,6 @@ auto_calculate_length_and_angle = false
 length = 125.0
 bone_angle = -55.87
 editor_settings/show_bone_gizmo = false
-metadata/_local_pose_override_enabled_ = true
 
 [node name="leg_right" type="Bone2D" parent="Skeleton2D/hips"]
 position = Vector2(38.8234, -25.2051)
@@ -631,7 +627,6 @@ auto_calculate_length_and_angle = false
 length = 163.0
 bone_angle = 80.0
 editor_settings/show_bone_gizmo = false
-metadata/_local_pose_override_enabled_ = true
 
 [node name="leg_left" type="Bone2D" parent="Skeleton2D/hips"]
 position = Vector2(-30.0014, -35.0272)
@@ -641,7 +636,6 @@ auto_calculate_length_and_angle = false
 length = 163.0
 bone_angle = 107.0
 editor_settings/show_bone_gizmo = false
-metadata/_local_pose_override_enabled_ = true
 
 [node name="Polygons" type="Node2D" parent="."]
 rotation = -0.00569538

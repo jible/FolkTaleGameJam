@@ -33,8 +33,8 @@ func _process(_delta):
 	if abs(source.velocity.x) < flip_speed_threshold or not flip_timer.is_stopped():
 		return
 	var velocity = source.velocity
-	source.velocity *= Vector2(-1 if invert_x_axis else 1, -1 if invert_y_axis else 1)
-	flip(source.velocity, x_axis, y_axis)
+	velocity *= Vector2(-1 if invert_x_axis else 1, -1 if invert_y_axis else 1)
+	flip(velocity, x_axis, y_axis)
 
 
 func flip(direction: Vector2, x_axis: bool = false, y_axis: bool = false):
