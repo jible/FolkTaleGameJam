@@ -558,23 +558,23 @@ modification_stack = SubResource("SkeletonModificationStack2D_8yko7")
 
 [node name="hips" type="Bone2D" parent="Skeleton2D"]
 position = Vector2(437, -192)
-scale = Vector2(0.999838, 0.999838)
+scale = Vector2(0.999836, 0.999836)
 rest = Transform2D(1, 0, 0, 1, 437, -192)
 
 [node name="torso" type="Bone2D" parent="Skeleton2D/hips"]
 position = Vector2(-486, 18)
-scale = Vector2(0.999832, 0.999832)
+scale = Vector2(0.999826, 0.999826)
 rest = Transform2D(1, 0, 0, 1, -486, 18)
 
 [node name="leg_front_fg" type="Bone2D" parent="Skeleton2D/hips/torso"]
 position = Vector2(-82, 99)
-scale = Vector2(0.999794, 0.999794)
+scale = Vector2(0.999826, 0.999826)
 rest = Transform2D(1, 0, 0, 1, -82, 99)
 metadata/_local_pose_override_enabled_ = true
 
 [node name="foot_front_fg" type="Bone2D" parent="Skeleton2D/hips/torso/leg_front_fg"]
 position = Vector2(212, 317)
-scale = Vector2(0.999847, 0.999847)
+scale = Vector2(0.99985, 0.99985)
 rest = Transform2D(1, 0, 0, 1, 212, 317)
 auto_calculate_length_and_angle = false
 length = 390.0
@@ -583,13 +583,13 @@ metadata/_local_pose_override_enabled_ = true
 
 [node name="leg_front_bg" type="Bone2D" parent="Skeleton2D/hips/torso"]
 position = Vector2(-241, 111)
-scale = Vector2(0.999852, 0.999852)
+scale = Vector2(0.999855, 0.999855)
 rest = Transform2D(1, 0, 0, 1, -241, 111)
 metadata/_local_pose_override_enabled_ = true
 
 [node name="foot_front_bg" type="Bone2D" parent="Skeleton2D/hips/torso/leg_front_bg"]
 position = Vector2(-93, 319)
-scale = Vector2(0.99985, 0.99985)
+scale = Vector2(0.999844, 0.999844)
 rest = Transform2D(1, 0, 0, 1, -93, 319)
 auto_calculate_length_and_angle = false
 length = 390.0
@@ -604,7 +604,7 @@ metadata/_local_pose_override_enabled_ = true
 
 [node name="jaw" type="Bone2D" parent="Skeleton2D/hips/torso/head"]
 position = Vector2(-73, 55)
-scale = Vector2(0.999856, 0.999856)
+scale = Vector2(0.99985, 0.99985)
 rest = Transform2D(1, 0, 0, 1, -73, 55)
 auto_calculate_length_and_angle = false
 length = 313.282
@@ -612,13 +612,13 @@ bone_angle = 115.0
 
 [node name="leg_back_fg" type="Bone2D" parent="Skeleton2D/hips"]
 position = Vector2(134, 37)
-scale = Vector2(0.999847, 0.999847)
+scale = Vector2(0.999843, 0.999843)
 rest = Transform2D(0.995914, 0.0903032, -0.0903032, 0.995914, 134, 37)
 metadata/_local_pose_override_enabled_ = true
 
 [node name="foot_back_fg" type="Bone2D" parent="Skeleton2D/hips/leg_back_fg"]
 position = Vector2(212, 317)
-scale = Vector2(0.999849, 0.999849)
+scale = Vector2(0.999847, 0.999847)
 rest = Transform2D(1, 0, 0, 1, 212, 317)
 auto_calculate_length_and_angle = false
 length = 390.0
@@ -627,13 +627,13 @@ metadata/_local_pose_override_enabled_ = true
 
 [node name="leg_back_bg" type="Bone2D" parent="Skeleton2D/hips"]
 position = Vector2(-276, 47)
-scale = Vector2(0.999855, 0.999855)
+scale = Vector2(0.999837, 0.999837)
 rest = Transform2D(1, 0, 0, 1, -276, 47)
 metadata/_local_pose_override_enabled_ = true
 
 [node name="foot_back_bg" type="Bone2D" parent="Skeleton2D/hips/leg_back_bg"]
 position = Vector2(212, 317)
-scale = Vector2(0.999847, 0.999847)
+scale = Vector2(0.999843, 0.999843)
 rest = Transform2D(1, 0, 0, 1, 212, 317)
 auto_calculate_length_and_angle = false
 length = 390.0
@@ -781,11 +781,11 @@ targets = [NodePath("../Polygons")]
 
 [node name="LegFrontFGIKTarget" type="Marker2D" parent="IKTargets"]
 position = Vector2(-246, 622)
-rotation = -0.000279516
+rotation = 0.0346526
 
 [node name="LegFrontBGIKTarget" type="Marker2D" parent="IKTargets"]
 position = Vector2(-513, 595)
-rotation = 0.0308272
+rotation = 0.0301794
 
 [node name="LegBackFGIKTarget" type="Marker2D" parent="IKTargets"]
 position = Vector2(471, 579)
@@ -797,7 +797,7 @@ rotation = -0.0930351
 
 [node name="HeadIKTarget" type="Marker2D" parent="IKTargets"]
 position = Vector2(-2502, 260)
-rotation = -0.305448
+rotation = -0.472075
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
