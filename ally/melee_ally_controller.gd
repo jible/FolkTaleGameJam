@@ -41,6 +41,7 @@ func _ready():
 	fsm.blackboard.set_value("dodge_input", false)
 	fsm.blackboard.set_value("anim_player", anim_player)
 	assert(character, "Character not set")
+	assert(anim_player, "AnimationPlayer not set")
 	fsm.actor = character
 	
 	bt.blackboard.get_value("ally_positions")[get_instance_id()] = character.position
