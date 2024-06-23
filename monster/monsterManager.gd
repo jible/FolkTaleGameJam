@@ -1,20 +1,20 @@
 extends CharacterBody2D
 
+class_name monster
 
 enum States  { IDLE, PURSUIT, GORE, POUNCE, DEATH, SLASH}
 
 var currentState = States.IDLE
 @onready var facePlayer = self.get_script()
 @onready var targetAngle = Vector2()
-@export var rotateSpeed = 4
-@export var pounceAcceleration = 100
-@export var pounceMaxSpeed = 500
-@export var attackRange = 100
+@export var pounceAcceleration = 30
+@export var pounceMaxSpeed = 150
+@export var attackRange = 50
 @onready var currentTween = null
 # Move towards this point
 @onready var targetPoint = Vector2(0 , 0)
 @export var acceleration = 20
-@export var maxSpeed = 500
+@export var maxSpeed = 100
 
 func _ready():
 	await get_tree().create_timer(3).timeout
@@ -54,8 +54,7 @@ func changeState(newState):
 	
 func onExit(state): # End coroutines and animations for one state
 	if currentTween != null:
-		currentTween.stop()
-		currentTween = null
+		currentTween.stop_all()
 	$AnimationPlayer.stop()
 	match state:
 		States.IDLE:
@@ -163,11 +162,16 @@ func pounce(delta):
 	
 func jumpToTarget():
 	
+	
+	$AnimationPlayer.play("pounce")
+	
+	await get_tree().create_timer(.7).timeout
 	var jumpEnd = targetPoint - (targetPoint - global_position).normalized() * attackRange 
 	var tween = create_tween()
 	currentTween = tween
-	$AnimationPlayer.play("pounce")
-	tween.tween_property(self, "position",jumpEnd, $AnimationPlayer.current_animation_length).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUART)
+	
+	
+	tween.tween_property(self, "position",jumpEnd,$AnimationPlayer.current_animation_length -.7).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUART)
 	
 	await tween.finished
 	#await $AnimationPlayer.animation_finished
@@ -177,15 +181,18 @@ func jumpToTarget():
 func pounceAttack():
 	#makeHitbox
 	$pounceHitbox.set_monitoring(true)
-	# await play animation
+	await get_tree().process_frame
 	$pounceHitbox.set_monitoring(false)
 	return
 	
 func jumpToStart(startingPosition):
+	
+	$AnimationPlayer.play("pounce_return")
+	
+	await get_tree().create_timer(.7).timeout
 	var tween = create_tween()
 	currentTween = tween
-	$AnimationPlayer.play("pounce_return")
-	tween.tween_property(self, "position",startingPosition, $AnimationPlayer.current_animation_length).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUART)
+	tween.tween_property(self, "position",startingPosition, $AnimationPlayer.current_animation_length -.7).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUART)
 	await $AnimationPlayer.animation_finished
 	currentTween = null
 
