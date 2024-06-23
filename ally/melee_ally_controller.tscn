@@ -30,7 +30,7 @@ static func is_valid(_actor: Node, _blackboard: Blackboard) -> bool:
 	var monster_rot := _blackboard.get_value(\"monster_rotation\") as float
 	var monster_health := _blackboard.get_value(\"monster_health\") as int
 	var actor_pos := _blackboard.get_value(\"ally_positions\")[_actor.get_instance_id()] as Vector2
-	const charge_distance := 500.0
+	const charge_distance := 400.0
 	const sight_cone_angle = PI/2
 	const health_override_threshold := 25
 	var within_range = actor_pos.distance_to(monster_pos) <= charge_distance
@@ -80,6 +80,7 @@ wait_for_ticks = 15
 
 [node name="Charge" type="Node" parent="BTRoot/BTSelector/BTSelector/AttackLimiter/BTSequence"]
 script = ExtResource("9_uwfo3")
+fail_distance_threshold = 500
 
 [node name="Attack" type="Node" parent="BTRoot/BTSelector/BTSelector/AttackLimiter/BTSequence"]
 script = ExtResource("10_qouux")
@@ -90,8 +91,9 @@ wait_for_ticks = 10
 
 [node name="Circle" type="Node" parent="BTRoot/BTSelector/BTSelector"]
 script = ExtResource("11_5i0xm")
-circle_radius = 300
-min_behaviour_time = 4.0
+circle_radius = 350
+min_behaviour_time = 8.0
+max_behaviour_time = 20.0
 
 [node name="FiniteStateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state", "actor")]
 script = ExtResource("12_kpav6")

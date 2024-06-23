@@ -37,7 +37,6 @@ constraint_angle_invert = true
 constraint_in_localspace = true
 
 [resource]
-enabled = true
 modification_count = 4
 modifications/0 = SubResource("SkeletonModification2DTwoBoneIK_tmh86")
 modifications/1 = SubResource("SkeletonModification2DTwoBoneIK_soalk")
