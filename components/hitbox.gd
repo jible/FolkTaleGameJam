@@ -14,7 +14,13 @@ func _ready():
 	assert(shape, "Hitbox shape not set")
 	add_child(collision_shape, false, INTERNAL_MODE_FRONT)
 
+
 func _process(_delta):
 	if Engine.is_editor_hint():
 		if collision_shape and shape and collision_shape.shape != shape:
 			collision_shape.shape = shape
+
+
+func _on_area_entered(area):
+	if area is Hurtbox:
+		just_hit.emit(area.get_parent(), area)
